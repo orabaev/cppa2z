@@ -1,9 +1,8 @@
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -Wall -std=c++11
 
 default: cppa2z
-	$(RM) *.o
-
+	
 run:
 	./cppa2z
 
@@ -13,7 +12,7 @@ cppa2z: main.o non_modifying_sequence.t.o
 main.o: main.cpp
 	$(CC) $(CFLAGS) -I. -c main.cpp
 
-non_modifying_sequence.t.o:
+non_modifying_sequence.t.o: ./algorithms/non_modifying_sequence.t.cpp
 	$(CC) $(CFLAGS) -I. -c ./algorithms/non_modifying_sequence.t.cpp
 
 .PHONY: clean
