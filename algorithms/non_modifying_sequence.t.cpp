@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include <algorithm>
 #include <vector>
+#include <list>
 
 TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
     
@@ -72,6 +73,36 @@ TEST_CASE( "count_if", "[std] [algorithm] [non modifying]" ) {
         std::vector<int> vec{1,2,3,4,5,6,7};
         auto is_even = [](int i) { return i % 2 == 0; };
         REQUIRE( 3 == std::count_if(vec.begin(), vec.end(), is_even) );
+    }
+
+}
+
+TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "start from the begining; two ranges are equal, comparing vector and list" ) {
+        std::vector<int> vec{1,2,3,4,5,6,7};
+        std::list<int> list{1,2,3,4,5,6,7};
+        REQUIRE( std::equal(vec.begin(), vec.end(), list.begin()) );
+    }
+
+    SECTION( "start from the 3rd element, two ranges are equal, comparing vector and list" ) {
+        std::vector<int> vec{-1,0,1,2,3,4,5};
+        std::list<int> list{1,2,3,4,5,6,7};
+        REQUIRE( std::equal(vec.begin() + 2, vec.end(), list.begin()) );
+    }
+
+    SECTION( "using reverse iterator; two ranges are equal" ) {
+        std::vector<int> vec1{1,2,3,4,5,6,7};
+        std::vector<int> vec2{7,6,5,4,3,2,1};
+        auto reverse_it = vec2.rbegin(); 
+        REQUIRE( std::equal(vec1.begin(), vec1.end(), reverse_it) );
+    }
+
+    SECTION( "using predicates; two ranges are equal" ) {
+        std::string s1{"aBCd1fG"};
+        std::string s2{"AbCD1Fg"};
+        auto case_insensitive_compare = [](char x, char y) { return std::toupper(x) == std::toupper(y); };
+        REQUIRE( std::equal(s1.begin(), s1.end(), s2.begin(), case_insensitive_compare) );
     }
 
 }
