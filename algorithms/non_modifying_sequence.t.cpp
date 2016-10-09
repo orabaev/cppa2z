@@ -227,3 +227,26 @@ TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
     }
 
 }
+
+TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
+
+    SECTION( "calculate total sum of all elements" ) {
+        int total = 0;
+        const vector<int> vec1{1, 2, 3, 4, 5, 6, 7};
+        const auto sum = [&total](int x) { total += x; };
+         
+        for_each(cbegin(vec1), cend(vec1), sum);
+
+        REQUIRE( total == 28 );
+    }
+    
+    SECTION( "convert all elements in the range to upper case" ) {
+        string str{"hello c++"};
+        const auto change_to_upper = [](char& x) { x = toupper(x); };
+         
+        for_each(begin(str), end(str), change_to_upper);
+
+        REQUIRE( str == "HELLO C++" );
+    }
+
+}
