@@ -96,3 +96,39 @@ TEST_CASE( "copy_n", "[std] [algorithm] [modifying]" ) {
     }
 
 }
+
+TEST_CASE( "fill", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "assign 1 to the elements in the range" ) {
+              vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> expected{1, 1, 1, 1, 1, 1, 1};
+
+        fill(begin(vec), end(vec), 1);
+
+        REQUIRE( expected == vec );
+    }
+
+}
+
+TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "assign 0 to the first 3 elements in the range" ) {
+              vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
+
+        fill_n(begin(vec), 3, 0);
+
+        REQUIRE( expected == vec );
+    }
+
+    SECTION( "use return value; assign 0 to the first 3 elements in the range" ) {
+              vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
+
+        const auto it = fill_n(begin(vec), 3, 0);
+
+        REQUIRE( expected == vec );
+        REQUIRE( *it == 4 );
+    }
+
+}
