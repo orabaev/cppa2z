@@ -224,3 +224,33 @@ TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
     }
 
 }
+
+TEST_CASE( "remove", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "remove elements with value 1 from the vector" ) {
+              vector<int>      vec{1, 2, 1, 7, 5, 6, 1};
+        const vector<int> expected{2, 7, 5, 6};
+
+        auto erase_it = remove(begin(vec), end(vec), 1); 
+        vec.erase(erase_it, vec.end());
+
+        REQUIRE( expected == vec );
+    }
+
+}
+
+TEST_CASE( "remove_if", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "using predicate; remove even elements from the vector" ) {
+              vector<int>      vec{1, 2, 4, 7, 5, 6, 3};
+        const vector<int> expected{1, 7, 5, 3};
+
+        const auto is_even = [](int x) { return x % 2 == 0; };
+
+        auto erase_it = remove_if(begin(vec), end(vec), is_even); 
+        vec.erase(erase_it, vec.end());
+
+        REQUIRE( expected == vec );
+    }
+
+}
