@@ -162,3 +162,33 @@ TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
     }
 
 }
+
+TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "swap values of first and last elements in the vector" ) {
+        vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+        vector<int> expected{7, 2, 3, 4, 5, 6, 1};
+
+        iter_swap(begin(vec), rbegin(vec));
+
+        REQUIRE( expected == vec );
+    }
+
+    SECTION( "reverse string" ) {
+        string str{"abcdefg"};
+        string expected{"gfedcba"};
+
+        auto left = begin(str);
+        auto right = --end(str);
+
+        while (left < right) {
+            iter_swap(left, right); 
+            ++left; 
+            --right;
+        }
+
+        REQUIRE( expected == str );
+    }
+
+}
+
