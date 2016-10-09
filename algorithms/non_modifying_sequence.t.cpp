@@ -133,7 +133,7 @@ TEST_CASE( "find", "[std] [algorithm] [non modifying]" ) {
 
 TEST_CASE( "find_first_of", "[std] [algorithm] [non modifying]" ) {
     
-    SECTION( "element found in the range at position 3" ) {
+    SECTION( "element from the second range found in the first range at position 1" ) {
         const vector<int> vec1{1, 2, 3, 10, 4, 5, 6};
         const vector<int> vec2{10, 2, 19};
 
@@ -144,7 +144,7 @@ TEST_CASE( "find_first_of", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( found_at_pos == 1 );
     }
 
-    SECTION( "using predicate; element found in the range at position 2" ) {
+    SECTION( "using predicate; element from the second range found in the first range at position at position 2" ) {
         const string str1{"Hello"};
         const string str2{"LOL"};
 
@@ -197,7 +197,7 @@ TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
 
 TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
     
-    SECTION( "last occurence of sub sequence found in the range at position 4" ) {
+    SECTION( "last occurence of sub sequence found in the range at position 6" ) {
         const vector<int> vec1{1, 2, 3, 1, 2, 5, 1, 2};
         const vector<int> vec2{1, 2};
         
