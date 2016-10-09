@@ -8,7 +8,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy all elements to empty vector using back inserter" ) {
         const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to;
+              vector<int>   to;
 
         copy(cbegin(from), cend(from), back_inserter(to));
 
@@ -16,7 +16,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     } 
 
     SECTION( "copy inplace overlapping range" ) {
-              vector<int> vec{1, 2, 3, 6, 1, 2};
+              vector<int>      vec{1, 2, 3, 6, 1, 2};
         const vector<int> expected{1, 2, 3, 1, 2, 3};
 
         copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
@@ -26,7 +26,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
 
     SECTION( "copy all elements to non empty vector overriding existing elements" ) {
         const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to(from.size());
+              vector<int>   to(from.size());
 
         copy(cbegin(from), cend(from), begin(to));
 
@@ -34,10 +34,9 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "copy all elements to non empty vector in reverse order" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to(from.size());
+        const vector<int>     from{1, 2, 3, 4, 5, 6, 7};
+              vector<int>       to(from.size());
         const vector<int> expected{7, 6, 5, 4, 3, 2, 1};
-
 
         auto reverse_iterator = rbegin(to);
         copy(cbegin(from), cend(from), reverse_iterator);
@@ -47,7 +46,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
 
     SECTION( "copy 2 elements from/to position 3 to non empty vector" ) {
         const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to{1, 2, 3, 0, 0, 6, 7};
+              vector<int>   to{1, 2, 3, 0, 0, 6, 7};
 
         copy(cbegin(from) + 3, cbegin(from) + 5, begin(to) + 3);
 
@@ -60,7 +59,7 @@ TEST_CASE( "copy_backward", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy last 3 elements to the end of non empty vector" ) {
         const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to{1, 2, 3, 4, 0, 0, 0};
+              vector<int>   to{1, 2, 3, 4, 0, 0, 0};
 
         copy_backward(cbegin(from) + 4, cend(from), end(to));
 
@@ -72,9 +71,10 @@ TEST_CASE( "copy_backward", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "copy_if", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "using predicate; copy all even elements to empty vector using back inserter" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to;
+        const vector<int>     from{1, 2, 3, 4, 5, 6, 7};
+              vector<int>       to;
         const vector<int> expected{2, 4, 6};
+
         const auto is_even = [](int x) { return x % 2 == 0; };
 
         copy_if(cbegin(from), cend(from), back_inserter(to), is_even);
@@ -88,7 +88,7 @@ TEST_CASE( "copy_n", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy 2 elements from/to position 3 to non empty vector" ) {
         const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int> to{1, 2, 3, 0, 0, 6, 7};
+              vector<int>   to{1, 2, 3, 0, 0, 6, 7};
 
         copy_n(cbegin(from) + 3, 2, begin(to) + 3);
 
@@ -100,7 +100,7 @@ TEST_CASE( "copy_n", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "fill", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "assign 1 to the elements in the range" ) {
-              vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
         const vector<int> expected{1, 1, 1, 1, 1, 1, 1};
 
         fill(begin(vec), end(vec), 1);
@@ -113,7 +113,7 @@ TEST_CASE( "fill", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "assign 0 to the first 3 elements in the range" ) {
-              vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
         const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
 
         fill_n(begin(vec), 3, 0);
@@ -122,7 +122,7 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "use return value; assign 0 to the first 3 elements in the range" ) {
-              vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
         const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
 
         const auto it = fill_n(begin(vec), 3, 0);
@@ -136,9 +136,10 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "initialize vector with incrementing values from 1 to 7" ) {
-              vector<int> vec(7);
+              vector<int>      vec(7);
         const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
-              int i = 1; 
+
+        int i = 1; 
         const auto increment = [&i]() { return i++; };
 
         generate(begin(vec), end(vec), increment);
@@ -151,9 +152,10 @@ TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "add 4 incremented elements at the end of the vector" ) {
-              vector<int> vec{1, 2, 3};
+              vector<int>      vec{1, 2, 3};
         const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
-              int i = vec.back(); 
+
+        int i = vec.back(); 
         const auto increment = [&i]() { return ++i; };
 
         generate_n(back_inserter(vec), 4, increment);
@@ -166,7 +168,7 @@ TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "swap values of first and last elements in the vector" ) {
-        vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+        vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
         vector<int> expected{7, 2, 3, 4, 5, 6, 1};
 
         iter_swap(begin(vec), rbegin(vec));
@@ -175,7 +177,7 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "reverse string" ) {
-        string str{"abcdefg"};
+        string      str{"abcdefg"};
         string expected{"gfedcba"};
 
         auto left = begin(str);
@@ -195,8 +197,8 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "move strings from one vector to another" ) {
-        vector<string> from{"hello", "C++"};
-        vector<string> to(from.size());
+        vector<string>     from{"hello", "C++"};
+        vector<string>       to(from.size());
         vector<string> expected{"hello", "C++"};
 
         move(begin(from), end(from), begin(to));
@@ -210,8 +212,8 @@ TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
 
 TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
     
-    SECTION( "insert new string at the begining of the vector" ) {
-        vector<string> vec{"hello", "C++"};
+    SECTION( "shift and set; insert new string at the begining of the vector" ) {
+        vector<string>      vec{"hello", "C++"};
         vector<string> expected{"Hi", "hello", "C++"};
 
         vec.resize(vec.size() + 1);
