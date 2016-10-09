@@ -192,3 +192,33 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
 
 }
 
+TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "move strings from one vector to another" ) {
+        vector<string> from{"hello", "C++"};
+        vector<string> to(from.size());
+        vector<string> expected{"hello", "C++"};
+
+        move(begin(from), end(from), begin(to));
+
+        REQUIRE( expected == to );
+        // DO NOT RELY ON VALUES OF SOURCE RANGE
+        // AFTER THEY HAVE BEEN MOVED FROM
+    }
+
+}
+
+TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "insert new string at the begining of the vector" ) {
+        vector<string> vec{"hello", "C++"};
+        vector<string> expected{"Hi", "hello", "C++"};
+
+        vec.resize(vec.size() + 1);
+        move_backward(begin(vec), --end(vec), end(vec));
+        vec.front() = "Hi";        
+
+        REQUIRE( expected == vec );
+    }
+
+}
