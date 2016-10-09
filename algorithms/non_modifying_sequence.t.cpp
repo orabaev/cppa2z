@@ -35,7 +35,7 @@ TEST_CASE( "all_of", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "using predicates; all elements in the range match" ) {
         const vector<int> vec{2, 4, 6, 8, 10, 12, 14};
-        const auto is_even = [](int i) { return i % 2 == 0; };
+        const auto is_even = [](int x) { return x % 2 == 0; };
 
         REQUIRE( all_of(cbegin(vec), cend(vec), is_even) );
     } 
@@ -46,7 +46,7 @@ TEST_CASE( "any_of", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "some of the elements in the range match" ) {
         const vector<int> vec{1, 2, 3, 2, 5, 6, 7};
-        const auto is_one = [](int i) { return i == 1; };
+        const auto is_one = [](int x) { return x == 1; };
 
         REQUIRE( any_of(cbegin(vec), cend(vec), is_one) );
     } 
@@ -67,7 +67,7 @@ TEST_CASE( "count_if", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "using predicates; returns number of even numbers in the range" ) {
         const vector<int> vec{1, 2, 3, 4, 5, 6, 7};
-        const auto is_even = [](int i) { return i % 2 == 0; };
+        const auto is_even = [](int x) { return x % 2 == 0; };
 
         REQUIRE( 3 == count_if(cbegin(vec), cend(vec), is_even) );
     }
@@ -169,7 +169,7 @@ TEST_CASE( "find_if", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "using predicate; element found in the range at position 4" ) {
         const vector<int> vec{1, 3, 5, 7, 8, 5, 6};
-        const auto is_even = [](int i) { return i % 2 == 0; };
+        const auto is_even = [](int x) { return x % 2 == 0; };
 
         const auto it = find_if(cbegin(vec), cend(vec), is_even);
 
@@ -184,7 +184,7 @@ TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "using predicate; element found in the range at position 4" ) {
         const vector<int> vec{2, 4, 6, 8, 9, 10, 12};
-        const auto is_even = [](int i) { return i % 2 == 0; };
+        const auto is_even = [](int x) { return x % 2 == 0; };
 
         const auto it = find_if_not(cbegin(vec), cend(vec), is_even);
 
@@ -195,6 +195,7 @@ TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+// @OPINION find_end name is confusing, it should have been called search_end
 TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "last occurence of sub sequence found in the range at position 6" ) {
@@ -247,6 +248,75 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
         for_each(begin(str), end(str), change_to_upper);
 
         REQUIRE( str == "HELLO C++" );
+    }
+
+}
+
+TEST_CASE( "search", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "first occurence of sub sequence found in the range at position 3" ) {
+        const vector<int> vec1{2, 2, 3, 1, 2, 5, 1, 2};
+        const vector<int> vec2{1, 2};
+        
+        const auto it = search(cbegin(vec1), cend(vec1), cbegin(vec2), cend(vec2));
+
+        REQUIRE( it != cend(vec1) );
+        const auto found_at_pos = distance(cbegin(vec1), it);
+        REQUIRE( found_at_pos == 3 );
+    }
+
+    SECTION( "first occurence of sub sequence found in the range at position 0" ) {
+        const string str1{"abCabDer"};
+        const string str2{"AB"};
+        const auto case_insensitive_compare = [](char x, char y) { return toupper(x) == toupper(y); };
+        
+        const auto it = search(
+                              cbegin(str1)
+                            , cend(str1)
+                            , cbegin(str2)
+                            , cend(str2)
+                            , case_insensitive_compare
+                        );
+
+        REQUIRE( it != cend(str1) );
+        const auto found_at_pos = distance(cbegin(str1), it);
+        REQUIRE( found_at_pos == 0 );
+    }
+
+}
+
+TEST_CASE( "search_n", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "4 consecutive 'a' characters found in the range at position 6" ) {
+        const string str{"aabbccaaaabbbccc"};
+        
+        const auto it = search_n(cbegin(str), cend(str), 4, 'a');
+
+        REQUIRE( it != cend(str) );
+        const auto found_at_pos = distance(cbegin(str), it);
+        REQUIRE( found_at_pos == 6 );
+    }
+
+    SECTION( "2 consecutive 'a' characters found in the range at position 0" ) {
+        const string str{"aabbccaaaabbbccc"};
+        
+        const auto it = search_n(cbegin(str), cend(str), 2, 'a');
+
+        REQUIRE( it != cend(str) );
+        const auto found_at_pos = distance(cbegin(str), it);
+        REQUIRE( found_at_pos == 0 );
+    }
+
+    SECTION( "using predicates; 3 consecutive even numbers  found in the range at position 2" ) {
+        const vector<int> vec{1, 3, 4, 2, 8, 6, 7};
+        const auto both_even = [](int x, int y) { return x % 2 == y % 2; };
+        const auto count = 3;
+
+        const auto it = search_n(cbegin(vec), cend(vec), count, 2, both_even);
+
+        REQUIRE( it != cend(vec) );
+        const auto found_at_pos = distance(cbegin(vec), it);
+        REQUIRE( found_at_pos == 2 );
     }
 
 }
