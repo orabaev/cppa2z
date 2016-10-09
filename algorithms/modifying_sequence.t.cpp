@@ -132,3 +132,33 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
     }
 
 }
+
+TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "initialize vector with incrementing values from 1 to 7" ) {
+              vector<int> vec(7);
+        const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
+              int i = 1; 
+        const auto increment = [&i]() { return i++; };
+
+        generate(begin(vec), end(vec), increment);
+
+        REQUIRE( expected == vec );
+    }
+
+}
+
+TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "add 4 incremented elements at the end of the vector" ) {
+              vector<int> vec{1, 2, 3};
+        const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
+              int i = vec.back(); 
+        const auto increment = [&i]() { return ++i; };
+
+        generate_n(back_inserter(vec), 4, increment);
+
+        REQUIRE( expected == vec );
+    }
+
+}
