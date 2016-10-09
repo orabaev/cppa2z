@@ -48,7 +48,7 @@ TEST_CASE( "any_of", "[std] [algorithm] [non modifying] [not none_of]" ) {
         const vector<int> vec{1, 2, 3, 2, 5, 6, 7};
         auto is_one = [](int i) { return i == 1; };
 
-        REQUIRE( any_of(cbegin(vec), cbegin(vec), is_one) );
+        REQUIRE( any_of(cbegin(vec), cend(vec), is_one) );
     } 
 
 }
@@ -83,13 +83,6 @@ TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( equal(cbegin(vec), cend(vec), cbegin(lst)) );
     }
 
-    SECTION( "start from the 3rd element; two ranges are equal; comparing vector and list" ) {
-        const vector<int> vec{-1, 0, 1, 2, 3, 4, 5};
-        const list<int>   lst{1, 2, 3, 4, 5, 6, 7};
-
-        REQUIRE( equal(cbegin(vec) + 2, cend(vec), cbegin(lst)) );
-    }
-
     SECTION( "using reverse iterator; two ranges are equal" ) {
         const vector<int> vec1{1, 2, 3, 4, 5, 6, 7};
         const vector<int> vec2{7, 6, 5, 4, 3, 2, 1};
@@ -108,3 +101,18 @@ TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+TEST_CASE( "equal C++14", "[c++14] [std] [algorithm] [non modifying]" ) {
+
+    SECTION( "C++14; two ranges are equal;" ) {
+        const vector<int> vec1{-1, 0, 1, 2, 3};
+        const vector<int> vec2{0, 1, 2, 3, 4, 5, 6};
+        
+        const auto start1 = cbegin(vec1) + 2;
+        const auto end1   = cend(vec1);
+        const auto start2 = cbegin(vec2) + 1; 
+        const auto end2   = cbegin(vec2) + 4;
+
+        REQUIRE( equal(start1, end1, start2, end2) );
+    }
+
+}
