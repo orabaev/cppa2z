@@ -42,7 +42,7 @@ TEST_CASE( "all_of", "[std] [algorithm] [non modifying]" ) {
 
 }
 
-TEST_CASE( "any_of", "[std] [algorithm] [non modifying] [not none_of]" ) {
+TEST_CASE( "any_of", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "some of the elements in the range match" ) {
         const vector<int> vec{1, 2, 3, 2, 5, 6, 7};
@@ -103,7 +103,7 @@ TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
 
 TEST_CASE( "equal C++14", "[c++14] [std] [algorithm] [non modifying]" ) {
 
-    SECTION( "C++14; two ranges are equal;" ) {
+    SECTION( "second range; two ranges are equal;" ) {
         const vector<int> vec1{-1, 0, 1, 2, 3};
         const vector<int> vec2{0, 1, 2, 3, 4, 5, 6};
         
@@ -113,6 +113,117 @@ TEST_CASE( "equal C++14", "[c++14] [std] [algorithm] [non modifying]" ) {
         const auto end2   = cbegin(vec2) + 4;
 
         REQUIRE( equal(start1, end1, start2, end2) );
+    }
+
+}
+
+TEST_CASE( "find", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "element found in the range at position 3" ) {
+        const vector<int> vec{1, 2, 3, 10, 4, 5, 6};
+
+        const auto it = find(cbegin(vec), cend(vec), 10);
+
+        REQUIRE( it != cend(vec) );
+        const auto found_at_pos = distance(cbegin(vec), it);
+        REQUIRE( found_at_pos == 3 );
+    }
+
+}
+
+TEST_CASE( "find_first_of", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "element found in the range at position 3" ) {
+        const vector<int> vec1{1, 2, 3, 10, 4, 5, 6};
+        const vector<int> vec2{10, 2, 19};
+
+        const auto it = find_first_of(cbegin(vec1), cend(vec1), cbegin(vec2), cend(vec2));
+
+        REQUIRE( it != cend(vec1) );
+        const auto found_at_pos = distance(cbegin(vec1), it);
+        REQUIRE( found_at_pos == 1 );
+    }
+
+    SECTION( "using predicate; element found in the range at position 2" ) {
+        const string str1{"Hello"};
+        const string str2{"LOL"};
+
+        auto case_insensitive_compare = [](char x, char y) { return toupper(x) == toupper(y); };
+
+        const auto it = find_first_of(
+                              cbegin(str1)
+                            , cend(str1)
+                            , cbegin(str2)
+                            , cend(str2)
+                            , case_insensitive_compare
+                        );
+
+        REQUIRE( it != cend(str1) );
+        const auto found_at_pos = distance(cbegin(str1), it);
+        REQUIRE( found_at_pos == 2 );
+    }
+
+}
+
+TEST_CASE( "find_if", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "using predicate; element found in the range at position 4" ) {
+        const vector<int> vec{1, 3, 5, 7, 8, 5, 6};
+        auto is_even = [](int i) { return i % 2 == 0; };
+
+        const auto it = find_if(cbegin(vec), cend(vec), is_even);
+
+        REQUIRE( it != cend(vec) );
+        const auto found_at_pos = distance(cbegin(vec), it);
+        REQUIRE( found_at_pos == 4 );
+    }
+
+}
+
+TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "using predicate; element found in the range at position 4" ) {
+        const vector<int> vec{2, 4, 6, 8, 9, 10, 12};
+        auto is_even = [](int i) { return i % 2 == 0; };
+
+        const auto it = find_if_not(cbegin(vec), cend(vec), is_even);
+
+        REQUIRE( it != cend(vec) );
+        const auto found_at_pos = distance(cbegin(vec), it);
+        REQUIRE( found_at_pos == 4 );
+    }
+
+}
+
+TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "last occurence of sub sequence found in the range at position 4" ) {
+        const vector<int> vec1{1, 2, 3, 1, 2, 5, 1, 2};
+        const vector<int> vec2{1, 2};
+        
+        const auto it = find_end(cbegin(vec1), cend(vec1), cbegin(vec2), cend(vec2));
+
+        REQUIRE( it != cend(vec1) );
+        const auto found_at_pos = distance(cbegin(vec1), it);
+        REQUIRE( found_at_pos == 6 );
+    }
+
+    SECTION( "last occurence of sub sequence found in the range at position 3" ) {
+        const string str1{"abCabDer"};
+        const string str2{"AB"};
+        auto case_insensitive_compare = [](char x, char y) { return toupper(x) == toupper(y); };
+        
+        const auto it = find_end(
+                              cbegin(str1)
+                            , cend(str1)
+                            , cbegin(str2)
+                            , cend(str2)
+                            , case_insensitive_compare
+                        );
+
+        REQUIRE( it != cend(str1) );
+        const auto found_at_pos = distance(cbegin(str1), it);
+        REQUIRE( found_at_pos == 3 );
     }
 
 }
