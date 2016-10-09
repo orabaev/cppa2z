@@ -3,11 +3,9 @@ CFLAGS = -Wall -std=c++14
 
 default: cppa2z
 	
-run:
-	./cppa2z
-
 cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o
 	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o
+	./cppa2z
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) -I. -c main.cpp

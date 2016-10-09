@@ -254,3 +254,34 @@ TEST_CASE( "remove_if", "[std] [algorithm] [modifying]" ) {
     }
 
 }
+
+TEST_CASE( "remove_copy", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "copy all characters from one string to another excluding space" ) {
+        const string     from{"H E L L O"};
+              string       to{"     "};
+        const string expected{"HELLO"};
+
+        remove_copy(cbegin(from), cend(from), begin(to), ' '); 
+
+        REQUIRE( expected == to );
+    }
+
+}
+
+TEST_CASE( "remove_copy_if", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "using predicate; copy all elements from one vector to another excluding even numbers" ) {
+        const vector<int>     from{1, 2, 4, 7, 5, 6, 3};
+              vector<int>       to;
+        const vector<int> expected{1, 7, 5, 3};
+
+        const auto is_even = [](int x) { return x % 2 == 0; };
+
+        remove_copy_if(cbegin(from), cend(from), back_inserter(to), is_even); 
+
+        REQUIRE( expected == to );
+    }
+
+}
+
