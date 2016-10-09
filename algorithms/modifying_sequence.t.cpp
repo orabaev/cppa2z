@@ -285,3 +285,30 @@ TEST_CASE( "remove_copy_if", "[std] [algorithm] [modifying]" ) {
 
 }
 
+TEST_CASE( "replace", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "replace all 1s with 0s" ) {
+              vector<int>      vec{1, 2, 1, 1, 3, 6, 1};
+        const vector<int> expected{0, 2, 0, 0, 3, 6, 0};
+
+        replace(begin(vec), end(vec), 1, 0); 
+
+        REQUIRE( expected == vec );
+    }
+
+}
+
+TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "replace all even numbers with 1" ) {
+              vector<int>      vec{3, 2, 7, 8, 0, 6, 5};
+        const vector<int> expected{3, 1, 7, 1, 1, 1, 5};
+
+        const auto is_even = [](int x) { return x % 2 == 0; };
+
+        replace_if(begin(vec), end(vec), is_even, 1); 
+
+        REQUIRE( expected == vec );
+    }
+
+}
