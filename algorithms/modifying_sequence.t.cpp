@@ -312,3 +312,45 @@ TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
     }
 
 }
+
+TEST_CASE( "replace_copy", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "copy all elements from one vector to another replacing all 1s with 0s" ) {
+        const vector<int>     from{1, 2, 1, 1, 3, 6, 1};
+              vector<int>       to;
+        const vector<int> expected{0, 2, 0, 0, 3, 6, 0};
+
+        replace_copy(
+              cbegin(from)
+            , cend(from)
+            , back_inserter(to)
+            , 1
+            , 0
+        ); 
+
+        REQUIRE( expected == to );
+    }
+
+}
+
+TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "copy all elements from one vector to another replacing all even numbers with 1" ) {
+        const vector<int>      from{3, 2, 7, 8, 0, 6, 5};
+              vector<int>        to;
+        const vector<int>  expected{3, 1, 7, 1, 1, 1, 5};
+
+        const auto is_even = [](int x) { return x % 2 == 0; };
+
+        replace_copy_if(
+              cbegin(from)
+            , cend(from)
+            , back_inserter(to)
+            , is_even
+            , 1
+        ); 
+
+        REQUIRE( expected == to );
+    }
+
+}
