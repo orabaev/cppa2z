@@ -16,10 +16,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     } 
 
     SECTION( "copy inplace overlapping range" ) {
-              vector<int>      vec{1, 2, 3, 6, 1, 2};
-        const vector<int> expected{1, 2, 3, 1, 2, 3};
-
-        copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
+              vector<int>      vec{1, 2, 3, 6, 1, 2}; const vector<int> expected{1, 2, 3, 1, 2, 3}; copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
 
         REQUIRE( expected == vec );
     }
@@ -349,6 +346,33 @@ TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
             , is_even
             , 1
         ); 
+
+        REQUIRE( expected == to );
+    }
+
+}
+
+TEST_CASE( "reverse", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "reverse elements in the range" ) {
+              vector<int>      vec{0, 1, 2, 3, 4, 5};
+        const vector<int> expected{5, 4, 3, 2, 1, 0};
+
+        reverse(begin(vec), end(vec));
+
+        REQUIRE( expected == vec );
+    }
+
+}
+
+TEST_CASE( "reverse_copy", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "reverse elements in the destination range" ) {
+        const vector<int>     from{0, 1, 2, 3, 4, 5};
+              vector<int>       to;
+        const vector<int> expected{5, 4, 3, 2, 1, 0};
+
+        reverse_copy(cbegin(from), cend(from), back_inserter(to));
 
         REQUIRE( expected == to );
     }
