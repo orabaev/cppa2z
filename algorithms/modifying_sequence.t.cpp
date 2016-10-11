@@ -16,7 +16,10 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     } 
 
     SECTION( "copy inplace overlapping range" ) {
-              vector<int>      vec{1, 2, 3, 6, 1, 2}; const vector<int> expected{1, 2, 3, 1, 2, 3}; copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
+        vector<int>            vec{1, 2, 3, 6, 1, 2}; 
+        const vector<int> expected{1, 2, 3, 1, 2, 3}; 
+
+        copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
 
         REQUIRE( expected == vec );
     }
