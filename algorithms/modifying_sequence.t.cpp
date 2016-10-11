@@ -113,19 +113,11 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
               vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
         const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
 
-        fill_n(begin(vec), 3, 0);
-
-        REQUIRE( expected == vec );
-    }
-
-    SECTION( "use return value; assign 0 to the first 3 elements in the range" ) {
-              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
-        const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
-
         const auto it = fill_n(begin(vec), 3, 0);
 
         REQUIRE( expected == vec );
-        REQUIRE( *it == 4 );
+
+        REQUIRE( 4 == *it );
     }
 
 }
@@ -377,4 +369,44 @@ TEST_CASE( "reverse_copy", "[std] [algorithm] [modifying]" ) {
         REQUIRE( expected == to );
     }
 
+}
+
+TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "rotate first 2 elements to the end" ) {
+              vector<int>      vec{0, 1, 2, 3, 4, 5};
+        const vector<int> expected{2, 3, 4, 5, 0, 1};
+
+        const auto it = rotate(begin(vec), begin(vec) + 2,  end(vec));
+
+        REQUIRE( expected == vec );
+
+        REQUIRE( 0 == *it );
+        REQUIRE( cbegin(vec) + 4 == it );
+
+    }
+
+    SECTION( "rotate last 2 elements to the front" ) {
+              vector<int>      vec{0, 1, 2, 3, 4, 5};
+        const vector<int> expected{4, 5, 0, 1, 2, 3};
+
+        const auto it = rotate(begin(vec), begin(vec) + 4,  end(vec));
+
+        REQUIRE( expected == vec );
+
+        REQUIRE( 0 == *it );
+        REQUIRE( cbegin(vec) + 2 == it );
+    }
+
+    SECTION( "rotate 2nd and 3rd elements with 4th and 5th elements" ) {
+              vector<int>      vec{0, 1, 2, 3, 4, 5};
+        const vector<int> expected{0, 3, 4, 1, 2, 5};
+
+        const auto it = rotate(begin(vec) + 1, begin(vec) + 3,  --end(vec));
+
+        REQUIRE( expected == vec );
+
+        REQUIRE( 1 == *it );
+        REQUIRE( cbegin(vec) + 3 == it );
+    }
 }
