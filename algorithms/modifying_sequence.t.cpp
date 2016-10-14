@@ -1,6 +1,8 @@
 #include <catch.hpp>
 #include <algorithm>
 #include <vector>
+#include <string>
+#include <list>
 #include <random>
 
 using namespace std;
@@ -434,8 +436,8 @@ TEST_CASE( "shuffle", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "swap", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "swaps values" ) {
-        int          x = 1;
-        int          y = 2;
+        int x = 1;
+        int y = 2;
 
         swap(x, y);
 
@@ -451,6 +453,44 @@ TEST_CASE( "swap", "[std] [algorithm] [modifying]" ) {
         
         REQUIRE (vec.empty() ); 
 
+    }
+
+}
+
+TEST_CASE( "swap_ranges", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "exchange elements between two ranges" ) {
+              vector<int>          vec{0, 1, 2};
+        const vector<int> expected_vec{3, 4, 5};
+
+              list<int>            lst{3, 4, 5};
+        const list<int>   expected_lst{0, 1, 2};
+
+        swap_ranges(begin(vec), end(vec), begin(lst));
+
+        REQUIRE( expected_vec == vec );
+        REQUIRE( expected_lst == lst );
+    }
+
+}
+
+TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "convert in place all elements to upper case" ) {
+              string      str("hello world");
+        const string expected("HELLO WORLD");
+
+        const auto to_upper = [](char x) { return toupper(x); };
+
+        const auto it = transform(
+                             begin(str)
+                           , end(str)
+                           , begin(str)
+                           , to_upper
+                        );
+
+        REQUIRE( expected == str );
+        REQUIRE( cend(str) == it );
     }
 
 }
