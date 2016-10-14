@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include <algorithm>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -413,3 +414,20 @@ TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
         REQUIRE( cbegin(vec) + 3 == it );
     }
 }
+
+TEST_CASE( "shuffle", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "reorder elements in the container based on provided random function generator" ) {
+              vector<int>      vec{0, 1, 2, 3, 4, 5};
+        const vector<int> original{0, 1, 2, 3, 4, 5};
+
+        random_device rd;
+        mt19937       f(rd());
+        // TODO review
+        shuffle(begin(vec), end(vec), f);
+
+        REQUIRE( original != vec );
+    }
+
+}
+
