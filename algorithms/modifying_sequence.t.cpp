@@ -417,7 +417,7 @@ TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
 
 TEST_CASE( "shuffle", "[std] [algorithm] [modifying]" ) {
     
-    SECTION( "reorder elements in the container based on provided random function generator" ) {
+    SECTION( "reorder elements in the container based on the provided random function generator" ) {
               vector<int>      vec{0, 1, 2, 3, 4, 5};
         const vector<int> original{0, 1, 2, 3, 4, 5};
 
@@ -427,6 +427,30 @@ TEST_CASE( "shuffle", "[std] [algorithm] [modifying]" ) {
         shuffle(begin(vec), end(vec), f);
 
         REQUIRE( original != vec );
+    }
+
+}
+
+TEST_CASE( "swap", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "swaps values" ) {
+        int          x = 1;
+        int          y = 2;
+
+        swap(x, y);
+
+        REQUIRE( 2 == x );
+        REQUIRE( 1 == y );
+    }
+
+    SECTION( "use swap to set the object to a default constructed state" ) {
+        vector<int>          vec{0, 1, 2};
+        vector<int> empty_vector;
+    
+        swap(vec,  empty_vector);
+        
+        REQUIRE (vec.empty() ); 
+
     }
 
 }
