@@ -480,7 +480,7 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
               string      str("hello world");
         const string expected("HELLO WORLD");
 
-        const auto to_upper = [](char x) { return toupper(x); };
+        auto to_upper = [](char x) { return toupper(x); };
 
         const auto it = transform(
                              begin(str)
@@ -491,6 +491,26 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
 
         REQUIRE( expected == str );
         REQUIRE( cend(str) == it );
+    }
+
+    SECTION( "sum each element from different containers and store results in another container" ) {
+        const vector<int>     vec1{1, 2, 3 ,4, 5};
+        const vector<int>     vec2{5, 4, 3, 2, 1};
+        const vector<int> expected{6, 6, 6, 6, 6};
+              vector<int>   result(expected.size());
+
+        auto sum = [](int x, int y) { return x + y; };
+
+        const auto it = transform(
+                             begin(vec1)
+                           , end(vec1)
+                           , begin(vec2)
+                           , begin(result)
+                           , sum 
+                        );
+
+        REQUIRE( expected == result );
+        REQUIRE( cend(result) == it );
     }
 
 }
