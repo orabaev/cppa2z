@@ -527,5 +527,19 @@ TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
 
         REQUIRE( expected == vec );
     }
+
+    SECTION( "remove consecutive spaces" ) {
+              string      str{"hello     world  C++    14"};
+        const string expected{"hello world C++ 14"};
+
+        auto both_spaces = [](char x, char y) { return isspace(x) && isspace(y); };
+
+        auto it = unique(begin(str), end(str), both_spaces);
+
+        str.erase(it, end(str));
+
+        REQUIRE( expected == str );
+    }
+
 }
 
