@@ -421,12 +421,13 @@ TEST_CASE( "shuffle", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "reorder elements in the container based on the provided random function generator" ) {
               vector<int>      vec{0, 1, 2, 3, 4, 5};
-        const vector<int> original{0, 1, 2, 3, 4, 5};
+        const vector<int> original{vec};
 
-        random_device rd;
-        mt19937       f(rd());
-        // TODO review
-        shuffle(begin(vec), end(vec), f);
+        REQUIRE( original == vec );
+
+        auto engine = default_random_engine{};
+
+        shuffle(begin(vec), end(vec), engine);
 
         REQUIRE( original != vec );
     }
