@@ -515,3 +515,17 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
 
 }
 
+TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "remove duplicate consecutive elements and then erase the duplicates" ) {
+              vector<int>      vec{1, 1, 2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 1};
+        const vector<int> expected{1, 2, 3, 1};
+
+        auto it = unique(begin(vec), end(vec));
+
+        vec.erase(it, end(vec));
+
+        REQUIRE( expected == vec );
+    }
+}
+
