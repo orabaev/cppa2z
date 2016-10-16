@@ -521,7 +521,7 @@ TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
               vector<int>      vec{1, 1, 2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 1};
         const vector<int> expected{1, 2, 3, 1};
 
-        auto it = unique(begin(vec), end(vec));
+        const auto it = unique(begin(vec), end(vec));
 
         vec.erase(it, end(vec));
 
@@ -534,11 +534,42 @@ TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
 
         auto both_spaces = [](char x, char y) { return isspace(x) && isspace(y); };
 
-        auto it = unique(begin(str), end(str), both_spaces);
+        const auto it = unique(begin(str), end(str), both_spaces);
 
         str.erase(it, end(str));
 
         REQUIRE( expected == str );
+    }
+
+}
+
+TEST_CASE( "unique_copy", "[std] [algorithm] [modifying]" ) {
+    
+    SECTION( "copy unique consecutive elements" ) {
+        const vector<int>     from{1, 1, 2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 1};
+              vector<int>       to;;
+        const vector<int> expected{1, 2, 3, 1};
+
+        unique_copy(cbegin(from) , cend(from) , back_inserter(to));
+
+        REQUIRE( expected == to );
+    }
+
+    SECTION( "copy string while removing consecutive spaces" ) {
+        const string     from{"hello     world  C++    14"};
+              string       to;
+        const string expected{"hello world C++ 14"};
+
+        auto both_spaces = [](char x, char y) { return isspace(x) && isspace(y); };
+
+        unique_copy(
+              cbegin(from)
+            , cend(from)
+            , back_inserter(to)
+            , both_spaces
+        );
+
+        REQUIRE( expected == to );
     }
 
 }
