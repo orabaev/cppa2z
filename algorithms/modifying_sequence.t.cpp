@@ -19,7 +19,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     } 
 
     SECTION( "copy inplace overlapping range" ) {
-        vector<int>            vec{1, 2, 3, 6, 1, 2}; 
+              vector<int>      vec{1, 2, 3, 6, 1, 2}; 
         const vector<int> expected{1, 2, 3, 1, 2, 3}; 
 
         copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
@@ -78,7 +78,7 @@ TEST_CASE( "copy_if", "[std] [algorithm] [modifying]" ) {
               vector<int>       to;
         const vector<int> expected{2, 4, 6};
 
-        const auto is_even = [](int x) { return x % 2 == 0; };
+        auto is_even = [](int x) { return x % 2 == 0; };
 
         copy_if(cbegin(from), cend(from), back_inserter(to), is_even);
 
@@ -135,7 +135,7 @@ TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
         const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
 
         int i = 1; 
-        const auto increment = [&i]() { return i++; };
+        auto increment = [&i]() { return i++; };
 
         generate(begin(vec), end(vec), increment);
 
@@ -151,7 +151,7 @@ TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
         const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
 
         int i = vec.back(); 
-        const auto increment = [&i]() { return ++i; };
+        auto increment = [&i]() { return ++i; };
 
         generate_n(back_inserter(vec), 4, increment);
 
@@ -240,7 +240,7 @@ TEST_CASE( "remove_if", "[std] [algorithm] [modifying]" ) {
               vector<int>      vec{1, 2, 4, 7, 5, 6, 3};
         const vector<int> expected{1, 7, 5, 3};
 
-        const auto is_even = [](int x) { return x % 2 == 0; };
+        auto is_even = [](int x) { return x % 2 == 0; };
 
         auto erase_it = remove_if(begin(vec), end(vec), is_even); 
         vec.erase(erase_it, vec.end());
@@ -271,7 +271,7 @@ TEST_CASE( "remove_copy_if", "[std] [algorithm] [modifying]" ) {
               vector<int>       to;
         const vector<int> expected{1, 7, 5, 3};
 
-        const auto is_even = [](int x) { return x % 2 == 0; };
+        auto is_even = [](int x) { return x % 2 == 0; };
 
         remove_copy_if(cbegin(from), cend(from), back_inserter(to), is_even); 
 
@@ -299,7 +299,7 @@ TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
               vector<int>      vec{3, 2, 7, 8, 0, 6, 5};
         const vector<int> expected{3, 1, 7, 1, 1, 1, 5};
 
-        const auto is_even = [](int x) { return x % 2 == 0; };
+        auto is_even = [](int x) { return x % 2 == 0; };
 
         replace_if(begin(vec), end(vec), is_even, 1); 
 
@@ -335,7 +335,7 @@ TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
               vector<int>        to;
         const vector<int>  expected{3, 1, 7, 1, 1, 1, 5};
 
-        const auto is_even = [](int x) { return x % 2 == 0; };
+        auto is_even = [](int x) { return x % 2 == 0; };
 
         replace_copy_if(
               cbegin(from)
@@ -502,9 +502,9 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
         auto sum = [](int x, int y) { return x + y; };
 
         const auto it = transform(
-                             begin(vec1)
-                           , end(vec1)
-                           , begin(vec2)
+                             cbegin(vec1)
+                           , cend(vec1)
+                           , cbegin(vec2)
                            , begin(result)
                            , sum 
                         );
