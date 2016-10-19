@@ -6,8 +6,8 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o
-	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o
+	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o
 	./cppa2z
 
 main.o: main.cpp
@@ -18,6 +18,9 @@ non_modifying_sequence.t.o: ./algorithms/non_modifying_sequence.t.cpp
 
 modifying_sequence.t.o: ./algorithms/modifying_sequence.t.cpp
 	$(CC) $(CFLAGS) -I. -c ./algorithms/modifying_sequence.t.cpp
+
+partitioning.t.o: ./algorithms/partitioning.t.cpp
+	$(CC) $(CFLAGS) -I. -c ./algorithms/partitioning.t.cpp
 
 
 .PHONY: clean
