@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <list>
+#include <set>
 
 using namespace std;
 
@@ -19,19 +20,12 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( found_at_pos == 2 );
     } 
 
-    SECTION( "with params; two consecutive elements found in the range at position 2" ) {
-        const vector<int> vec{0, 1, 2, 2, 4, 5, 6};
+    SECTION( "determine if multiset has duplicate elements" ) {
+        const multiset<int> mset{0, 1, 2, 3, 3, 4, 5};
 
-        const auto forward_it_first = cbegin(vec);
-        const auto forward_it_last  = cend(vec);
+        const auto it = adjacent_find(cbegin(mset), end(mset));
 
-
-        const auto forward_it_ret = adjacent_find(forward_it_first, forward_it_last);
-
-        REQUIRE( forward_it_ret != cend(vec) );
-
-        const auto found_at_pos = distance(cbegin(vec), forward_it_ret);
-        REQUIRE( found_at_pos == 2 );
+        REQUIRE( it != cend(mset) );
     } 
 
     SECTION( "using predicates; two consecutive upper case characters found in the range at position 3" ) {
