@@ -9,12 +9,28 @@ using namespace std;
 TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "two consecutive elements found in the range at position 2" ) {
-        const vector<int> vec{1, 2, 3, 3, 5, 6, 7};
+        const vector<int> vec{0, 1, 2, 2, 4, 5, 6};
 
-        const auto it = adjacent_find(cbegin(vec), cend(vec));
+        const auto it = adjacent_find(cbegin(vec), end(vec));
 
         REQUIRE( it != cend(vec) );
+
         const auto found_at_pos = distance(cbegin(vec), it);
+        REQUIRE( found_at_pos == 2 );
+    } 
+
+    SECTION( "with params; two consecutive elements found in the range at position 2" ) {
+        const vector<int> vec{0, 1, 2, 2, 4, 5, 6};
+
+        const auto forward_it_first = cbegin(vec);
+        const auto forward_it_last  = cend(vec);
+
+
+        const auto forward_it_ret = adjacent_find(forward_it_first, forward_it_last);
+
+        REQUIRE( forward_it_ret != cend(vec) );
+
+        const auto found_at_pos = distance(cbegin(vec), forward_it_ret);
         REQUIRE( found_at_pos == 2 );
     } 
 
