@@ -163,8 +163,8 @@ TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "swap values of first and last elements in the vector" ) {
-        vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
-        vector<int> expected{7, 2, 3, 4, 5, 6, 1};
+              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> expected{7, 2, 3, 4, 5, 6, 1};
 
         iter_swap(begin(vec), rbegin(vec));
 
@@ -172,8 +172,8 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "reverse string" ) {
-        string      str{"abcdefg"};
-        string expected{"gfedcba"};
+              string      str{"abcdefg"};
+        const string expected{"gfedcba"};
 
         auto left = begin(str);
         auto right = --end(str);
@@ -187,9 +187,9 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "move strings from one vector to another" ) {
-        vector<string>     from{"hello", "C++"};
-        vector<string>       to(from.size());
-        vector<string> expected{"hello", "C++"};
+        const vector<string>     from{"hello", "C++"};
+              vector<string>       to(from.size());
+        const vector<string> expected{"hello", "C++"};
 
         move(begin(from), end(from), begin(to));
 
@@ -203,8 +203,8 @@ TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "shift and set; insert new string at the begining of the vector" ) {
-        vector<string>      vec{"hello", "C++"};
-        vector<string> expected{"Hi", "hello", "C++"};
+              vector<string>      vec{"hello", "C++"};
+        const vector<string> expected{"Hi", "hello", "C++"};
 
         vec.resize(vec.size() + 1);
         move_backward(begin(vec), --end(vec), end(vec));
