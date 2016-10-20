@@ -1,2 +1,2 @@
 # cppa2z
-Document c++ programming language using unit tests
+Document modern C++ using unit tests

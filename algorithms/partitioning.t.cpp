@@ -118,7 +118,9 @@ TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
         const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
 
         REQUIRE ( cend(vec) != it );
-        REQUIRE ( 5 == distance(cbegin(vec), it) );
+
+        const auto partition_pos = distance(cbegin(vec), it);        
+        REQUIRE ( 5 == partition_pos );
     }
 
 }
