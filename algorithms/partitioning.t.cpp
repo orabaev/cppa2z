@@ -34,6 +34,7 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
 
         REQUIRE( first_it_second_group != cend(vec) );
         REQUIRE( *first_it_second_group >= 3);
+        REQUIRE( 4 == distance(begin(vec), first_it_second_group) );
 
         REQUIRE( all_of(begin(vec), first_it_second_group, less_than_3) );
     } 
@@ -58,5 +59,33 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
         REQUIRE( first_it_second_group == cend(vec) );
     }
 }
+
+TEST_CASE( "partition_copy", "[std] [algorithm] [partitioning] [copy]" ) {
+    
+    SECTION( "copy elements to two with first group less than 3" ) {
+        const vector<int>    vec{4, 2, 5, 3, 1, 0, 2};
+              vector<int>  first;
+              vector<int> second;
+
+        auto less_than_3 = [](int x) { return x < 3; };
+
+        partition_copy(
+              cbegin(vec)
+            , cend(vec)
+            , back_inserter(first)
+            , back_inserter(second)
+            , less_than_3
+        );
+
+        REQUIRE ( 4 == first.size() );
+        REQUIRE ( all_of(cbegin(first), cend(first), less_than_3) );
+
+        REQUIRE ( 3 == second.size() );
+        auto greater_or_equal_3 = [](int x) { return x >= 3; };
+        REQUIRE ( all_of(cbegin(second), cend(second), greater_or_equal_3) );
+    } 
+
+}
+
 
 
