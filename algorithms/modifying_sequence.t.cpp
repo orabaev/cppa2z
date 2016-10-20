@@ -177,12 +177,7 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
 
         auto left = begin(str);
         auto right = --end(str);
-
-        while (left < right) {
-            iter_swap(left, right); 
-            ++left; 
-            --right;
-        }
+        while (left < right) iter_swap(left++, right--);
 
         REQUIRE( expected == str );
     }
