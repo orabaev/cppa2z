@@ -124,3 +124,25 @@ TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
     }
 
 }
+
+TEST_CASE( "stable_partition", "[std] [algorithm] [partitioning] [copy]" ) {
+    
+    SECTION( "partition the range preserving original relative order of elements" ) {
+              vector<int>    vec{4, 2, 5, 3, 1, 0, 2};
+        const vector<int>  first{2, 1, 0, 2};
+        const vector<int> second{4, 5, 3};
+
+        auto less_than_3 = [](int x) { return x < 3; };
+
+        const auto first_it_second_group = stable_partition(begin(vec), end(vec), less_than_3);
+        
+        bool first_as_expected = equal(cbegin(first), cend(first), cbegin(vec));
+        REQUIRE ( first_as_expected  );
+
+        bool second_as_expected = equal(cbegin(second), cend(second), first_it_second_group);
+        REQUIRE ( first_as_expected  );
+    } 
+
+}
+
+
