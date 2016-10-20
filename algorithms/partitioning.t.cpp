@@ -85,3 +85,40 @@ TEST_CASE( "partition_copy", "[std] [algorithm] [partitioning] [copy]" ) {
     } 
 
 }
+
+TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
+    
+    SECTION( "partitioned point found" ) {
+        const vector<int> vec{2, 0, 1, 3, 5, 4, 7};
+
+        auto less_than_3 = [](int x) { return x < 3; };
+
+        const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
+
+        REQUIRE ( cend(vec) != it );
+        const auto partition_pos = distance(cbegin(vec), it);        
+        REQUIRE ( 3 == partition_pos ); 
+    } 
+
+    SECTION( "all elements are less than 3" ) {
+        const vector<int> vec{1, 2, 1, 0, 2};
+
+        auto less_than_3 = [](int x) { return x < 3; };
+        
+        const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
+
+        REQUIRE ( cend(vec) == it );
+    }
+
+    SECTION( "partition first group is not at the begining of the range" ) {
+        const vector<int> vec{4, 3, 1, 0, 2, 55, 8};
+
+        auto less_than_3 = [](int x) { return x < 3; };
+        
+        const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
+
+        REQUIRE ( cend(vec) != it );
+        REQUIRE ( 5 == distance(cbegin(vec), it) );
+    }
+
+}
