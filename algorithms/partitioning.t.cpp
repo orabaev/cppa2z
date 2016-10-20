@@ -26,8 +26,7 @@ TEST_CASE( "is_partitioned", "[std] [algorithm] [partitioning]" ) {
 TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
     
     SECTION( "partition the range with first group less than 3" ) {
-              vector<int>         vec{4, 2, 5, 3, 1, 0, 2};
-        const vector<int> first_group{0, 1, 2, 2};
+        vector<int> vec{4, 2, 5, 3, 1, 0, 2};
 
         auto less_than_3 = [](int x) { return x < 3; };
 
@@ -36,12 +35,7 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
         REQUIRE( first_it_second_group != cend(vec) );
         REQUIRE( *first_it_second_group >= 3);
 
-        // BUG? can not use cbegin on GCC TODO check other compiliers
-        const auto first_pos_second_group = distance(begin(vec), first_it_second_group);
-        REQUIRE( 4 == first_pos_second_group );
-        
-        bool proper_first_group = is_permutation(cbegin(first_group), cend(first_group), cbegin(vec));
-        REQUIRE( proper_first_group ); 
+        REQUIRE( all_of(begin(vec), first_it_second_group, less_than_3) );
     } 
 
     SECTION( "partition the range, there is only second group" ) {
