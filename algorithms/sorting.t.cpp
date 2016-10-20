@@ -64,4 +64,40 @@ TEST_CASE( "is_sorted_unti", "[std] [algorithm] [sorting]" ) {
 
 }
 
+TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
+    
+     SECTION( "set nth element in its sorted position and partition the range "
+              " with first group LESS than nth element" ) {
+        vector<int> vec{4, 2, 5, 3, 1, 0, 2};
+        
+        auto nth = begin(vec) + 2;
+        REQUIRE ( 5 == *nth );
 
+        nth_element(begin(vec), nth, end(vec));
+
+        REQUIRE ( 2 == *nth );
+        
+        auto less_than_nth = [&nth](int x) { return x < *nth; };
+        
+        REQUIRE( all_of(begin(vec), nth, less_than_nth) );
+        REQUIRE( none_of(nth, end(vec), less_than_nth) );
+    } 
+
+    SECTION( "set nth element in its sorted position and partition the range "
+              " with first group GREATER than nth element" ) {
+        vector<int> vec{4, 2, 5, 3, 1, 0, 2};
+        
+        auto nth = begin(vec) + 2;
+        REQUIRE ( 5 == *nth );
+
+        nth_element(begin(vec), nth, end(vec), greater<int>());
+
+        REQUIRE ( 3 == *nth );
+        
+        auto greater_than_nth = [&nth](int x) { return x > *nth; };
+        
+        REQUIRE( all_of(begin(vec), nth, greater_than_nth) );
+        REQUIRE( none_of(nth, end(vec), greater_than_nth) );
+    } 
+
+}
