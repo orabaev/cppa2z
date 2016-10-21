@@ -147,4 +147,21 @@ TEST_CASE( "partial_sort_copy", "[std] [algorithm] [sorting]" ) {
         REQUIRE( expected == to );    
     } 
 
+    SECTION( "copy and partialy sort in descending order from "
+             "the range which does not provide random access iterator" ) {
+        const list<int>       from{4, 2, 5, 3, 1, 0, 6};
+              vector<int>       to(4);
+        const vector<int> expected{6, 5, 4, 3};
+        
+        partial_sort_copy(
+              cbegin(from)
+            , cend(from)
+            , begin(to)
+            , end(to)
+            , greater<int>()
+        );
+
+        REQUIRE( expected == to );    
+    }
+
 }
