@@ -6,8 +6,9 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o
-	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o
+	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o
+
 	./cppa2z
 
 main.o: main.cpp
@@ -24,6 +25,9 @@ partitioning.t.o: ./algorithms/partitioning.t.cpp
 
 sorting.t.o: ./algorithms/sorting.t.cpp
 	$(CC) $(CFLAGS) -I. -c ./algorithms/sorting.t.cpp
+
+binary_search.t.o: ./algorithms/binary_search.t.cpp
+	$(CC) $(CFLAGS) -I. -c ./algorithms/binary_search.t.cpp
 
 
 .PHONY: clean
