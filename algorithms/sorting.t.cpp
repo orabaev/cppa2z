@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include <algorithm>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -68,7 +69,7 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
     
      SECTION( "set nth element in its sorted position and partition the range "
               " with first group LESS than nth element" ) {
-        vector<int> vec{4, 2, 5, 3, 1, 0, 2};
+        vector<int> vec{4, 2,  5,  3, 1, 0, 2};
         
         auto nth = begin(vec) + 2;
         REQUIRE ( 5 == *nth );
@@ -84,8 +85,8 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
     } 
 
     SECTION( "set nth element in its sorted position and partition the range "
-              " with first group GREATER than nth element" ) {
-        vector<int> vec{4, 2, 5, 3, 1, 0, 2};
+             "with first group GREATER than nth element" ) {
+        vector<int> vec{4, 2,  5,  3, 1, 0, 2};
         
         auto nth = begin(vec) + 2;
         REQUIRE ( 5 == *nth );
@@ -98,6 +99,52 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
         
         REQUIRE( all_of(begin(vec), nth, greater_than_nth) );
         REQUIRE( none_of(nth, end(vec), greater_than_nth) );
+    } 
+
+}
+
+TEST_CASE( "partial_sort", "[std] [algorithm] [sorting]" ) {
+    
+     SECTION( "partial sort the range up to a particular position" ) {
+              vector<int>      vec{4, 2, 5, 3, 1, 0, 6};
+        const vector<int> expected{0, 1, 2, 3};
+        
+        auto middle = begin(vec) + 4;
+
+        partial_sort(begin(vec), middle, end(vec));
+
+        REQUIRE( equal(cbegin(expected), cend(expected), cbegin(vec)) );    
+    } 
+
+    SECTION( "partial sort the range in descending order up to a particular position" ) {
+              vector<int>      vec{4, 2, 5, 3, 1, 0, 6};
+        const vector<int> expected{6, 5, 4, 3};
+        
+        auto middle = begin(vec) + 4;
+
+        partial_sort(begin(vec), middle, end(vec), greater<int>());
+
+        REQUIRE( equal(cbegin(expected), cend(expected), cbegin(vec)) );    
+    } 
+
+}
+
+TEST_CASE( "partial_sort_copy", "[std] [algorithm] [sorting]" ) {
+
+    SECTION( "copy and partialy sort from the range which "
+             "does not provide random access iterator" ) {
+        const list<int>       from{4, 2, 5, 3, 1, 0, 6};
+              vector<int>       to(4);
+        const vector<int> expected{0, 1, 2, 3};
+        
+        partial_sort_copy(
+              cbegin(from)
+            , cend(from)
+            , begin(to)
+            , end(to)
+        );
+
+        REQUIRE( expected == to );    
     } 
 
 }
