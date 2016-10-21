@@ -27,3 +27,8 @@
 *.exe
 *.out
 *.app
+cppa2z
+
+# vim
+*.swp
+
