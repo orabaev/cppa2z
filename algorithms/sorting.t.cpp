@@ -165,3 +165,26 @@ TEST_CASE( "partial_sort_copy", "[std] [algorithm] [sorting]" ) {
     }
 
 }
+
+
+TEST_CASE( "sort", "[std] [algorithm] [sorting]" ) {
+
+    SECTION( "sort the range" ) {
+              vector<int>      vec{4, 2, 5, 3, 1, 0, 6};
+        const vector<int> expected{0, 1, 2, 3, 4, 5, 6};
+        
+        sort(begin(vec), end(vec));
+
+        REQUIRE( expected == vec );    
+    } 
+
+    SECTION( "sort the range in descending order" ) {
+              vector<int>      vec{4, 2, 5, 3, 1, 0, 6};
+        const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
+        
+        sort(begin(vec), end(vec), greater<int>());
+
+        REQUIRE( expected == vec );    
+    } 
+
+}
