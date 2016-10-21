@@ -107,3 +107,38 @@ TEST_CASE( "lower_bound", "[std] [algorithm] [sorting] [binary search]" ) {
     } 
 
 }
+
+TEST_CASE( "upper_bound", "[std] [algorithm] [sorting] [binary search]" ) {
+    
+    SECTION( "find first element greater than 2 in the sorted range" ) {
+        const vector<int> vec{0, 1, 2, 2, 4, 5, 6};
+
+        auto it = upper_bound(cbegin(vec), cend(vec), 2);
+
+        REQUIRE( 4 == *it);
+        REQUIRE( 2 == *--it);
+    } 
+
+    SECTION( "no elements equel to 2 are the sorted range" ) {
+        const vector<int> vec{0, 0, 1, 1, 2, 2, 2};
+
+        const auto it = upper_bound(cbegin(vec), cend(vec), 2);
+
+        REQUIRE( cend(vec) == it );
+    }
+
+    SECTION( "find element less than 2 in the descending order sorted range" ) {
+        const vector<int> vec{6, 5, 4, 2, 2, 1, 0};
+
+        auto it = upper_bound(
+                        cbegin(vec)
+                      , cend(vec)
+                      , 2
+                      , greater<int>()
+                  );
+
+        REQUIRE( 1 == *it);
+        REQUIRE( 2 == *--it);
+    } 
+
+}
