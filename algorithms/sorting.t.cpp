@@ -188,3 +188,65 @@ TEST_CASE( "sort", "[std] [algorithm] [sorting]" ) {
     } 
 
 }
+
+// stable_sort 
+struct programmer {
+    string name;
+    int    age;
+};
+
+bool operator<(const programmer& l, const programmer& r) { 
+    return l.age < r.age;
+}
+
+bool operator>(const programmer& l, const programmer& r) { 
+    return l.age > r.age;
+}
+
+bool operator==(const programmer& l, const programmer& r) { 
+    return l.name == l.name && l.age == r.age;
+}
+
+TEST_CASE( "stable_sort", "[std] [algorithm] [sorting]" ) {
+    
+    SECTION( "sort the range by age preserving original order of the elements" ) {
+        vector<programmer> vec{
+              {"john",   55}
+            , {"andrei", 46}
+            , {"scott",  51}
+            , {"herb",   51}
+        };
+
+        const vector<programmer> expected{
+              {"andrei", 46}
+            , {"scott",  51}
+            , {"herb",   51}
+            , {"john",   55}
+        };
+        
+        stable_sort(begin(vec), end(vec));
+
+        REQUIRE( expected == vec ); 
+    } 
+
+    SECTION( "sort the range in descennding order by age preserving original order of the elements" ) {
+        vector<programmer> vec{
+              {"john",   55}
+            , {"andrei", 46}
+            , {"scott",  51}
+            , {"herb",   51}
+        };
+
+        const vector<programmer> expected{
+              {"john",   55}
+            , {"scott",  51}
+            , {"herb",   51}
+            , {"andrei", 46}
+        };
+        
+        stable_sort(begin(vec), end(vec), greater<programmer>());
+
+        REQUIRE( expected == vec ); 
+    }
+
+}
