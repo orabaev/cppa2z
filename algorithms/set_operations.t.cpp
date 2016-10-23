@@ -193,7 +193,8 @@ TEST_CASE( "set_intersecion", "[std] [algorithm] [set operations]" ) {
 
 TEST_CASE( "set_symmetric_difference", "[std] [algorithm] [set operations]" ) {
     
-    SECTION( "copy elements from sorted vec1 not found in sorted vec2 into another sorted range" ) {
+    SECTION( "copy elements from sorted vec1 and sorted vec2 not found "
+             "in each other into another sorted range" ) {
         const vector<int>     vec1{1, 4, 6, 7, 8};
         const vector<int>     vec2{0, 2, 4, 6};
               vector<int>       to; 
@@ -210,14 +211,74 @@ TEST_CASE( "set_symmetric_difference", "[std] [algorithm] [set operations]" ) {
         REQUIRE( expected == to );
     } 
 
-    SECTION( "copy elements from descending sorted vec1 not found in "
-             "descending sorted vec2 into another descending sorted range" ) {
+    SECTION( "copy elements from descending sorted vec1 and descending sorted vec2 "
+             "not found in each other into another descending sorted range" ) {
         const vector<int>     vec1{8, 7, 6, 4, 1};
         const vector<int>     vec2{6, 4, 2, 0};
               vector<int>       to; 
         const vector<int> expected{8, 7, 2, 1, 0};
         
         set_symmetric_difference(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+            , greater<int>()
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+}
+
+TEST_CASE( "set_union", "[std] [algorithm] [set operations]" ) {
+    
+    SECTION( "create a union by copying elements from sorted vec1 "
+             "and sorted vec2 into another sorted range") {
+        const vector<int>     vec1{0, 1, 2, 3, 4};
+        const vector<int>     vec2{      2, 3, 4, 5, 6};
+              vector<int>       to; 
+        const vector<int> expected{0, 1, 2, 3, 4, 5, 6};
+        
+        set_union(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+    SECTION( "create a union from ranges with some duplicate elements"
+             "by copying elements from sorted vec1 "
+             "and sorted vec2 into another sorted range") {
+        const vector<int>     vec1{0, 1, 2, 2, 2, 3, 4};
+        const vector<int>     vec2{         2, 2, 3, 4, 5, 6};
+              vector<int>       to; 
+        const vector<int> expected{0, 1, 2, 2, 2, 3, 4, 5, 6};
+        
+        set_union(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    }
+
+    SECTION( "create a union by copying elements from descending sorted vec1 "
+             "and sdescending orted vec2 into another descending sorted range") {
+        const vector<int>     vec1{      4, 3, 2, 1, 0};
+        const vector<int>     vec2{6, 5, 4, 3, 2, 1};
+              vector<int>       to; 
+        const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
+        
+        set_union(
               cbegin(vec1)
             , cend(vec1)
             , cbegin(vec2)
