@@ -163,14 +163,17 @@ TEST_CASE( "push_heap", "[std] [algorithm] [heap]" ) {
 
         vec.push_back(4);
         push_heap(begin(vec), end(vec));
+        REQUIRE ( 4 == vec.front() );
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
 
         vec.push_back(1);
         push_heap(begin(vec), end(vec));
+        REQUIRE ( 4 == vec.front() );
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
 
         vec.push_back(7);
         push_heap(begin(vec), end(vec));
+        REQUIRE ( 7 == vec.front() );
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
     }
 
