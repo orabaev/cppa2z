@@ -137,3 +137,23 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
    }
 
 }
+
+TEST_CASE( "make_heap", "[std] [algorithm] [heap]" ) {
+    
+    SECTION( "transform range into a max heap" ) {
+        vector<int> vec{1, 5, 3, 2, 4};
+
+        make_heap(begin(vec), end(vec));
+        REQUIRE( is_heap(cbegin(vec), cend(vec)) );
+    }
+
+    SECTION( "transform range into a min heap" ) {
+        vector<int> vec{7, 5, 3, 2, 4};
+
+        make_heap(begin(vec), end(vec), greater<int>());
+        REQUIRE( is_heap(cbegin(vec), cend(vec), greater<int>()) );
+    }
+
+}
+
+
