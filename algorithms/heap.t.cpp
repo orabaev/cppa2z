@@ -176,4 +176,45 @@ TEST_CASE( "push_heap", "[std] [algorithm] [heap]" ) {
 
 }
 
+TEST_CASE( "pop_heap", "[std] [algorithm] [heap]" ) {
+    
+    SECTION( "move largest element to the back of the range "
+             "maintaining max heap property for the rest of the elements" ) {
+        vector<int> vec{1, 5, 7, 9};
 
+        make_heap(begin(vec), end(vec));
+        
+        pop_heap(begin(vec), end(vec));
+        REQUIRE( 9 == vec.back() ); 
+
+        vec.pop_back();
+        REQUIRE( is_heap(cbegin(vec), cend(vec)) );
+    }
+
+    SECTION( "sort in ascending order max heap using pop_heap operation" ) {
+              vector<int>      vec{5, 1, 9, 7};
+        const vector<int>   sorted{1, 5, 7, 9};
+
+        make_heap(begin(vec), end(vec));
+        
+        auto b = begin(vec);
+        auto e = end(vec);
+        while (b < e) pop_heap(b, e--);
+
+        REQUIRE( sorted == vec );
+    }
+
+    SECTION( "move smallest element to the back of the range "
+             "maintaining max heap property for the rest of the elements" ) {
+        vector<int> vec{9, 5, 1, 7};
+
+        make_heap(begin(vec), end(vec), greater<int>());
+        
+        pop_heap(begin(vec), end(vec), greater<int>());
+        REQUIRE( 1 == vec.back() ); 
+
+        vec.pop_back();
+        REQUIRE( is_heap(cbegin(vec), cend(vec), greater<int>()) );
+    }
+
+}
