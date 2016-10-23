@@ -4,7 +4,7 @@
 
 using namespace std;
 
-TEST_CASE( "includes", "[std] [algorithm] [sorting] [set operations]" ) {
+TEST_CASE( "includes", "[std] [algorithm] [set operations]" ) {
     
     SECTION( "sorted vec1 contains all elements from sorted vec2" ) {
         const vector<int> vec1{0, 1, 2, 3, 4, 5, 6};
@@ -37,7 +37,7 @@ TEST_CASE( "includes", "[std] [algorithm] [sorting] [set operations]" ) {
 
 }
 
-TEST_CASE( "inplace_merge", "[std] [algorithm] [sorting] [set operations]" ) {
+TEST_CASE( "inplace_merge", "[std] [algorithm] [set operations]" ) {
     
     SECTION( "merge inplace two sorted ranges within vec" ) {
               vector<int>      vec{0, 3, 5,   1, 2, 4, 6};
@@ -72,7 +72,7 @@ TEST_CASE( "inplace_merge", "[std] [algorithm] [sorting] [set operations]" ) {
 
 }
 
-TEST_CASE( "merge", "[std] [algorithm] [sorting] [set operations]" ) {
+TEST_CASE( "merge", "[std] [algorithm] [set operations]" ) {
     
     SECTION( "merge two sorted ranges into another sorted range" ) {
         const vector<int>    from1{0, 3, 5};
@@ -81,12 +81,12 @@ TEST_CASE( "merge", "[std] [algorithm] [sorting] [set operations]" ) {
         const vector<int> expected{0, 1, 2, 3, 4, 5, 6};
         
         merge(
-              begin(from1)
-            , end(from1)
-            , begin(from2)
-            , end(from2)
+              cbegin(from1)
+            , cend(from1)
+            , cbegin(from2)
+            , cend(from2)
             , back_inserter(to)
-       );
+        );
 
         REQUIRE( expected == to );
     } 
@@ -98,16 +98,55 @@ TEST_CASE( "merge", "[std] [algorithm] [sorting] [set operations]" ) {
         const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
         
         merge(
-              begin(from1)
-            , end(from1)
-            , begin(from2)
-            , end(from2)
+              cbegin(from1)
+            , cend(from1)
+            , cbegin(from2)
+            , cend(from2)
             , back_inserter(to)
             , greater<int>()
-       );
+        );
 
         REQUIRE( expected == to );
     } 
 
 }
 
+TEST_CASE( "set_difference", "[std] [algorithm] [set operations]" ) {
+    
+    SECTION( "copy elements from sorted vec1 not found in sorted vec2 into another sorted range" ) {
+        const vector<int>     vec1{1, 4, 6, 7, 8};
+        const vector<int>     vec2{0, 2, 4, 6};
+              vector<int>       to; 
+        const vector<int> expected{1, 7, 8};
+        
+        set_difference(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+    SECTION( "copy elements from descending sorted vec1 not found in "
+             "descending sorted vec2 into another descending sorted range" ) {
+        const vector<int>     vec1{8, 7, 6, 4, 1};
+        const vector<int>     vec2{6, 4, 2, 0};
+              vector<int>       to; 
+        const vector<int> expected{8, 7, 1};
+        
+        set_difference(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+            , greater<int>()
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+}
