@@ -71,3 +71,43 @@ TEST_CASE( "inplace_merge", "[std] [algorithm] [sorting] [set operations]" ) {
     }
 
 }
+
+TEST_CASE( "merge", "[std] [algorithm] [sorting] [set operations]" ) {
+    
+    SECTION( "merge two sorted ranges into another sorted range" ) {
+        const vector<int>    from1{0, 3, 5};
+        const vector<int>    from2{1, 2, 4, 6};
+              vector<int>       to; 
+        const vector<int> expected{0, 1, 2, 3, 4, 5, 6};
+        
+        merge(
+              begin(from1)
+            , end(from1)
+            , begin(from2)
+            , end(from2)
+            , back_inserter(to)
+       );
+
+        REQUIRE( expected == to );
+    } 
+
+    SECTION( "merge two descending sorted ranges into another desending sorted range" ) {
+        const vector<int>    from1{5, 3, 0};
+        const vector<int>    from2{6, 4, 2, 1};
+              vector<int>       to; 
+        const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
+        
+        merge(
+              begin(from1)
+            , end(from1)
+            , begin(from2)
+            , end(from2)
+            , back_inserter(to)
+            , greater<int>()
+       );
+
+        REQUIRE( expected == to );
+    } 
+
+}
+
