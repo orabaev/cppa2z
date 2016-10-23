@@ -194,13 +194,13 @@ TEST_CASE( "pop_heap", "[std] [algorithm] [heap]" ) {
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
     }
 
-    SECTION( "sort in ascending order max heap using pop_heap operation" ) {
+    SECTION( "convert the max heap into a sorted range in ascending order using pop_heap operation" ) {
               vector<int>      vec{5, 1, 9, 7};
         const vector<int>   sorted{1, 5, 7, 9};
 
         make_heap(begin(vec), end(vec));
         
-        auto b = begin(vec);
+        const auto b = begin(vec);
         auto e = end(vec);
         while (b < e) pop_heap(b, e--);
 
@@ -218,6 +218,30 @@ TEST_CASE( "pop_heap", "[std] [algorithm] [heap]" ) {
 
         vec.pop_back();
         REQUIRE( is_heap(cbegin(vec), cend(vec), greater<int>()) );
+    }
+
+}
+
+TEST_CASE( "sort_heap", "[std] [algorithm] [heap]" ) {
+
+    SECTION( "convert the max heap into a sorted range in ascending order" ) {
+               vector<int>      vec{5, 1, 9, 7};
+        const vector<int>   sorted{1, 5, 7, 9};
+        
+        make_heap(begin(vec), end(vec));
+        sort_heap(begin(vec), end(vec));
+
+        REQUIRE( sorted == vec );
+    }
+
+    SECTION( "convert the min heap into a sorted range in descending order" ) {
+              vector<int>      vec{5, 1, 9, 7};
+        const vector<int>   sorted{9, 7, 5, 1};
+        
+        make_heap(begin(vec), end(vec), greater<int>());
+        sort_heap(begin(vec), end(vec), greater<int>());
+
+        REQUIRE( sorted == vec );
     }
 
 }
