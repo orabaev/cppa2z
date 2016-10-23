@@ -150,3 +150,43 @@ TEST_CASE( "set_difference", "[std] [algorithm] [set operations]" ) {
     } 
 
 }
+
+TEST_CASE( "set_intersecion", "[std] [algorithm] [set operations]" ) {
+    
+    SECTION( "copy elements from sorted vec1 found in sorted vec2 into another sorted range" ) {
+        const vector<int>     vec1{1, 4, 6, 7, 8};
+        const vector<int>     vec2{0, 2, 4, 6};
+              vector<int>       to; 
+        const vector<int> expected{4, 6};
+        
+        set_intersection(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+    SECTION( "copy elements from descending sorted vec1 found in "
+             "descending sorted vec2 into another descending sorted range" ) {
+        const vector<int>     vec1{8, 7, 6, 4, 1};
+        const vector<int>     vec2{6, 4, 2, 0};
+              vector<int>       to; 
+        const vector<int> expected{6, 4};
+        
+        set_intersection(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+            , greater<int>()
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+}
