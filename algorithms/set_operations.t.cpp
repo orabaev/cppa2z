@@ -190,3 +190,43 @@ TEST_CASE( "set_intersecion", "[std] [algorithm] [set operations]" ) {
     } 
 
 }
+
+TEST_CASE( "set_symmetric_difference", "[std] [algorithm] [set operations]" ) {
+    
+    SECTION( "copy elements from sorted vec1 not found in sorted vec2 into another sorted range" ) {
+        const vector<int>     vec1{1, 4, 6, 7, 8};
+        const vector<int>     vec2{0, 2, 4, 6};
+              vector<int>       to; 
+        const vector<int> expected{0, 1, 2, 7, 8};
+        
+        set_symmetric_difference(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+    SECTION( "copy elements from descending sorted vec1 not found in "
+             "descending sorted vec2 into another descending sorted range" ) {
+        const vector<int>     vec1{8, 7, 6, 4, 1};
+        const vector<int>     vec2{6, 4, 2, 0};
+              vector<int>       to; 
+        const vector<int> expected{8, 7, 2, 1, 0};
+        
+        set_symmetric_difference(
+              cbegin(vec1)
+            , cend(vec1)
+            , cbegin(vec2)
+            , cend(vec2)
+            , back_inserter(to)
+            , greater<int>()
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+}
