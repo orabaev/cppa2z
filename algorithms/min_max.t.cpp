@@ -58,3 +58,25 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
     }
 
 }
+
+TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
+    
+    SECTION( "return max element in the range" ) {
+        const vector<int> vec{1, 9, 2, 10};
+
+        const auto max_it = max_element(cbegin(vec), cend(vec));
+
+        REQUIRE( 10 == *max_it );
+    } 
+
+    SECTION( "return absolute max element in the range" ) {
+        const vector<int> vec{1, -15, 9, 2, 10};
+
+        auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
+
+        const auto abs_max_it = max_element(cbegin(vec), cend(vec), compare_abs);
+
+        REQUIRE( -15 == *abs_max_it );
+    }
+
+}
