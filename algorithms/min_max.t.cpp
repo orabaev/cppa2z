@@ -154,3 +154,62 @@ TEST_CASE( "min_element", "[std] [algorithm] [min max]" ) {
     }
 
 }
+
+TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
+    
+    SECTION( "return minmax values" ) {
+        int x = 0;
+        int y = 1;
+
+        const auto min_max = minmax(x, y);
+
+        REQUIRE( 0 == min_max.first );
+        REQUIRE( 1 == min_max.second );
+    } 
+
+    SECTION( "return minmax absolute values" ) {
+        auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
+
+        const pair<int, int> abs_min_max = minmax(-10, 5, compare_abs);
+
+        CHECK(   5 == abs_min_max.first );
+        CHECK( -10 == abs_min_max.second );
+    }
+
+    SECTION( "return minmax values as constexpr" ) {
+        constexpr pair<int, int> min_max = minmax(0, 1);
+        
+        static_assert(0 == min_max.first,  "min should be 0");
+        static_assert(1 == min_max.second, "max should be 1");
+    }
+
+    SECTION( "return min value in the initializer list" ) {
+        const auto init_list = {1, 9, 3, 17}; 
+
+        const auto min_max = minmax(init_list);
+
+        REQUIRE( 1 == min_max.first );
+        REQUIRE( 17 == min_max.second );
+    }
+
+    SECTION( "return minmax absolute values in the initializer list" ) {
+        const auto init_list = {-100, 1, -9, 3, 17}; 
+
+        auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
+
+        const auto abs_min_max = minmax(init_list, compare_abs);
+
+        REQUIRE(    1 == abs_min_max.first );
+        REQUIRE( -100 == abs_min_max.second );
+    }
+
+    SECTION( "return minmax value in the initializer list as constexpr" ) {
+        constexpr auto init_list = {1, 9, 3, 17}; 
+
+        constexpr pair<int, int> min_max = minmax(init_list);
+
+        static_assert( 1 == min_max.first,  "min value should be 1");
+        static_assert(17 == min_max.second, "max value should be 17");
+    }
+
+}
