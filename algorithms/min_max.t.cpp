@@ -213,3 +213,28 @@ TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
     }
 
 }
+
+TEST_CASE( "minmax_element", "[std] [algorithm] [min max]" ) {
+    
+    SECTION( "return minmax elements in the range" ) {
+        const vector<int> vec{5, 9, 2, 10};
+
+        const auto min_max_it = minmax_element(cbegin(vec), cend(vec));
+
+        REQUIRE(  2 == *min_max_it.first );
+        REQUIRE( 10 == *min_max_it.second );
+    } 
+
+    SECTION( "return absolute min element in the range" ) {
+        const vector<int> vec{1, -15, 9, 2, 10};
+
+        auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
+
+        const auto abs_min_max_it = minmax_element(cbegin(vec), cend(vec), compare_abs);
+
+        REQUIRE(   1 == *abs_min_max_it.first );
+        REQUIRE( -15 == *abs_min_max_it.second );
+    }
+
+}
+
