@@ -360,7 +360,7 @@ TEST_CASE( "search_n", "[std] [algorithm] [non modifying]" ) {
         const size_t count{3};
         const int    value{2};
 
-        auto divisible_by_value = [](int x, int y) { return x % y == 0; };
+        auto divisible_by_value = [](int x, int value) { return x % value == 0; };
 
         const auto it = search_n(
                               cbegin(vec)
