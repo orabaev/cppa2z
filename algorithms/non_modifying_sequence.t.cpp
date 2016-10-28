@@ -27,7 +27,6 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
 
         REQUIRE( cend(mset) != it );
         REQUIRE( 3 == *it );
-
     } 
 
     SECTION( "two consecutive upper case characters found in the range at position 3" ) {
@@ -47,7 +46,7 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
 
 TEST_CASE( "all_of", "[std] [algorithm] [non modifying]" ) {
     
-    SECTION( "using predicates; all elements in the range match" ) {
+    SECTION( "all elements in the range match" ) {
         const vector<int> vec{2, 4, 6, 8, 10, 12, 14};
 
         auto is_even = [](int x) { return x % 2 == 0; };
@@ -81,7 +80,7 @@ TEST_CASE( "count", "[std] [algorithm] [non modifying]" ) {
 
 TEST_CASE( "count_if", "[std] [algorithm] [non modifying]" ) {
     
-    SECTION( "using predicates; returns number of even numbers in the range" ) {
+    SECTION( "returns number of even numbers in the range" ) {
         const vector<int> vec{1, 2, 3, 4, 5, 6, 7};
 
         auto is_even = [](int x) { return x % 2 == 0; };
@@ -216,7 +215,7 @@ TEST_CASE( "find_if", "[std] [algorithm] [non modifying]" ) {
 
 TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
     
-    SECTION( "using predicate; element found in the range at position 4" ) {
+    SECTION( "element found in the range at position 4" ) {
         const vector<int> vec{2, 4, 6, 8, 9, 10, 12};
 
         auto is_even = [](int x) { return x % 2 == 0; };
