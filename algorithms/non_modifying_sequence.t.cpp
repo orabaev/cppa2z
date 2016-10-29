@@ -291,6 +291,18 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+TEST_CASE( "none_of", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "none of elements in the range match" ) {
+        const vector<int> vec{1, 3, 5, 7, 9};
+
+        auto is_even = [](int x) { return x % 2 == 0; };
+
+        REQUIRE( none_of(cbegin(vec), cend(vec), is_even) );
+    } 
+
+}
+
 TEST_CASE( "search", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "first occurence of sub sequence found in the range at position 3" ) {
