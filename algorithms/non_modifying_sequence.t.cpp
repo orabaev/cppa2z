@@ -291,6 +291,52 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+TEST_CASE( "lexicographical_compare", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "compares equal sized ranges lexicographicaly" ) {
+        const string str1{"abcd e"};
+        const string str2{"abcd z"};
+
+        const bool is_less = lexicographical_compare(
+                                 cbegin(str1)
+                               , cend(str1)
+                               , cbegin(str2)
+                               , cend(str2)
+                          );
+
+        REQUIRE( is_less );
+    } 
+
+    SECTION( "compares non equal sized ranges lexicographicaly" ) {
+        const string str1{"abcd"};
+        const string str2{"abcde"};
+
+        const bool is_less = lexicographical_compare(
+                                 cbegin(str1)
+                               , cend(str1)
+                               , cbegin(str2)
+                               , cend(str2)
+                          );
+
+        REQUIRE( is_less );
+    }
+
+    SECTION( "compares  equal sized ranges" ) {
+        const string str1{"abcde"};
+        const string str2{"abcde"};
+
+        const bool is_less = lexicographical_compare(
+                                 cbegin(str1)
+                               , cend(str1)
+                               , cbegin(str2)
+                               , cend(str2)
+                          );
+
+        REQUIRE_FALSE( is_less );
+    }
+
+}
+
 TEST_CASE( "none_of", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "none of elements in the range match" ) {
