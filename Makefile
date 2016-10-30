@@ -6,8 +6,8 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o
-	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o
+	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o
 
 	./cppa2z
 
@@ -37,6 +37,10 @@ heap.t.o: ./algorithms/heap.t.cpp
 
 min_max.t.o: ./algorithms/min_max.t.cpp
 	$(CC) $(CFLAGS) -I. -c ./algorithms/min_max.t.cpp
+
+permutation.t.o: ./algorithms/permutation.t.cpp
+	$(CC) $(CFLAGS) -I. -c ./algorithms/permutation.t.cpp
+
 
 .PHONY: clean
 clean:
