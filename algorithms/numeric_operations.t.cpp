@@ -53,3 +53,47 @@ TEST_CASE( "adjacent_difference", "[std] [algorithm] [numeric operations]" ) {
     } 
 
 }
+
+TEST_CASE( "inner_product", "[std] [algorithm] [numeric operations]" ) {
+    
+    SECTION( "compute sum(+) of products(*)" ) {
+        const vector<int> vec1{1, 2, 3};
+        const vector<int> vec2{4, 5, 6};
+        
+        constexpr int value = 10; 
+        constexpr int expected = (1 * 4)  +  (2 * 5)  +  (3 * 6) + value;
+
+        const int result = inner_product(
+                                 cbegin(vec1)
+                               , cend(vec1) 
+                               , cbegin(vec2) 
+                               , value
+                           ); 
+                  
+        REQUIRE( expected == result ); 
+    } 
+
+    SECTION( "compute products(*) of sum(+)" ) {
+        const vector<int> vec1{1, 2, 3};
+        const vector<int> vec2{4, 5, 6};
+        
+        constexpr int value = 10; 
+        constexpr int expected = (1 + 4)  *  (2 + 5)  *  (3 + 6) * value;
+
+        auto op1 = [](int x, int y) { return x * y; };
+        auto op2 = [](int x, int y) { return x + y; };
+
+        const int result = inner_product(
+                                 cbegin(vec1)
+                               , cend(vec1) 
+                               , cbegin(vec2) 
+                               , value
+                               , op1
+                               , op2
+                           ); 
+                  
+        REQUIRE( expected == result ); 
+    }
+
+}
+
