@@ -111,3 +111,30 @@ TEST_CASE( "iota", "[std] [algorithm] [numeric operations]" ) {
     } 
 
 }
+
+TEST_CASE( "partial_sum", "[std] [algorithm] [numeric operations]" ) {
+    
+    SECTION( "compute partial sum of elements in the range and write results to another range" ) {
+              vector<int>      vec{1, 2, 3,  4,  5};
+              vector<int>   result;
+        const vector<int> expected{1, 3, 6, 10, 15};
+        
+        
+        partial_sum(cbegin(vec), cend(vec), back_inserter(result));
+                  
+        REQUIRE( expected == result ); 
+    } 
+
+    SECTION( "compute partial product(*) of elements in the range and write results to another range" ) {
+              vector<int>      vec{1, 2, 3,  4,  5};
+              vector<int>   result;
+        const vector<int> expected{1, 2, 6, 24, 120};
+        
+        auto multiply = [](int x, int y) { return x * y; };
+        
+        partial_sum(cbegin(vec), cend(vec), back_inserter(result), multiply);
+                  
+        REQUIRE( expected == result ); 
+    } 
+
+}
