@@ -97,3 +97,17 @@ TEST_CASE( "inner_product", "[std] [algorithm] [numeric operations]" ) {
 
 }
 
+TEST_CASE( "iota", "[std] [algorithm] [numeric operations]" ) {
+    
+    SECTION( "fill the range with sequentially incremented values" ) {
+              vector<int>      vec(5);
+        const vector<int> expected{1, 2, 3, 4, 5};
+        
+        constexpr int start_value = 1;
+        
+        iota(begin(vec), end(vec), start_value);
+                  
+        REQUIRE( expected == vec ); 
+    } 
+
+}
