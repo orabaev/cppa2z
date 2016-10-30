@@ -1,15 +1,16 @@
-CC = g++
-CFLAGS = -Wall -std=c++14
-INCLUDE = -I.
-COMPILE = $(CC) $(CFLAGS) $(INCLUDE) -c
+COMPILER = g++
+COMPILER_FLAGS = -Wall -std=c++14
+INCLUDE_DIRECTORY = -I.
+COMPILE = $(COMPILER) $(COMPILER_FLAGS) $(INCLUDE_DIRECTORY) -c
+LINK = $(COMPILER) $(COMPILER_FLAGS) -o
 
 default: cppa2z
 
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o
-	$(CC) $(CFLAGS) -o cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o
+	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o
 
 	./cppa2z
 
@@ -42,6 +43,9 @@ min_max.t.o: ./algorithms/min_max.t.cpp
 
 permutation.t.o: ./algorithms/permutation.t.cpp
 	$(COMPILE) ./algorithms/permutation.t.cpp
+
+numeric_operations.t.o: ./algorithms/numeric_operations.t.cpp
+	$(COMPILE) ./algorithms/numeric_operations.t.cpp
 
 .PHONY: clean
 clean:
