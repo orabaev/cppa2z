@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE( "is_permutation", "[std] [algorithm] [sorting] [binary search]" ) {
+TEST_CASE( "is_permutation", "[std] [algorithm] [permutation]" ) {
     
     SECTION( "determine if one range is permutation of another" ) {
         const vector<int> vec1{0, 1, 2, 3};
@@ -72,7 +72,7 @@ TEST_CASE( "is_permutation", "[std] [algorithm] [sorting] [binary search]" ) {
 
 }
 
-TEST_CASE( "lexicographical_compare", "[std] [algorithm] [non modifying]" ) {
+TEST_CASE( "lexicographical_compare", "[std] [algorithm] [permutation]" ) {
     
     SECTION( "compares equal sized ranges lexicographicaly" ) {
         const string str1{"abcd e"};
@@ -119,7 +119,7 @@ TEST_CASE( "lexicographical_compare", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( is_less );
     }
 
-    SECTION( "compares  equal sized ranges" ) {
+    SECTION( "case insensitive compares ranges lexicographicaly ignoring cases 2" ) {
         const string str1{"abcde"};
         const string str2{"abcde"};
 
@@ -135,4 +135,64 @@ TEST_CASE( "lexicographical_compare", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+TEST_CASE( "next_permutation", "[std] [algorithm] [permutation]" ) {
+    
+    SECTION( "generates next lexicographicaly ordered pernutation" ) {
+              vector<int>   vec{0, 1, 2};
+        const vector<int> perm1{0, 2, 1};
+        const vector<int> perm2{1, 0, 2};
+        const vector<int> perm3{1, 2, 0};
+        const vector<int> perm4{2, 0, 1};
+        const vector<int> perm5{2, 1, 0};
+        const vector<int> perm6{0, 1, 2};
 
+
+        REQUIRE( next_permutation(begin(vec), end(vec)) );
+        REQUIRE( perm1 == vec );
+
+        REQUIRE( next_permutation(begin(vec), end(vec)) );
+        REQUIRE( perm2 == vec );
+
+        REQUIRE( next_permutation(begin(vec), end(vec)) );
+        REQUIRE( perm3 == vec );
+
+        REQUIRE( next_permutation(begin(vec), end(vec)) );
+        REQUIRE( perm4 == vec );
+
+        REQUIRE( next_permutation(begin(vec), end(vec)) );
+        REQUIRE( perm5 == vec );
+
+        REQUIRE_FALSE( next_permutation(begin(vec), end(vec)) );
+        REQUIRE( perm6 == vec );
+    } 
+
+    SECTION( "generates next lexicographicaly ordered pernutation using case insensitive compare" ) {
+              string    str{"aBc"};
+        const string  perm1{"acB"};
+        const string  perm2{"Bac"};
+        const string  perm3{"Bca"};
+        const string  perm4{"caB"};
+        const string  perm5{"cBa"};
+        const string  perm6{"aBc"};
+
+        auto case_insensitive_compare = [](char x, char y) { return toupper(x) < toupper(y); };
+
+        REQUIRE( next_permutation(begin(str), end(str), case_insensitive_compare) );
+        REQUIRE( perm1 == str );
+
+        REQUIRE( next_permutation(begin(str), end(str), case_insensitive_compare) );
+        REQUIRE( perm2 == str );
+
+        REQUIRE( next_permutation(begin(str), end(str), case_insensitive_compare) );
+        REQUIRE( perm3 == str );
+
+        REQUIRE( next_permutation(begin(str), end(str), case_insensitive_compare) );
+        REQUIRE( perm4 == str );
+
+        REQUIRE( next_permutation(begin(str), end(str), case_insensitive_compare) );
+        REQUIRE( perm5 == str );
+
+        REQUIRE_FALSE( next_permutation(begin(str), end(str), case_insensitive_compare) );
+        REQUIRE( perm6 == str );
+    }
+}
