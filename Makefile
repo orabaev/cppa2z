@@ -9,14 +9,17 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o
-	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_categories.t.o
+	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_categories.t.o
 
 	./cppa2z
 
 main.o: main.cpp
 	$(COMPILE) main.cpp
 
+#
+# algorithms
+#
 non_modifying_sequence.t.o: ./algorithms/non_modifying_sequence.t.cpp
 	$(COMPILE) ./algorithms/non_modifying_sequence.t.cpp
 
@@ -46,6 +49,13 @@ permutation.t.o: ./algorithms/permutation.t.cpp
 
 numeric_operations.t.o: ./algorithms/numeric_operations.t.cpp
 	$(COMPILE) ./algorithms/numeric_operations.t.cpp
+
+#
+# iterators
+#
+iterator_categories.t.o: ./iterators/iterator_categories.t.cpp
+	$(COMPILE) ./iterators/iterator_categories.t.cpp
+
 
 .PHONY: clean
 clean:
