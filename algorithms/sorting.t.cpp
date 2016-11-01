@@ -195,14 +195,6 @@ struct programmer {
     int    age;
 };
 
-bool operator<(const programmer& l, const programmer& r) { 
-    return l.age < r.age;
-}
-
-bool operator>(const programmer& l, const programmer& r) { 
-    return l.age > r.age;
-}
-
 bool operator==(const programmer& l, const programmer& r) { 
     return l.name == l.name && l.age == r.age;
 }
@@ -223,8 +215,10 @@ TEST_CASE( "stable_sort", "[std] [algorithm] [sorting]" ) {
             , {"herb",   51}
             , {"john",   55}
         };
+
+        auto sort_by_age = [](const programmer& l, const programmer& r) { return l.age < r.age; }; 
         
-        stable_sort(begin(vec), end(vec));
+        stable_sort(begin(vec), end(vec), sort_by_age);
 
         REQUIRE( expected == vec ); 
     } 
@@ -244,7 +238,10 @@ TEST_CASE( "stable_sort", "[std] [algorithm] [sorting]" ) {
             , {"andrei", 46}
         };
         
-        stable_sort(begin(vec), end(vec), greater<programmer>());
+
+        auto sort_by_age_desc = [](const programmer& l, const programmer& r) { return l.age > r.age; }; 
+
+        stable_sort(begin(vec), end(vec), sort_by_age_desc);
 
         REQUIRE( expected == vec ); 
     }
