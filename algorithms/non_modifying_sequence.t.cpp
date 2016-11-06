@@ -291,6 +291,52 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
+    
+    SECTION( "return the frirst mismatching pair of elements from two ranges" ) {
+        const vector<int> vec1{1, 3, 5,  0,  1};
+        const vector<int> vec2{1, 3, 5,  4,  2};
+
+        const auto pr = mismatch(cbegin(vec1), cend(vec1), cbegin(vec2));
+        
+        REQUIRE( 0 == *pr.first );
+        REQUIRE( 4 == *pr.second );
+    } 
+
+    SECTION( "return the frirst summed non even pair of elements from two ranges" ) {
+        const vector<int> vec1{1, 3,  2,  2,  1};
+        const vector<int> vec2{1, 5,  5,  4,  1};
+        
+        auto sum_is_even = [](const int x, const int y) { return (x + y) % 2 == 0; };
+
+        const auto pr = mismatch(
+                              cbegin(vec1)
+                            , cend(vec1)
+                            , cbegin(vec2)
+                            , sum_is_even
+                        );
+        
+        REQUIRE( 2 == *pr.first );
+        REQUIRE( 5 == *pr.second );
+    }
+
+    SECTION( "return the frirst mismatching pair of elements from two ranges of different size" ) {
+        const vector<int> vec1{1, 3, 5,  4,  1};
+        const vector<int> vec2{1, 3, 5};
+        
+        const auto pr = mismatch(
+                              cbegin(vec1)
+                            , cend(vec1)
+                            , cbegin(vec2)
+                            , cend(vec2)
+                        );
+        
+        REQUIRE( 4 == *pr.first );
+        REQUIRE( cend(vec2) == pr.second );
+    }
+
+}
+
 TEST_CASE( "none_of", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "none of elements in the range match" ) {
