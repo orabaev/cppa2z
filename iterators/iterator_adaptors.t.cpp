@@ -8,7 +8,7 @@
 
 using namespace std;
 
-TEST_CASE( "back_inserter", "[std] [algorithm] [sorting] [binary search]" ) {
+TEST_CASE( "back_inserter", "[std] [algorithm] [sorting] [iterator adaptor]" ) {
     
     SECTION( "insert values at the end of the vector" ) {
               vector<int>       to;
@@ -37,7 +37,7 @@ TEST_CASE( "back_inserter", "[std] [algorithm] [sorting] [binary search]" ) {
 
 }
 
-TEST_CASE( "front_inserter", "[std] [algorithm] [sorting] [binary search]" ) {
+TEST_CASE( "front_inserter", "[std] [algorithm] [sorting] [iterator adaptor]" ) {
     
     SECTION( "insert values at the front of the dequeu" ) {
               deque<int>         to;
@@ -66,7 +66,7 @@ TEST_CASE( "front_inserter", "[std] [algorithm] [sorting] [binary search]" ) {
     
 }
 
-TEST_CASE( "inserter", "[std] [algorithm] [sorting] [binary search]" ) {
+TEST_CASE( "inserter", "[std] [algorithm] [sorting] [iterator adaptor]" ) {
     
     SECTION( "insert values into the set using insert_iterator" ) {
         const vector<int>     from{3, 4, 2, 5, 1};
@@ -107,7 +107,7 @@ TEST_CASE( "inserter", "[std] [algorithm] [sorting] [binary search]" ) {
 
 }
 
-TEST_CASE( "make_move_iterator", "[std] [algorithm] [sorting] [binary search]" ) {
+TEST_CASE( "make_move_iterator", "[std] [algorithm] [sorting] [iterator adaptor]" ) {
     
     SECTION( "use move iterator to move(copy) strings from one vector to another" ) {
         const vector<string>     from{"one", "two", "three"};
@@ -121,6 +121,24 @@ TEST_CASE( "make_move_iterator", "[std] [algorithm] [sorting] [binary search]" )
 
         REQUIRE( expected == to );
         REQUIRE( from.size() == 3);
+    } 
+
+}
+
+TEST_CASE( "make_reverse_iterator", "[std] [algorithm] [sorting] [iterator adaptor]" ) {
+    
+    SECTION( "use move iterator to move(copy) strings from one vector to another" ) {
+        const vector<int>     vec{1, 2, 3};
+        
+        auto reverse_it = make_reverse_iterator(end(vec));
+
+        REQUIRE( *reverse_it == 3 );
+
+        ++reverse_it;
+        REQUIRE( *reverse_it == 2 );
+
+        ++reverse_it;
+        REQUIRE( *reverse_it == 1 );
     } 
 
 }
