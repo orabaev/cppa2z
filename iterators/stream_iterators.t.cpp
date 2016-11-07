@@ -24,11 +24,39 @@ TEST_CASE( "istream_iterator", "[std] [iterator] [stream]" ) {
 
         REQUIRE( expected == sum );
     } 
+
+    SECTION( "copy characters from istringstream skipping white spaces" ) {
+              istringstream sin{"1 2 3 4 5"};
+              string        str; 
+        const string        expected{"12345"};
+
+        copy(
+              istream_iterator<char>(sin)
+            , istream_iterator<char>()
+            , back_inserter(str)
+        );
+
+        REQUIRE( expected == str );
+    } 
    
 }
 
 TEST_CASE( "istreambuf_iterator", "[std] [iterator] [stream]" ) {
     
+    SECTION( "copy characters from istringstream" ) {
+              istringstream sin{"1 2 3 4 5"};
+              string        str; 
+        const string        expected{"1 2 3 4 5"};
+
+        copy(
+              istreambuf_iterator<char>(sin)
+            , istreambuf_iterator<char>()
+            , back_inserter(str)
+        );
+
+        REQUIRE( expected == str );
+    }
+
     SECTION( "demonstrate parallel increment of two istreambuf iterators" ) {
         istringstream sin("a b");
         istreambuf_iterator<char> input_it1(sin);
