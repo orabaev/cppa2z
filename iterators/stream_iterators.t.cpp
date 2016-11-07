@@ -96,11 +96,18 @@ TEST_CASE( "ostream_iterator", "[std] [iterator] [stream]" ) {
 
 TEST_CASE( "ostreambuf_iterator", "[std] [iterator] [stream]" ) {
 
-    SECTION( "copy elements to string stream using two ostreambuf iterator" ) {
+    SECTION( "copy sting to string stream using ostreambuf iterator" ) {
         const string str{"Hello C++"};
         
         ostringstream sout; 
+        copy(cbegin(str), cend(str), ostreambuf_iterator<char>(sout));
 
+        REQUIRE( str == sout.str() );
+
+    }
+
+    SECTION( "copy values to string stream using two ostreambuf iterator" ) {
+        ostringstream sout; 
         auto output_it1 = ostreambuf_iterator<char>(sout);
         auto output_it2 = ostreambuf_iterator<char>(sout);
         
