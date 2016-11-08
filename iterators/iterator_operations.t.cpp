@@ -61,3 +61,59 @@ TEST_CASE( "distance", "[std] [iterator] [operations]" ) {
     }
 
 }
+
+TEST_CASE( "next", "[std] [iterator] [operations]" ) {
+    
+    SECTION( "next after begining" ) {
+        const vector<int> vec{0,  1,  2, 3, 4, 5};
+
+        const auto it = next(cbegin(vec), 1);
+
+        REQUIRE( 1 == *it );
+    }
+
+    SECTION( "next n steps" ) {
+        const vector<int> vec{0, 1, 2,  3,  4, 5};
+
+        const auto it = next(cbegin(vec), 3);
+
+        REQUIRE( 3 == *it );
+    }
+
+    SECTION( "next backwards" ) {
+        const vector<int> vec{0, 1, 2, 3, 4,  5};
+
+        const auto it = next(cend(vec), -1);
+
+        REQUIRE( 5 == *it );
+    }
+
+}
+
+TEST_CASE( "prev", "[std] [iterator] [operations]" ) {
+    
+    SECTION( "prev before end" ) {
+        const vector<int> vec{0,  1,  2, 3, 4,  5};
+
+        const auto it = prev(cend(vec), 1);
+
+        REQUIRE( 5 == *it );
+    }
+
+    SECTION( "prev n steps" ) {
+        const vector<int> vec{0, 1,  2,  3, 4, 5};
+
+        const auto it = prev(cend(vec), 4);
+
+        REQUIRE( 2 == *it );
+    }
+
+    SECTION( "prev backwards" ) {
+        const vector<int> vec{0,  1,  2, 3, 4, 5};
+
+        const auto it = prev(cbegin(vec), -1);
+
+        REQUIRE( 1 == *it );
+    }
+
+}
