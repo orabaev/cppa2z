@@ -22,7 +22,8 @@ auto find_delimiters(
 }
 
 // copies delimited elements in the range to another range
-// returns pair containing success flag and iterator to the element right after second delimiter
+// returns pair containing success flag and iterator to
+// the element right after the second delimiter
 template<class InputIt, class T, class OutputIt>
 auto copy_delimited(
       InputIt first_it
@@ -42,7 +43,6 @@ auto copy_delimited(
     if (last_it == delims.second) return std::make_pair(false, last_it);
 
     copy(std::next(delims.first), delims.second, output_it);
-
     return std::make_pair(true, std::next(delims.second));
 }
 

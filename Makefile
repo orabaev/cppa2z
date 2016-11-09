@@ -65,10 +65,10 @@ iterator_operations.t.o: ./iterators/iterator_operations.t.cpp
 #
 # strgen
 #
-parse_util.o: ./srcgen/parse_util.cpp
+parse_util.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp
 	$(COMPILE) ./srcgen/parse_util.cpp
 
-parse_util.t.o: ./srcgen/parse_util.t.cpp
+parse_util.t.o: ./srcgen/parse_util.h ./srcgen/parse_util.t.cpp
 	$(COMPILE) ./srcgen/parse_util.t.cpp
 
 
