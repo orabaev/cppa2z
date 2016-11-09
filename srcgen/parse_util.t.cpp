@@ -103,6 +103,22 @@ TEST_CASE( "find_delimiters" ) {
         REQUIRE( '"' == *pr.second );
     }
 
+    SECTION( "delimiters are found next to each other" ) {
+        const string str{"bla begin [] bla end"};
+
+        const auto pr = find_delimiters(
+                              cbegin(str)
+                            , cend(str)
+                            , '[' 
+                            , ']' 
+                        );
+        
+        REQUIRE( cend(str) != pr.first );
+        REQUIRE( '[' == *pr.first );
+
+        REQUIRE( cend(str) != pr.second );
+        REQUIRE( ']' == *pr.second );
+    }
 }
 
 } // srcgen
