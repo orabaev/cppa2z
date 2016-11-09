@@ -1,6 +1,6 @@
 COMPILER = g++
 COMPILER_FLAGS = -Wall -std=c++14
-INCLUDE_DIRECTORY = -I.
+INCLUDE_DIRECTORY = -I. -I./srcgen
 COMPILE = $(COMPILER) $(COMPILER_FLAGS) $(INCLUDE_DIRECTORY) -c
 LINK = $(COMPILER) $(COMPILER_FLAGS) -o
 
@@ -9,8 +9,8 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o
-	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o
+	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o
 
 	./cppa2z
 
@@ -61,6 +61,16 @@ stream_iterators.t.o: ./iterators/stream_iterators.t.cpp
 
 iterator_operations.t.o: ./iterators/iterator_operations.t.cpp
 	$(COMPILE) ./iterators/iterator_operations.t.cpp
+
+#
+# strgen
+#
+parse_util.o: ./srcgen/parse_util.cpp
+	$(COMPILE) ./srcgen/parse_util.cpp
+
+parse_util.t.o: ./srcgen/parse_util.t.cpp
+	$(COMPILE) ./srcgen/parse_util.t.cpp
+
 
 .PHONY: clean
 clean:
