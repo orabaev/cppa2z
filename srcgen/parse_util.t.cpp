@@ -122,14 +122,14 @@ TEST_CASE( "find_delimiters" ) {
 
 TEST_CASE( "copy_delimited" ) {
     
-    SECTION( "value found" ) {
-        const string      str{"abc|value|def"};
-        const string expected{    "value"    };
+    SECTION( "value copied" ) {
+        const string     from{"abc|HELLO|def"};
               string       to;
+        const string expected{"HELLO"};
 
         const auto pr = copy_delimited(
-                              cbegin(str)
-                            , cend(str)
+                              cbegin(from)
+                            , cend(from)
                             , '|' 
                             , '|' 
                             , back_inserter(to)
@@ -141,6 +141,71 @@ TEST_CASE( "copy_delimited" ) {
         REQUIRE( expected == to );
     } 
 
+    SECTION( "empty value copied" ) {
+        const string     from{"abc||def"};
+              string       to;
+
+        const auto pr = copy_delimited(
+                              cbegin(from)
+                            , cend(from)
+                            , '|' 
+                            , '|' 
+                            , back_inserter(to)
+                        );
+        
+        REQUIRE( pr.first );
+        REQUIRE( 'd' == *pr.second );
+        
+        REQUIRE( to.empty() );
+    }
+
+    SECTION( "nothing copied" ) {
+        const string     from{"abcdef"};
+              string       to;
+
+        const auto pr = copy_delimited(
+                              cbegin(from)
+                            , cend(from)
+                            , '|' 
+                            , '|' 
+                            , back_inserter(to)
+                        );
+        
+        REQUIRE_FALSE( pr.first );
+        REQUIRE( cend(from) == pr.second );
+        
+        REQUIRE( to.empty() );
+    }
+
+    SECTION( "several delimited strings" ) {
+        const string     from{"ab[HELLO ]cd|WORLD|ef"};
+              string       to;
+
+        auto pr = copy_delimited(
+                      cbegin(from)
+                    , cend(from)
+                    , '[' 
+                    , ']' 
+                    , back_inserter(to)
+                  );
+    
+        REQUIRE( pr.first );
+        REQUIRE( "HELLO " == to );
+
+        pr = copy_delimited(
+                  cbegin(from)
+                , cend(from)
+                , '|' 
+                , '|' 
+                , back_inserter(to)
+             );
+       
+          
+        REQUIRE( pr.first );
+        REQUIRE( "HELLO WORLD" == to );
+         
+    }
+
 }
 
-} // srcgen
+} // namespace srcgen
