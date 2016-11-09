@@ -22,7 +22,6 @@ TEST_CASE( "find_delimiters" ) {
         
         REQUIRE( cend(str) != pr.second );
         REQUIRE( '|' == *pr.second );
-
     } 
 
     SECTION( "different delimiters" ) {
@@ -119,6 +118,29 @@ TEST_CASE( "find_delimiters" ) {
         REQUIRE( cend(str) != pr.second );
         REQUIRE( ']' == *pr.second );
     }
+}
+
+TEST_CASE( "copy_delimited" ) {
+    
+    SECTION( "value found" ) {
+        const string      str{"abc|value|def"};
+        const string expected{    "value"    };
+              string       to;
+
+        const auto pr = copy_delimited(
+                              cbegin(str)
+                            , cend(str)
+                            , '|' 
+                            , '|' 
+                            , back_inserter(to)
+                        );
+        
+        REQUIRE( pr.first );
+        REQUIRE( 'd' == *pr.second );
+        
+        REQUIRE( expected == to );
+    } 
+
 }
 
 } // srcgen

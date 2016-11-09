@@ -21,4 +21,29 @@ auto find_delimiters(
     return ret;
 }
 
+// copies delimited elements in the range to another range
+// returns pair containing success flag and iterator to the element right after second delimiter
+template<class InputIt, class T, class OutputIt>
+auto copy_delimited(
+      InputIt first_it
+    , InputIt last_it
+    , const T& first_delim
+    , const T& second_delim
+    , OutputIt output_it
+) 
+{
+    auto delims = find_delimiters(
+                      first_it
+                    , last_it
+                    , first_delim
+                    , second_delim
+                  );
+
+    if (last_it == delims.second) return std::make_pair(false, last_it);
+
+    copy(std::next(delims.first), delims.second, output_it);
+
+    return std::make_pair(true, std::next(delims.second));
 }
+
+} // srcgen
