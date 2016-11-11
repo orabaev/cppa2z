@@ -208,4 +208,60 @@ TEST_CASE( "copy_delimited" ) {
 
 }
 
+TEST_CASE( "extract_delimited" ) {
+    
+    SECTION( "single delimited element" ) {
+        const string     str{"abc|HELLO|def"};
+        vector<string>   vec;
+
+        bool ret = extract_delimited(
+                         cbegin(str)
+                       , cend(str)
+                       , '|' 
+                       , '|' 
+                       , vec
+                   );
+    
+        REQUIRE( ret ); 
+        REQUIRE( 1 == vec.size() ); 
+        REQUIRE( "HELLO" == vec[0] ); 
+    } 
+
+    SECTION( "single delimited element" ) {
+        const string     str{"abc|HELLO|def|WORLD|12345|C++|"};
+        vector<string>   vec;
+
+        bool ret = extract_delimited(
+                         cbegin(str)
+                       , cend(str)
+                       , '|' 
+                       , '|' 
+                       , vec
+                   );
+    
+        REQUIRE( ret ); 
+        REQUIRE( 3 == vec.size() ); 
+        REQUIRE( "HELLO" == vec[0] ); 
+        REQUIRE( "WORLD" == vec[1] ); 
+        REQUIRE( "C++"   == vec[2] ); 
+    }
+
+    SECTION( "no delimited element" ) {
+        const string     str{"abc|HELLO|def|WORLD|12345|C++|"};
+        vector<string>   vec;
+
+        bool ret = extract_delimited(
+                         cbegin(str)
+                       , cend(str)
+                       , '[' 
+                       , ']' 
+                       , vec
+                   );
+    
+        REQUIRE_FALSE( ret ); 
+        REQUIRE( vec.empty() ); 
+    }
+
+}
+
 } // namespace srcgen

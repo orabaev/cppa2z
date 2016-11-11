@@ -24,6 +24,18 @@ auto copy_delimited(
     , OutputIt output_it
 ); 
 
+// extract multiple dlimited elements in the range into
+// the provided container
+// returns number of extracted elements
+template<class InputIt, class T, class Container>
+auto extract_delimited(
+      InputIt first_it
+    , InputIt last_it
+    , const T& first_delim
+    , const T& second_delim
+    , Container& container
+);
+
 // IMPLEMENTATION
 
 template<class InputIt, class T>
@@ -63,6 +75,36 @@ auto copy_delimited(
 
     copy(std::next(delims.first), delims.second, output_it);
     return std::make_pair(true, std::next(delims.second));
+}
+
+template<class InputIt, class T, class Container>
+auto extract_delimited(
+      InputIt first_it
+    , InputIt last_it
+    , const T& first_delim
+    , const T& second_delim
+    , Container& container
+)
+{
+    bool extracted = false;
+    for (;;) {
+        typename Container::value_type to;
+        auto pr = copy_delimited(
+                      first_it
+                    , last_it
+                    , first_delim
+                    , second_delim
+                    , back_inserter(to)
+                  );
+        
+        if (!pr.first) break;
+
+        first_it = pr.second;
+        container.push_back(std::move(to));
+        extracted = true;
+    } 
+
+    return extracted;
 }
 
 } // namespace srcgen
