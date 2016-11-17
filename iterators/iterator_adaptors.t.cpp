@@ -6,6 +6,7 @@
 
 #include <catch.hpp>
 #include <algorithm>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <set>
@@ -116,14 +117,15 @@ TEST_CASE( "inserter", "[std] [iterator] [adaptor]" ) {
 TEST_CASE( "make_move_iterator", "[std] ] [iterator] [adaptor]") {
     
     SECTION( "use move iterator to move(copy) strings from one vector to another" ) {
-        const vector<string>     from{"one", "two", "three"};
+              vector<string>     from{"one", "two", "three"};
               vector<string>       to;
         const vector<string> expected{"one", "two", "three"};
 
-        auto move_begin = make_move_iterator(begin(from));
-        auto move_end = make_move_iterator(end(from));
-        
-        copy(move_begin, move_end, back_inserter(to));
+        copy(
+	     make_move_iterator(begin(from))
+           , make_move_iterator(end(from))
+           , back_inserter(to)
+        );
 
         REQUIRE( expected == to );
         REQUIRE( from.size() == 3);

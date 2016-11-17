@@ -1,5 +1,6 @@
 #include <catch.hpp>
 #include <algorithm>
+#include <numeric>
 #include <vector>
 #include <cmath>
 

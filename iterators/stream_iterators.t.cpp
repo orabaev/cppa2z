@@ -5,6 +5,8 @@
 
 #include <catch.hpp>
 #include <algorithm>
+#include <iostream>
+#include <numeric>
 #include <sstream>
 #include <string>
 
@@ -57,23 +59,6 @@ TEST_CASE( "istreambuf_iterator", "[std] [iterator] [stream]" ) {
         REQUIRE( expected == str );
     }
 
-    SECTION( "demonstrate parallel increment of two istreambuf iterators" ) {
-        istringstream sin("a b");
-        istreambuf_iterator<char> input_it1(sin);
-        istreambuf_iterator<char> input_it2(sin);
-
-        REQUIRE( *input_it1 == 'a' );
-        REQUIRE( *input_it2 == 'a' );
-
-        ++input_it1;
-        REQUIRE( *input_it1 == ' ' );
-        REQUIRE( *input_it2 == 'a' );
-
-        ++input_it2;
-        REQUIRE( *input_it1 == ' ' );
-        REQUIRE( *input_it2 == 'b' );
-    } 
-   
 }
 
 TEST_CASE( "ostream_iterator", "[std] [iterator] [stream]" ) {
