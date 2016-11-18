@@ -24,8 +24,9 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
         const multiset<int> mset{0, 1, 2, 3, 3, 4, 5};
 
         const auto it = adjacent_find(cbegin(mset), end(mset));
+        bool has_duplicates = cend(mset) != it;
 
-        REQUIRE( cend(mset) != it );
+        REQUIRE( has_duplicates );
         REQUIRE( 3 == *it );
     } 
 
@@ -59,19 +60,19 @@ TEST_CASE( "all_of", "[std] [algorithm] [non modifying]" ) {
 TEST_CASE( "any_of", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "some of the elements in the range match" ) {
-        const vector<int> vec{1, 2, 3, 2, 5, 6, 7};
+        const vector<int> vec{1, 3,  16,  5, 7};
 
-        auto is_one = [](int x) { return x == 1; };
+        auto is_even = [](int x) { return x % 2 == 0; };
 
-        REQUIRE( any_of(cbegin(vec), cend(vec), is_one) );
+        REQUIRE( any_of(cbegin(vec), cend(vec), is_even) );
     } 
 
 }
 
 TEST_CASE( "count", "[std] [algorithm] [non modifying]" ) {
     
-    SECTION( "returns number of 1s in the range" ) {
-        const vector<int> vec{1, 1, 2, 5, 1, 1, 6};
+    SECTION( "returns count of 1s in the range" ) {
+        const vector<int> vec{1, 1,  2, 5,  1, 1,  6};
 
         REQUIRE( 4 == count(cbegin(vec), cend(vec), 1) );
     } 
@@ -81,11 +82,11 @@ TEST_CASE( "count", "[std] [algorithm] [non modifying]" ) {
 TEST_CASE( "count_if", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "returns number of even numbers in the range" ) {
-        const vector<int> vec{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> vec{0, 1, 2, 3, 4, 5, 6};
 
         auto is_even = [](int x) { return x % 2 == 0; };
 
-        REQUIRE( 3 == count_if(cbegin(vec), cend(vec), is_even) );
+        REQUIRE( 4 == count_if(cbegin(vec), cend(vec), is_even) );
     }
 
 }
@@ -93,15 +94,15 @@ TEST_CASE( "count_if", "[std] [algorithm] [non modifying]" ) {
 TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "two sets of elements are equal" ) {
-        const vector<int> vec{1, 2, 3, 4, 5};
-        const list<int>   lst{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> vec{1, 2, 3};
+        const list<int>   lst{1, 2, 3, 4, 5};
 
         REQUIRE( equal(cbegin(vec), cend(vec), cbegin(lst)) );
     }
 
     SECTION( "two sets of elements are equal using reverse iterator" ) {
-        const vector<int> vec1{1, 2, 3, 4, 5, 6, 7};
-        const vector<int> vec2{7, 6, 5, 4, 3, 2, 1};
+        const vector<int> vec1{0, 1, 2, 3};
+        const vector<int> vec2{3, 2, 1, 0};
 
         const auto reverse_iterator = crbegin(vec2); 
 
@@ -125,8 +126,8 @@ TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
     }
 
     SECTION( "tow set of elements are equal when using end bounds on both ranges" ) {
-        const vector<int> vec1{-1, 0,  1, 2, 3          };
-        const vector<int> vec2{    0,  1, 2, 3,  4, 5, 6};
+        const vector<int> vec1{ 0, 1,   2, 3, 4       };
+        const vector<int> vec2{    7,   2, 3, 4,  5, 6};
         
         const bool is_equal = equal(
                                   cbegin(vec1) + 2
@@ -143,7 +144,7 @@ TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
 TEST_CASE( "find", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "element found in the range at position 3" ) {
-        const vector<int> vec{1, 2, 3, 10, 4, 5, 6};
+        const vector<int> vec{0, 1, 2,  10,  4, 5, 6};
 
         const auto it = find(cbegin(vec), cend(vec), 10);
 
