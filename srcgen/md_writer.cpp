@@ -29,7 +29,7 @@ md_writer& md_writer::write(const std::string& str) {
 }
 
 md_writer& md_writer::bold(const std::string& str) {
-    m_out << "**" << str << "** ";;
+    m_out << "**" << str << "** ";
     return *this;
 }
 

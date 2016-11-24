@@ -3,6 +3,8 @@
 
 namespace srcgen {
 
+// md_writer mechanism class
+// implements utility function to generate README.md
 class md_writer {
 public:
     md_writer()                       = delete;
