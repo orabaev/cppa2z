@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <string>
 
 namespace srcgen {
 
@@ -35,6 +36,9 @@ auto extract_delimited(
     , const T& second_delim
     , Container& container
 );
+
+// determine if provided line of code is a test case
+bool is_test_case(const std::string& line_of_code);
 
 // IMPLEMENTATION
 

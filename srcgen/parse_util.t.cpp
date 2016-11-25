@@ -247,8 +247,8 @@ TEST_CASE( "extract_delimited" ) {
     }
 
     SECTION( "no delimited element" ) {
-        const string     str{"abc|HELLO|def|WORLD|12345|C++|"};
-        vector<string>   vec;
+        const string    str{"abc|HELLO|def|WORLD|12345|C++|"};
+        vector<string>  vec;
 
         bool ret = extract_delimited(
                          cbegin(str)
@@ -260,6 +260,34 @@ TEST_CASE( "extract_delimited" ) {
     
         REQUIRE_FALSE( ret ); 
         REQUIRE( vec.empty() ); 
+    }
+
+}
+
+TEST_CASE( "is_test_case" ) {
+    
+    SECTION( "found at the begining of the line" ) {
+        const string line_of_code{"TEST_CASE( \"testcase\" )"};
+
+        REQUIRE( is_test_case(line_of_code) );
+    }
+
+    SECTION( "found at the begining of the line spaces ignored" ) {
+        const string line_of_code{"     TEST_CASE( \"testcase\" )"};
+
+        REQUIRE( is_test_case(line_of_code) );
+    }
+
+    SECTION( "not found" ) {
+        const string line_of_code{"int i = 10;"};
+
+        REQUIRE_FALSE( is_test_case(line_of_code) );
+    }
+
+    SECTION( "not found at the begining" ) {
+        const string line_of_code{"////TEST_CASE("};
+
+        REQUIRE_FALSE( is_test_case(line_of_code) );
     }
 
 }
