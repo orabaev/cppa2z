@@ -292,4 +292,14 @@ TEST_CASE( "is_test_case" ) {
 
 }
 
+TEST_CASE( "get_test_case_name" ) {
+
+    const string expected{"testcase"};;    
+    const string line_of_code{"TEST_CASE( \"testcase\" )"};
+
+    auto test_case_name = get_test_case_name(line_of_code); 
+
+    REQUIRE( expected == test_case_name );
+}
+
 } // namespace srcgen

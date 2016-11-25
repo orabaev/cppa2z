@@ -40,6 +40,9 @@ auto extract_delimited(
 // determine if provided line of code is a test case
 bool is_test_case(const std::string& line_of_code);
 
+// returns test case name
+std::string get_test_case_name(const std::string& test_case_line);
+
 // IMPLEMENTATION
 
 template<class InputIt, class T>

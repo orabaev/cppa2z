@@ -26,5 +26,18 @@ bool is_test_case(const string& line_of_code) {
     return found_at_the_begining;
 }
 
+string get_test_case_name(const string& test_case_line) {
+    string test_case_name;
+
+    copy_delimited(
+          cbegin(test_case_line)
+        , cend(test_case_line)
+        , '"' 
+        , '"' 
+        , back_inserter(test_case_name)
+    );
+
+    return test_case_name;   
+}
 
 } // srcgen
