@@ -1,3 +1,6 @@
+#ifndef SRCGEN_MD_WRITER_H
+#define SRCGEN_MD_WRITER_H
+
 #include <ostream>
 #include <string>
 
@@ -35,3 +38,5 @@ private:
 };
 
 } // namespace srcgen
+
+#endif // SRCGEN_MD_WRITER_H

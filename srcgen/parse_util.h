@@ -1,5 +1,10 @@
+#ifndef  SRCGEN_PARSE_UTIL_H
+#define  SRCGEN_PARSE_UTIL_H
+
 #include <algorithm>
 #include <string>
+#include <vector>
+#include <istream>
 
 namespace srcgen {
 
@@ -37,11 +42,15 @@ auto extract_delimited(
     , Container& container
 );
 
-// determine if provided line of code is a test case
+// determine if given line of code is a test case
 bool is_test_case(const std::string& line_of_code);
 
-// returns test case name
+// returns test case name from the test case line of code
 std::string get_test_case_name(const std::string& test_case_line);
+
+// parses source file and returns vector of line numbers and 
+// test case names
+std::vector<std::pair<int, std::string>> extract_test_case_lines(std::istream& in);
 
 // IMPLEMENTATION
 
@@ -115,3 +124,5 @@ auto extract_delimited(
 }
 
 } // namespace srcgen
+
+#endif // SRCGEN_PARSE_UTIL_H

@@ -1,5 +1,6 @@
 #include <catch.hpp>
 #include <parse_util.h>
+#include <sstream>
 
 using namespace std;
 
@@ -290,16 +291,61 @@ TEST_CASE( "is_test_case" ) {
         REQUIRE_FALSE( is_test_case(line_of_code) );
     }
 
+    SECTION( "empty string" ) {
+        const string line_of_code;
+
+        REQUIRE_FALSE( is_test_case(line_of_code) );
+    }
+
+
 }
 
 TEST_CASE( "get_test_case_name" ) {
-
     const string expected{"testcase"};;    
     const string line_of_code{"TEST_CASE( \"testcase\" )"};
 
     auto test_case_name = get_test_case_name(line_of_code); 
 
     REQUIRE( expected == test_case_name );
+}
+
+TEST_CASE( "extract_test_case_lines" ) {
+    stringstream sio;  
+
+    sio << "#include <iostream> \n"
+        << "\n"
+        << "\n"
+        << "bla bla\n"
+        << "bla bla\n"
+        << "TEST_CASE( \"adjacent_find\", \"[std] [algorithm] [non modifying]\" ) {\n"
+        << "bla bla\n"
+        << "bla bla\n"
+        << "bla bla\n"
+        << "bla bla\n"
+        << "TEST_CASE( \"count\", \"[std] [algorithm] [non modifying]\" ) {\n"
+        << "bla bla\n"
+        << "bla bla\n"
+        << "bla bla\n"
+        << "\n"
+        << "\n"
+        << "TEST_CASE( \"count_if\", \"[std] [algorithm] [non modifying]\" ) {\n"
+        << "\n"
+        << "\n"
+        << "\n"
+        << endl;
+
+    auto vec = extract_test_case_lines(sio);
+    
+    REQUIRE ( 3 == vec.size() );
+
+    REQUIRE ( 6 == vec[0].first );
+    REQUIRE ( "adjacent_find" == vec[0].second );
+
+    REQUIRE ( 11 == vec[1].first );
+    REQUIRE ( "count" == vec[1].second );
+
+    REQUIRE ( 17 == vec[2].first );
+    REQUIRE ( "count_if" == vec[2].second );
 }
 
 } // namespace srcgen
