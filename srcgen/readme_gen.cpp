@@ -28,8 +28,6 @@ void readme_gen::section(const string& section, const string& file_path) {
         m_writer.link_to_repo_file(value.second, file_path, value.first);
     }
 
-    m_writer.newline();
-
     if ( !fin.is_open() ) {
         cerr << "FAILED TO GENERATE SECTION " << section << " FILE " << file_path << endl;
     }
