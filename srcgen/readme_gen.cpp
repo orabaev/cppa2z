@@ -19,7 +19,7 @@ void readme_gen::generate() {
 }
 
 void readme_gen::section(const string& section, const string& file_path) {
-    m_writer.write(section);
+    m_writer.bold(section);
 
     ifstream fin(file_path);
     const auto test_case_lines = extract_test_case_lines(fin);
@@ -44,7 +44,15 @@ void readme_gen::caption() {
 void readme_gen::algorithms() {
     m_writer.heading2("algorithms");
 
-    section("non modifying", "./algorithms/non_modifying_sequence.t.cpp");
+    section("non modifying"      , "./algorithms/non_modifying_sequence.t.cpp");
+    section("modifying"          , "./algorithms/modifying_sequence.t.cpp");
+    section("partitioning"       , "./algorithms/partitioning.t.cpp");
+    section("sorting"            , "./algorithms/sorting.t.cpp");
+    section("set operations"     , "./algorithms/set_operations.t.cpp");
+    section("heap operations"    , "./algorithms/heap.t.cpp");
+    section("min max"            , "./algorithms/min_max.t.cpp");
+    section("permutation"        , "./algorithms/permutation.t.cpp");
+    section("numeric operations" , "./algorithms/numeric_operations.t.cpp");
     
     m_writer.newline();
 }
