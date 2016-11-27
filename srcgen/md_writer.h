@@ -29,7 +29,7 @@ public:
     md_writer& link_to_repo_file(
                      const std::string& name
                    , const std::string& file_path
-                   , int line_number
+                   , const int line_number
                );
 
 private:

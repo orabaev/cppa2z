@@ -41,7 +41,7 @@ md_writer& md_writer::newline() {
 md_writer& md_writer::link_to_repo_file(
      const std::string& name
    , const std::string& file_path
-   , int line_number
+   , const int line_number
 ) 
 {
     m_out << '[' << name << "](" << file_path << "#L" << line_number << ") ";    

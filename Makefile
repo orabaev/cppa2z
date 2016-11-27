@@ -9,8 +9,8 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o
-	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o
+	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o
 
 	./cppa2z
 
@@ -76,6 +76,12 @@ md_writer.o: ./srcgen/md_writer.h ./srcgen/md_writer.cpp
 
 md_writer.t.o: ./srcgen/md_writer.h ./srcgen/md_writer.cpp ./srcgen/md_writer.t.cpp
 	$(COMPILE) ./srcgen/md_writer.t.cpp
+
+readme_gen.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp
+	$(COMPILE) ./srcgen/readme_gen.cpp
+
+readme_gen.t.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp ./srcgen/readme_gen.t.cpp
+	$(COMPILE) ./srcgen/readme_gen.t.cpp
 
 
 .PHONY: clean
