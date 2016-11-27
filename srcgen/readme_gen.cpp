@@ -16,6 +16,7 @@ readme_gen::readme_gen(std::ostream& out)
 void readme_gen::generate() {
     caption();
     algorithms();
+    iterators();
 }
 
 void readme_gen::section(const string& section, const string& file_path) {
@@ -55,4 +56,13 @@ void readme_gen::algorithms() {
     m_writer.newline();
 }
 
+void readme_gen::iterators() {
+    m_writer.heading2("iterators");
+
+    section("adaptors"         , "./iterators/iterator_adaptors.t.cpp");
+    section("operations"       , "./iterators/iterator_operations.t.cpp");
+    section("stream iterators" , "./iterators/stream_iterators.t.cpp");
+    
+    m_writer.newline();
+}
 } // namespac esrcgen

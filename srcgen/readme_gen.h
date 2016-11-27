@@ -24,6 +24,7 @@ private:
     void section(const std::string& section, const std::string& file_path);
     void caption();
     void algorithms();
+    void iterators();
 
 private:
     md_writer m_writer;
