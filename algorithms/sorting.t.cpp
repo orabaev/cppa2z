@@ -14,7 +14,7 @@ TEST_CASE( "is_sorted", "[std] [algorithm] [sorting]" ) {
     } 
 
     SECTION( "the range is not sorted" ) {
-        const vector<int> vec{0, 1, 2, 1000, 3, 4, 4};
+        const vector<int> vec{0, 1, 2,  1000,  3, 4, 4};
 
         REQUIRE_FALSE( is_sorted(cbegin(vec), cend(vec)) );
     } 
@@ -27,15 +27,16 @@ TEST_CASE( "is_sorted", "[std] [algorithm] [sorting]" ) {
 
 }
 
-TEST_CASE( "is_sorted_unti", "[std] [algorithm] [sorting]" ) {
+TEST_CASE( "is_sorted_until", "[std] [algorithm] [sorting]" ) {
     
     SECTION( "the range is sorted until 3rd element" ) {
-        const vector<int> vec{5, 6, 7, 2, 3, 4, 4};
+        const vector<int> vec{5, 6, 7,   2,   3, 4, 4};
 
         const auto last_it = is_sorted_until(cbegin(vec), cend(vec));
         
         auto last_pos = distance(cbegin(vec), last_it);
         REQUIRE( 3 == last_pos );
+        REQUIRE( 2 == vec[last_pos] );
     } 
 
     SECTION( "the range is fully sorted" ) {
@@ -69,7 +70,7 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
     
      SECTION( "set nth element in its sorted position and partition the range "
               " with first group LESS than nth element" ) {
-        vector<int> vec{4, 2,  5,  3, 1, 0, 2};
+        vector<int> vec{4, 2,   5,   3, 1, 0, 2};
         
         auto nth = begin(vec) + 2;
         REQUIRE ( 5 == *nth );
@@ -86,7 +87,7 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
 
     SECTION( "set nth element in its sorted position and partition the range "
              "with first group GREATER than nth element" ) {
-        vector<int> vec{4, 2,  5,  3, 1, 0, 2};
+        vector<int> vec{3, 2,   5,   4, 1, 0, 2};
         
         auto nth = begin(vec) + 2;
         REQUIRE ( 5 == *nth );
@@ -166,7 +167,6 @@ TEST_CASE( "partial_sort_copy", "[std] [algorithm] [sorting]" ) {
 
 }
 
-
 TEST_CASE( "sort", "[std] [algorithm] [sorting]" ) {
 
     SECTION( "sort the range" ) {
@@ -216,9 +216,9 @@ TEST_CASE( "stable_sort", "[std] [algorithm] [sorting]" ) {
             , {"john",   55}
         };
 
-        auto sort_by_age = [](const programmer& l, const programmer& r) { return l.age < r.age; }; 
+        auto sort_by_age_asc = [](const programmer& l, const programmer& r) { return l.age < r.age; }; 
         
-        stable_sort(begin(vec), end(vec), sort_by_age);
+        stable_sort(begin(vec), end(vec), sort_by_age_asc);
 
         REQUIRE( expected == vec ); 
     } 
