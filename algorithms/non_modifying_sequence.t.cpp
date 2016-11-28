@@ -126,8 +126,8 @@ TEST_CASE( "equal", "[std] [algorithm] [non modifying]" ) {
     }
 
     SECTION( "two set of elements are equal when using end bounds on both ranges" ) {
-        const vector<int> vec1{ 0, 1,  2, 3, 4       };
-        const vector<int> vec2{    7,  2, 3, 4,  5, 6};
+        const vector<int> vec1{ 0, 1,   2, 3, 4        };
+        const vector<int> vec2{    7,   2, 3, 4,   5, 6};
         
         const bool is_equal = equal(
                                   cbegin(vec1) + 2
@@ -234,8 +234,8 @@ TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
 TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "last occurence of sub sequence found in the range at position 6" ) {
-        const vector<int> vec1{1, 2, 3, 1, 2, 5,  1, 2};
-        const vector<int> vec2{                   1, 2};
+        const vector<int> vec1{1, 2, 3, 1, 2, 5,   1, 2};
+        const vector<int> vec2{                    1, 2};
         
         const auto it = find_end(cbegin(vec1), cend(vec1), cbegin(vec2), cend(vec2));
 
@@ -322,7 +322,7 @@ TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
     }
 
     SECTION( "return the first mismatching pair of elements from two ranges of different size" ) {
-        const vector<int> vec1{1, 3, 5,   4,    1};
+        const vector<int> vec1{1, 3, 5,   4,   1};
         const vector<int> vec2{1, 3, 5};
         
         const auto pr = mismatch(
@@ -353,8 +353,8 @@ TEST_CASE( "none_of", "[std] [algorithm] [non modifying]" ) {
 TEST_CASE( "search", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "first occurence of sub sequence found in the range at position 3" ) {
-        const vector<int> vec1{2, 2, 3, 1, 2, 5, 1, 2};
-        const vector<int> vec2{         1, 2         };
+        const vector<int> vec1{2, 2, 3,   1, 2,   5, 1, 2};
+        const vector<int> vec2{           1, 2           };
         
         const auto it = search(
                               cbegin(vec1)

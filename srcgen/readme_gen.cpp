@@ -65,4 +65,5 @@ void readme_gen::iterators() {
     
     m_writer.newline();
 }
+
 } // namespac esrcgen
