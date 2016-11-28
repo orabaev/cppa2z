@@ -10,7 +10,7 @@ using namespace std;
 TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy all elements to empty vector using back inserter" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> from{0, 1, 2, 3, 4, 5, 6};
               vector<int>   to;
 
         copy(cbegin(from), cend(from), back_inserter(to));
@@ -19,8 +19,8 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     } 
 
     SECTION( "copy inplace overlapping range" ) {
-              vector<int>      vec{1, 2, 3, 6, 1, 2}; 
-        const vector<int> expected{1, 2, 3, 1, 2, 3}; 
+              vector<int>      vec{1, 2, 3,   6, 1, 2}; 
+        const vector<int> expected{1, 2, 3,   1, 2, 3}; 
 
         copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
 
@@ -28,7 +28,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "copy all elements to non empty vector overriding existing elements" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> from{0, 1, 2, 3, 4, 5, 6};
               vector<int>   to(from.size());
 
         copy(cbegin(from), cend(from), begin(to));
@@ -37,9 +37,9 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "copy all elements to non empty vector in reverse order" ) {
-        const vector<int>     from{1, 2, 3, 4, 5, 6, 7};
+        const vector<int>     from{0, 1, 2, 3, 4, 5, 6};
               vector<int>       to(from.size());
-        const vector<int> expected{7, 6, 5, 4, 3, 2, 1};
+        const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
 
         auto reverse_iterator = rbegin(to);
         copy(cbegin(from), cend(from), reverse_iterator);
@@ -48,8 +48,8 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
     }
 
     SECTION( "copy 2 elements from/to position 3 to non empty vector" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int>   to{1, 2, 3, 0, 0, 6, 7};
+        const vector<int> from{0, 1, 2,   3, 4,   5, 6};
+              vector<int>   to{0, 1, 2,   0, 0,   5, 6};
 
         copy(cbegin(from) + 3, cbegin(from) + 5, begin(to) + 3);
 
@@ -90,8 +90,8 @@ TEST_CASE( "copy_if", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "copy_n", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy 2 elements from/to position 3 to non empty vector" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int>   to{1, 2, 3, 0, 0, 6, 7};
+        const vector<int> from{0, 1, 2,   3, 4,   5, 6};
+              vector<int>   to{0, 1, 2,   0, 0,   5, 6};
 
         copy_n(cbegin(from) + 3, 2, begin(to) + 3);
 
@@ -103,7 +103,7 @@ TEST_CASE( "copy_n", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "fill", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "assign 1 to the elements in the range" ) {
-              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
+              vector<int>      vec{0, 1, 2, 3, 4, 5, 6};
         const vector<int> expected{1, 1, 1, 1, 1, 1, 1};
 
         fill(begin(vec), end(vec), 1);
@@ -116,8 +116,8 @@ TEST_CASE( "fill", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "assign 0 to the first 3 elements in the range" ) {
-              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
-        const vector<int> expected{0, 0, 0, 4, 5, 6, 7};
+              vector<int>      vec{1, 2, 3,   4, 5, 6, 7};
+        const vector<int> expected{0, 0, 0,   4, 5, 6, 7};
 
         const auto it = fill_n(begin(vec), 3, 0);
 
@@ -130,11 +130,11 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
 
 TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
     
-    SECTION( "initialize vector with incrementing values from 1 to 7" ) {
+    SECTION( "initialize vector with incrementing values from 0 to 6" ) {
               vector<int>      vec(7);
-        const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
+        const vector<int> expected{0, 1, 2, 3, 4, 5, 6};
 
-        int i = 1; 
+        int i = 0; 
         auto increment = [&i]() { return i++; };
 
         generate(begin(vec), end(vec), increment);
@@ -147,8 +147,8 @@ TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "add 4 incremented elements at the end of the vector" ) {
-              vector<int>      vec{1, 2, 3};
-        const vector<int> expected{1, 2, 3, 4, 5, 6, 7};
+              vector<int>      vec{0, 1, 2};
+        const vector<int> expected{0, 1, 2,   3, 4, 5, 6};
 
         int i = vec.back(); 
         auto increment = [&i]() { return ++i; };
@@ -163,8 +163,8 @@ TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "swap values of first and last elements in the vector" ) {
-              vector<int>      vec{1, 2, 3, 4, 5, 6, 7};
-        const vector<int> expected{7, 2, 3, 4, 5, 6, 1};
+              vector<int>      vec{0,   1, 2, 3, 4, 5,   6};
+        const vector<int> expected{6,   1, 2, 3, 4, 5,   0};
 
         iter_swap(begin(vec), rbegin(vec));
 
@@ -218,8 +218,8 @@ TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "remove", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "remove elements with value 1 from the vector" ) {
-              vector<int>      vec{1, 2, 1, 7, 5, 6, 1};
-        const vector<int> expected{2, 7, 5, 6};
+              vector<int>      vec{1,   2, 5,   1,   7, 5, 6,   1};
+        const vector<int> expected{2, 5, 7, 5, 6};
 
         auto erase_it = remove(begin(vec), end(vec), 1); 
         vec.erase(erase_it, vec.end());
@@ -232,7 +232,7 @@ TEST_CASE( "remove", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "remove_if", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "using predicate; remove even elements from the vector" ) {
-              vector<int>      vec{1, 2, 4, 7, 5, 6, 3};
+              vector<int>      vec{1,   2, 4,   7, 5,   6,   3};
         const vector<int> expected{1, 7, 5, 3};
 
         auto is_even = [](int x) { return x % 2 == 0; };
@@ -262,7 +262,7 @@ TEST_CASE( "remove_copy", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "remove_copy_if", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "using predicate; copy all elements from one vector to another excluding even numbers" ) {
-        const vector<int>     from{1, 2, 4, 7, 5, 6, 3};
+        const vector<int>     from{1,   2, 4,   7, 5,   6,   3};
               vector<int>       to;
         const vector<int> expected{1, 7, 5, 3};
 
@@ -278,8 +278,8 @@ TEST_CASE( "remove_copy_if", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "replace", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "replace all 1s with 0s" ) {
-              vector<int>      vec{1, 2, 1, 1, 3, 6, 1};
-        const vector<int> expected{0, 2, 0, 0, 3, 6, 0};
+              vector<int>      vec{1,   2,   1, 1,   3, 6,   1};
+        const vector<int> expected{0,   2,   0, 0,   3, 6,   0};
 
         replace(begin(vec), end(vec), 1, 0); 
 
@@ -291,12 +291,13 @@ TEST_CASE( "replace", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "replace all even numbers with 1" ) {
-              vector<int>      vec{3, 2, 7, 8, 0, 6, 5};
-        const vector<int> expected{3, 1, 7, 1, 1, 1, 5};
+              vector<int>      vec{3,   2,   7,   8, 0, 6,   5};
+        const vector<int> expected{3,   1,   7,   1, 1, 1,   5};
 
         auto is_even = [](int x) { return x % 2 == 0; };
+        int replace_to = 1;
 
-        replace_if(begin(vec), end(vec), is_even, 1); 
+        replace_if(begin(vec), end(vec), is_even, replace_to); 
 
         REQUIRE( expected == vec );
     }
@@ -306,16 +307,19 @@ TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "replace_copy", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy all elements from one vector to another replacing all 1s with 0s" ) {
-        const vector<int>     from{1, 2, 1, 1, 3, 6, 1};
+        const vector<int>     from{1,   2,   1, 1,   3, 6,   1};
               vector<int>       to;
-        const vector<int> expected{0, 2, 0, 0, 3, 6, 0};
+        const vector<int> expected{0,   2,   0, 0,   3, 6,   0};
+
+        int replace_from = 1;
+        int replace_to   = 0;
 
         replace_copy(
               cbegin(from)
             , cend(from)
             , back_inserter(to)
-            , 1
-            , 0
+            , replace_from
+            , replace_to
         ); 
 
         REQUIRE( expected == to );
@@ -326,18 +330,19 @@ TEST_CASE( "replace_copy", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy all elements from one vector to another replacing all even numbers with 1" ) {
-        const vector<int>      from{3, 2, 7, 8, 0, 6, 5};
+        const vector<int>      from{3,   2,   7,   8, 0, 6,   5};
               vector<int>        to;
-        const vector<int>  expected{3, 1, 7, 1, 1, 1, 5};
+        const vector<int>  expected{3,   1,   7,   1, 1, 1,   5};
 
         auto is_even = [](int x) { return x % 2 == 0; };
+        int replace_to  = 1;
 
         replace_copy_if(
               cbegin(from)
             , cend(from)
             , back_inserter(to)
             , is_even
-            , 1
+            , replace_to
         ); 
 
         REQUIRE( expected == to );
@@ -348,8 +353,8 @@ TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "reverse", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "reverse elements in the range" ) {
-              vector<int>      vec{0, 1, 2, 3, 4, 5};
-        const vector<int> expected{5, 4, 3, 2, 1, 0};
+              vector<int>      vec{0, 1, 2, 3, 4, 5, 6};
+        const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
 
         reverse(begin(vec), end(vec));
 
@@ -361,9 +366,9 @@ TEST_CASE( "reverse", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "reverse_copy", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "reverse elements in the destination range" ) {
-        const vector<int>     from{0, 1, 2, 3, 4, 5};
+        const vector<int>     from{0, 1, 2, 3, 4, 5, 6};
               vector<int>       to;
-        const vector<int> expected{5, 4, 3, 2, 1, 0};
+        const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
 
         reverse_copy(cbegin(from), cend(from), back_inserter(to));
 
@@ -375,40 +380,42 @@ TEST_CASE( "reverse_copy", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "rotate first 2 elements to the end" ) {
-              vector<int>      vec{0, 1, 2, 3, 4, 5};
-        const vector<int> expected{2, 3, 4, 5, 0, 1};
+              vector<int>      vec{0, 1,    2, 3, 4, 5, 6};
+        const vector<int> expected{2, 3, 4, 5, 6,    0, 1};
 
-        const auto it = rotate(begin(vec), begin(vec) + 2,  end(vec));
+        auto first  = begin(vec);
+        auto middle = begin(vec) + 2;
+        auto last   = end(vec); 
+
+        const auto it = rotate(first, middle, last);
 
         REQUIRE( expected == vec );
-
-        REQUIRE( 0 == *it );
-        REQUIRE( cbegin(vec) + 4 == it );
-
     }
 
     SECTION( "rotate last 2 elements to the front" ) {
-              vector<int>      vec{0, 1, 2, 3, 4, 5};
-        const vector<int> expected{4, 5, 0, 1, 2, 3};
+              vector<int>      vec{0, 1, 2, 3, 4,   5, 6};
+        const vector<int> expected{5, 6,   0, 1, 2, 3, 4};
 
-        const auto it = rotate(begin(vec), begin(vec) + 4,  end(vec));
+        auto first  = begin(vec);
+        auto middle = end(vec) - 2;
+        auto last   = end(vec); 
+
+        const auto it = rotate(first, middle, last);
 
         REQUIRE( expected == vec );
-
-        REQUIRE( 0 == *it );
-        REQUIRE( cbegin(vec) + 2 == it );
     }
 
     SECTION( "rotate 2nd and 3rd elements with 4th and 5th elements" ) {
-              vector<int>      vec{0, 1, 2, 3, 4, 5};
-        const vector<int> expected{0, 3, 4, 1, 2, 5};
+              vector<int>      vec{0,   1, 2,   3, 4,   5};
+        const vector<int> expected{0,   3, 4,   1, 2,   5};
 
-        const auto it = rotate(begin(vec) + 1, begin(vec) + 3,  --end(vec));
+        auto first  = begin(vec) + 1;
+        auto middle = begin(vec) + 3;
+        auto last   = end(vec)   - 1; 
+
+        const auto it = rotate(first, middle, last);
 
         REQUIRE( expected == vec );
-
-        REQUIRE( 1 == *it );
-        REQUIRE( cbegin(vec) + 3 == it );
     }
 }
 
@@ -514,7 +521,7 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "remove duplicate consecutive elements and then erase the duplicates" ) {
-              vector<int>      vec{1, 1, 2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 1};
+              vector<int>      vec{1, 1,  2, 2, 2, 2,  3, 3, 3,  1, 1, 1, 1};
         const vector<int> expected{1, 2, 3, 1};
 
         const auto it = unique(begin(vec), end(vec));
@@ -543,7 +550,7 @@ TEST_CASE( "unique_copy", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy unique consecutive elements" ) {
         const vector<int>     from{1, 1, 2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 1};
-              vector<int>       to;;
+              vector<int>       to;
         const vector<int> expected{1, 2, 3, 1};
 
         unique_copy(cbegin(from) , cend(from) , back_inserter(to));
