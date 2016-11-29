@@ -25,6 +25,7 @@ private:
     void caption();
     void algorithms();
     void iterators();
+    void streams();
 
 private:
     md_writer m_writer;

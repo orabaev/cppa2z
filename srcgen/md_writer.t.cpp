@@ -145,6 +145,27 @@ TEST_CASE( "md_writer.newline" ) {
     }
 }
 
+TEST_CASE( "md_writer.html_space" ) {
+    ostringstream out;
+    md_writer writer(out);
+
+    SECTION("space") {
+        const string expected{"&nbsp;"};
+
+        writer.html_space();
+
+        REQUIRE( expected == out.str() );
+    }
+
+    SECTION("chain") {
+        const string expected{"&nbsp;&nbsp;"};
+
+        writer.html_space().html_space();
+
+        REQUIRE( expected == out.str() );
+    }
+}
+
 TEST_CASE( "md_writer.link_to_repo_file" ) {
     ostringstream out;
     md_writer writer(out);

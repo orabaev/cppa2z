@@ -25,6 +25,7 @@ public:
     md_writer& write(const std::string& str);
     md_writer& bold(const std::string& str);
     md_writer& newline();
+    md_writer& html_space();
 
     md_writer& link_to_repo_file(
                      const std::string& name

@@ -38,6 +38,11 @@ md_writer& md_writer::newline() {
     return *this;
 }
 
+md_writer& md_writer::html_space() {
+    m_out << "&nbsp;";
+    return *this;
+}
+
 md_writer& md_writer::link_to_repo_file(
      const std::string& name
    , const std::string& file_path

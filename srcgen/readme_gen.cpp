@@ -17,6 +17,7 @@ void readme_gen::generate() {
     caption();
     algorithms();
     iterators();
+    streams();
 }
 
 void readme_gen::section(const string& section, const string& file_path) {
@@ -27,6 +28,7 @@ void readme_gen::section(const string& section, const string& file_path) {
 
     for (const auto& value : test_case_lines) {
         m_writer.link_to_repo_file(value.second, file_path, value.first);
+        m_writer.html_space().html_space();
     }
 
     if ( !fin.is_open() ) {
@@ -62,6 +64,15 @@ void readme_gen::iterators() {
     section("adaptors"         , "./iterators/iterator_adaptors.t.cpp");
     section("operations"       , "./iterators/iterator_operations.t.cpp");
     section("stream iterators" , "./iterators/stream_iterators.t.cpp");
+    
+    m_writer.newline();
+}
+
+void readme_gen::streams() {
+    m_writer.heading2("streams");
+    m_writer.heading3("istream");
+
+    section("input function"   , "./streams/istream_input.t.cpp");
     
     m_writer.newline();
 }
