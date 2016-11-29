@@ -72,7 +72,7 @@ void readme_gen::streams() {
     m_writer.heading2("streams");
     m_writer.heading3("istream");
 
-    section("input function"   , "./streams/istream_input.t.cpp");
+    section("input functions"   , "./streams/istream_input.t.cpp");
     
     m_writer.newline();
 }
