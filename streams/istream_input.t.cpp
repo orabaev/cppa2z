@@ -216,7 +216,25 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
         REQUIRE( 3 == sin.gcount() );
     }
 
+    SECTION( "get(basic_streambuf& streambuf)" ) {
+        istringstream     sin{"1234567\n456"};
+        ostringstream    sout;
+        const string expected{"1234567"};
+
+        sin.get(*sout.rdbuf());
+
+        REQUIRE( expected == sout.str() );
+    }
+
+    SECTION( "get(basic_streambuf& streambuf, char_type delim)" ) {
+        istringstream     sin{"1234567 A 456"};
+        ostringstream    sout;
+        const string expected{"1234567 "};
+
+        const char delim = 'A';
+        sin.get(*sout.rdbuf(), delim);
+
+        REQUIRE( expected == sout.str() );
+    }
+
 }
-
-
-
