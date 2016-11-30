@@ -4,7 +4,7 @@
 
 using namespace std;
 
-TEST_CASE( ">>", "[std] [iterator] [stream]" ) {
+TEST_CASE( "operator >>", "[std] [iterator] [stream]" ) {
     
     SECTION( "read all values from the stream" ) {
         istringstream sin{"1 2   5  6 \n8 \n\n\n10 "};
@@ -129,29 +129,94 @@ TEST_CASE( "gcount", "[std] [iterator] [stream]" ) {
 
 }
 
+TEST_CASE( "get", "[std] [iterator] [stream]" ) {
+    
+    SECTION( "get() single character" ) {
+        istringstream sin{"ABC"};
+        
+        auto ch = sin.get();
 
+        REQUIRE( 'A' == ch );
+    }
 
+    SECTION( "get() new line single character" ) {
+        istringstream sin{"\nABC"};
+        
+        auto ch = sin.get();
 
+        REQUIRE( '\n' == ch );
+    }
 
+    SECTION( "get() eof" ) {
+        istringstream sin;
+        
+        auto ch = sin.get();
 
+        REQUIRE( char_traits<char>::eof()  == ch );
+    }
 
+    SECTION( "get(char_type& ch) single character" ) {
+        istringstream sin{"ABC"};
+        char ch = 0;
 
+        REQUIRE( sin.get(ch) );
 
+        REQUIRE( 'A' == ch );
+    }
 
+    SECTION( "get(char_type* buffer, streamsize count)  3 characters" ) {
+        istringstream sin{"123456"};
 
+        const streamsize count_including_null = 4;
+        char buffer[count_including_null];
 
+        REQUIRE( sin.get(buffer, count_including_null) );
 
+        const string expected = "123"; 
+        REQUIRE( expected == buffer );
+        REQUIRE( 3 == sin.gcount() );
+    }
 
+    SECTION( "get(char_type* buffer, streamsize count)  eof" ) {
+        istringstream sin;
 
+        const streamsize count_including_null = 4;
+        char buffer[count_including_null];
+        buffer[0] = 'Z';
 
+        REQUIRE_FALSE( sin.get(buffer, count_including_null) );
+        // TODO check why behaviour is inconsistent for get(char_type&) returning eof
+        REQUIRE( 0 == buffer[0] );
+    }
 
+    SECTION( "get(char_type* buffer, streamsize count)  up to new line" ) {
+        istringstream sin{"123\n456"};
 
+        const streamsize count_including_null = 20;
+        char buffer[count_including_null];
 
+        REQUIRE( sin.get(buffer, count_including_null) );
 
+        const string expected = "123"; 
+        REQUIRE( expected == buffer );
+        REQUIRE( 3 == sin.gcount() );
+    }
 
+    SECTION( "get(char_type* buffer, streamsize count, char_type delim)  up to new line" ) {
+        istringstream sin{"123\n456"};
 
+        const streamsize count_including_null = 20;
+        char buffer[count_including_null];
+        
+        char delim = '\n';
+        REQUIRE( sin.get(buffer, count_including_null, delim) );
 
+        const string expected = "123"; 
+        REQUIRE( expected == buffer );
+        REQUIRE( 3 == sin.gcount() );
+    }
 
+}
 
 
 
