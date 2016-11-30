@@ -170,6 +170,7 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
         const streamsize count_including_null = 4;
         char buffer[count_including_null];
 
+        // getline would return false
         REQUIRE( sin.get(buffer, count_including_null) );
 
         const string expected = "123"; 
@@ -199,6 +200,7 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
 
         const string expected = "123"; 
         REQUIRE( expected == buffer );
+        // after calling getline gcount would return 4
         REQUIRE( 3 == sin.gcount() );
     }
 
@@ -213,6 +215,7 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
 
         const string expected = "123"; 
         REQUIRE( expected == buffer );
+        // after calling getline gcount would return 4
         REQUIRE( 3 == sin.gcount() );
     }
 
@@ -237,4 +240,116 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
         REQUIRE( expected == sout.str() );
     }
 
+}
+
+TEST_CASE( "getline", "[std] [iterator] [stream]" ) {
+
+     SECTION( "getline(char_type* buffer, streamsize count)  3 characters" ) {
+        istringstream sin{"123456"};
+
+        const streamsize count_including_null = 4;
+        char buffer[count_including_null];
+
+        // get would return true
+        REQUIRE_FALSE( sin.getline(buffer, count_including_null) );
+
+        const string expected = "123"; 
+        REQUIRE( expected == buffer );
+        REQUIRE( 3 == sin.gcount() );
+    }
+
+    SECTION( "getline(char_type* buffer, streamsize count)  eof" ) {
+        istringstream sin;
+
+        const streamsize count_including_null = 4;
+        char buffer[count_including_null];
+        buffer[0] = 'Z';
+
+        REQUIRE_FALSE( sin.getline(buffer, count_including_null) );
+        REQUIRE( 0 == buffer[0] );
+    }
+
+    SECTION( "get(char_type* buffer, streamsize count)  up to new line" ) {
+        istringstream sin{"123\n456"};
+
+        const streamsize count_including_null = 20;
+        char buffer[count_including_null];
+
+        REQUIRE( sin.getline(buffer, count_including_null) );
+
+        const string expected = "123"; 
+        REQUIRE( expected == buffer );
+        // after calling get gcount would return 3
+        REQUIRE( 4 == sin.gcount() );
+    }
+
+    SECTION( "get(char_type* buffer, streamsize count, char_type delim)  up to new line" ) {
+        istringstream sin{"123\n456"};
+
+        const streamsize count_including_null = 20;
+        char buffer[count_including_null];
+        
+        char delim = '\n';
+        REQUIRE( sin.getline(buffer, count_including_null, delim) );
+
+        const string expected = "123"; 
+        REQUIRE( expected == buffer );
+        // after calling get gcount would return 3
+        REQUIRE( 4 == sin.gcount() );
+    }
+   
+}
+
+TEST_CASE( "std::getline", "[std] [iterator] [stream]" ) {
+
+     SECTION( "retrieve full string" ) {
+        istringstream      sin{"123456"};
+        const string  expected{"123456"}; 
+              string       str;
+
+        REQUIRE( getline(sin, str) );
+
+        REQUIRE( expected == str );
+    }
+
+    SECTION( "eof" ) {
+        istringstream sin;
+        string        str;
+
+        REQUIRE_FALSE( getline(sin, str) );
+    }
+
+    SECTION( "up to new line" ) {
+        istringstream sin{"123\n456"};
+        string        str;
+
+        REQUIRE( getline(sin, str) );
+        REQUIRE( "123" == str );
+
+        REQUIRE( getline(sin, str) );
+        REQUIRE( "456" == str );
+
+        const string before_fail = str;
+        REQUIRE_FALSE( getline(sin, str) );
+        REQUIRE( before_fail == str );
+
+    }
+
+    SECTION( "up to delimiter" ) {
+        istringstream sin{"ABC|DEF"};
+        string        str;
+
+        const char delim = '|';
+        
+        REQUIRE( getline(sin, str, delim) );
+        REQUIRE( "ABC" == str );
+
+        REQUIRE( getline(sin, str, delim) );
+        REQUIRE( "DEF" == str );
+
+        const string before_fail = str;
+        REQUIRE_FALSE( getline(sin, str, delim) );
+        REQUIRE( before_fail == str );
+    }
+   
 }
