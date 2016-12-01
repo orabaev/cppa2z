@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE( "operator >>", "[std] [iterator] [stream]" ) {
+TEST_CASE( "operator >>", "[std] [istream] [input]" ) {
     
     SECTION( "read all values from the stream" ) {
         istringstream sin{"1 2   5  6 \n8 \n\n\n10 "};
@@ -58,7 +58,7 @@ TEST_CASE( "operator >>", "[std] [iterator] [stream]" ) {
 
 }
 
-TEST_CASE( "gcount", "[std] [iterator] [stream]" ) {
+TEST_CASE( "gcount", "[std] [istream] [input]" ) {
     
     SECTION( "number of characters extracted after calling get" ) {
         istringstream sin{"12345"};
@@ -130,7 +130,7 @@ TEST_CASE( "gcount", "[std] [iterator] [stream]" ) {
 
 }
 
-TEST_CASE( "get", "[std] [iterator] [stream]" ) {
+TEST_CASE( "get", "[std] [istream] [input]" ) {
     
     SECTION( "get() single character" ) {
         istringstream sin{"ABC"};
@@ -243,7 +243,7 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
 
 }
 
-TEST_CASE( "getline", "[std] [iterator] [stream]" ) {
+TEST_CASE( "getline", "[std] [istream] [input]" ) {
 
      SECTION( "getline(char_type* buffer, streamsize count)  3 characters" ) {
         istringstream sin{"123456"};
@@ -301,7 +301,7 @@ TEST_CASE( "getline", "[std] [iterator] [stream]" ) {
    
 }
 
-TEST_CASE( "std::getline", "[std] [iterator] [stream]" ) {
+TEST_CASE( "std::getline", "[std] [istream] [input]" ) {
 
      SECTION( "retrieve full string" ) {
         istringstream      sin{"123456"};
@@ -355,12 +355,12 @@ TEST_CASE( "std::getline", "[std] [iterator] [stream]" ) {
    
 }
 
-TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
+TEST_CASE( "ignore", "[std] [istream] [input]" ) {
 
      SECTION( "ignore one character" ) {
         istringstream sin{"123456"};
 
-        REQUIRE ( sin.ignore(1) ); 
+        REQUIRE( sin.ignore(1) ); 
 
         REQUIRE( '2' == sin.get() );
     }
@@ -368,7 +368,7 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
     SECTION( "ignore three character" ) {
         istringstream  sin{"123456"};
 
-        REQUIRE ( sin.ignore(3) ); 
+        REQUIRE( sin.ignore(3) ); 
 
         REQUIRE( '4' == sin.get() );
     }
@@ -376,7 +376,7 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
     SECTION( "ignore three character" ) {
         istringstream sin{"123456"};
 
-        REQUIRE ( sin.ignore(3) ); 
+        REQUIRE( sin.ignore(3) ); 
 
         REQUIRE( '4' == sin.get() );
     }
@@ -384,7 +384,7 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
     SECTION( "ignore all character" ) {
         istringstream sin{"123456"};
 
-        REQUIRE ( sin.ignore(numeric_limits<int>::max()) ); 
+        REQUIRE( sin.ignore(numeric_limits<int>::max()) ); 
 
         REQUIRE( EOF == sin.get() );
 
@@ -393,24 +393,60 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
 
 }
 
-TEST_CASE( "peek", "[std] [iterator] [stream]" ) {
+TEST_CASE( "peek", "[std] [istream] [input]" ) {
 
      SECTION( "peek one character" ) {
         istringstream sin{"ABCDEFG"};
 
-        REQUIRE ( 'A' == sin.peek() ); 
+        REQUIRE( 'A' == sin.peek() ); 
     }
 
     SECTION( "peek when next character is new line" ) {
         istringstream sin{"\nABCDEFG"};
 
-        REQUIRE ( '\n' == sin.peek() ); 
+        REQUIRE( '\n' == sin.peek() ); 
     }
 
     SECTION( "peek when next character is eof" ) {
         istringstream sin;
 
-        REQUIRE ( EOF == sin.peek() ); 
+        REQUIRE( EOF == sin.peek() ); 
+    }
+    
+}
+
+TEST_CASE( "putback", "[std] [istream] [input]" ) {
+
+    SECTION( "fails for input only stream" ) {
+        istringstream sin{"ABCDEFG"};
+
+        sin.get();
+
+        REQUIRE_FALSE( sin.putback('a') );
+    }
+
+    SECTION( "succeedes for input only stream when put back character is not different from character extracted" ) {
+        istringstream sin{"ABCDEFG"};
+
+        REQUIRE( 'A' == sin.get() );
+        REQUIRE( sin.putback('A') );
+        REQUIRE( 'A' == sin.get() );
+    }
+
+    SECTION( "replace first character in the stream" ) {
+        stringstream sin{"ABCDEFG"};
+
+        sin.get();
+
+        REQUIRE( sin.putback('a') );
+        REQUIRE( 'a' == sin.get() );
+        REQUIRE( 'B' == sin.get() );
+    }
+
+    SECTION( "fails if no character was retrieved prior" ) {
+        stringstream sin{"ABCDEFG"};
+
+        REQUIRE_FALSE( sin.putback('a') );
     }
     
 }
