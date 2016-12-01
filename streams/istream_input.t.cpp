@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include <sstream>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -352,4 +353,42 @@ TEST_CASE( "std::getline", "[std] [iterator] [stream]" ) {
         REQUIRE( before_fail == str );
     }
    
+}
+
+TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
+
+     SECTION( "ignore one character" ) {
+        istringstream      sin{"123456"};
+
+        REQUIRE ( sin.ignore(1) ); 
+
+        REQUIRE( '2' == sin.get() );
+    }
+
+    SECTION( "ignore three character" ) {
+        istringstream      sin{"123456"};
+
+        REQUIRE ( sin.ignore(3) ); 
+
+        REQUIRE( '4' == sin.get() );
+    }
+
+    SECTION( "ignore three character" ) {
+        istringstream      sin{"123456"};
+
+        REQUIRE ( sin.ignore(3) ); 
+
+        REQUIRE( '4' == sin.get() );
+    }
+
+    SECTION( "ignore all character" ) {
+        istringstream      sin{"123456"};
+
+        REQUIRE ( sin.ignore(numeric_limits<int>::max()) ); 
+
+        REQUIRE( EOF == sin.get() );
+
+        REQUIRE_FALSE ( sin.ignore(1) );
+    }
+
 }
