@@ -153,7 +153,7 @@ TEST_CASE( "get", "[std] [iterator] [stream]" ) {
         
         auto ch = sin.get();
 
-        REQUIRE( char_traits<char>::eof()  == ch );
+        REQUIRE( EOF  == ch );
     }
 
     SECTION( "get(char_type& ch) single character" ) {
@@ -358,7 +358,7 @@ TEST_CASE( "std::getline", "[std] [iterator] [stream]" ) {
 TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
 
      SECTION( "ignore one character" ) {
-        istringstream      sin{"123456"};
+        istringstream sin{"123456"};
 
         REQUIRE ( sin.ignore(1) ); 
 
@@ -366,7 +366,7 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
     }
 
     SECTION( "ignore three character" ) {
-        istringstream      sin{"123456"};
+        istringstream  sin{"123456"};
 
         REQUIRE ( sin.ignore(3) ); 
 
@@ -374,7 +374,7 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
     }
 
     SECTION( "ignore three character" ) {
-        istringstream      sin{"123456"};
+        istringstream sin{"123456"};
 
         REQUIRE ( sin.ignore(3) ); 
 
@@ -382,7 +382,7 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
     }
 
     SECTION( "ignore all character" ) {
-        istringstream      sin{"123456"};
+        istringstream sin{"123456"};
 
         REQUIRE ( sin.ignore(numeric_limits<int>::max()) ); 
 
@@ -391,4 +391,26 @@ TEST_CASE( "ignore", "[std] [iterator] [stream]" ) {
         REQUIRE_FALSE ( sin.ignore(1) );
     }
 
+}
+
+TEST_CASE( "peek", "[std] [iterator] [stream]" ) {
+
+     SECTION( "peek one character" ) {
+        istringstream sin{"ABCDEFG"};
+
+        REQUIRE ( 'A' == sin.peek() ); 
+    }
+
+    SECTION( "peek when next character is new line" ) {
+        istringstream sin{"\nABCDEFG"};
+
+        REQUIRE ( '\n' == sin.peek() ); 
+    }
+
+    SECTION( "peek when next character is eof" ) {
+        istringstream sin;
+
+        REQUIRE ( EOF == sin.peek() ); 
+    }
+    
 }
