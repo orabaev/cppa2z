@@ -450,3 +450,58 @@ TEST_CASE( "putback", "[std] [istream] [input]" ) {
     }
     
 }
+
+TEST_CASE( "read", "[std] [istream] [input]" ) {
+
+    SECTION( "read one character" ) {
+        istringstream sin{"12345"};
+        
+        char ch = '\0';
+        REQUIRE( sin.read(&ch, 1) );
+
+        REQUIRE( 1 == sin.gcount() );
+        REQUIRE( ch == '1' );
+    }
+
+    SECTION( "read exact" ) {
+        istringstream sin{"12345"};
+        
+        const int count = 5;
+        const char non_null_char = 'Z';
+        char buffer[count + 1];
+        buffer[count] = non_null_char;
+
+        REQUIRE( sin.read(buffer, count) );
+
+        REQUIRE( count == sin.gcount() );
+        REQUIRE( non_null_char == buffer[count] );
+
+        buffer[count] = '\0';
+        REQUIRE( string{"12345"} == buffer );
+    }
+
+    SECTION( "try to read more than in the stream" ) {
+        istringstream sin{"12345"};
+        
+        const int count = 10;
+        char buffer[count + 1];
+
+        REQUIRE_FALSE( sin.read(buffer, count) );
+
+        REQUIRE( 5 == sin.gcount() );
+
+        buffer[5] = '\0';
+        REQUIRE( string{"12345"} == buffer );
+    }
+
+    SECTION( "try to read from empty stream" ) {
+        istringstream sin;
+        
+        char buffer[1];
+
+        REQUIRE_FALSE( sin.read(buffer, 1) );
+
+        REQUIRE( 0 == sin.gcount() );
+    }
+
+}
