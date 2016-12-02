@@ -505,3 +505,46 @@ TEST_CASE( "read", "[std] [istream] [input]" ) {
     }
 
 }
+
+TEST_CASE( "readsome", "[std] [istream] [input]" ) {
+
+    SECTION( "read one character if available in internal buffer" ) {
+        istringstream sin{"ABC"};
+        REQUIRE( sin.rdbuf()->in_avail() > 0 );
+        
+        char ch = '\0';
+
+        REQUIRE( 1 == sin.readsome(&ch, 1) );
+
+        REQUIRE( ch == 'A' );
+    }
+
+    SECTION( "try to read more characters that area available" ) {
+        istringstream sin{"ABC"};
+        REQUIRE( sin.rdbuf()->in_avail() > 0 );
+        
+        const int count = 10;
+        char buffer[count];
+
+        REQUIRE( 3 == sin.readsome(buffer, count) );
+
+        buffer[3] = '\0';
+
+        REQUIRE( string{"ABC"} == buffer );
+    }
+
+    SECTION( "try to readsome from empty stream" ) {
+        istringstream sin;
+        REQUIRE( sin.rdbuf()->in_avail() == 0 );
+        
+        const int count = 10;
+        char buffer[count];
+
+        REQUIRE( 0 == sin.readsome(buffer, count) );
+        REQUIRE( sin );
+
+        REQUIRE( 0 == sin.readsome(buffer, count) );
+        REQUIRE( sin );
+    }
+
+}
