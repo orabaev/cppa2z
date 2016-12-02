@@ -8,8 +8,8 @@ using namespace std;
 TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return max value" ) {
-        int x = 0;
-        int y = 1;
+        const int x = 0;
+        const int y = 1;
 
         const int max_value = max(x, y);
 
@@ -31,7 +31,7 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
     }
 
     SECTION( "return max value in the initializer list" ) {
-        const auto init_list = {1, 9, 3, 17}; 
+        const auto init_list = {1, 9, 3,   17}; 
 
         const int max_value = max(init_list);
 
@@ -39,7 +39,7 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
     }
 
     SECTION( "return max absolute value in the initializer list" ) {
-        const auto init_list = {-100, 1, -9, 3, 17}; 
+        const auto init_list = {-100,   1, -9, 3, 17}; 
 
         auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
 
@@ -51,7 +51,7 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
 // possible clang bug
 #ifndef __clang__
     SECTION( "return max value in the initializer list as constexpr" ) {
-        constexpr auto init_list = {1, 9, 3, 17}; 
+        constexpr auto init_list = {1, 9, 3,   17}; 
 
         constexpr int max_value = max(init_list);
 
@@ -64,7 +64,7 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
 TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return max element in the range" ) {
-        const vector<int> vec{1, 9, 2, 10};
+        const vector<int> vec{1, 9, 2,   10};
 
         const auto max_it = max_element(cbegin(vec), cend(vec));
 
@@ -72,7 +72,7 @@ TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
     } 
 
     SECTION( "return absolute max element in the range" ) {
-        const vector<int> vec{1, -15, 9, 2, 10};
+        const vector<int> vec{1,   -15,   9, 2, 10};
 
         auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
 
@@ -86,8 +86,8 @@ TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
 TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return min value" ) {
-        int x = 0;
-        int y = 1;
+        const int x = 0;
+        const int y = 1;
 
         const int min_value = min(x, y);
 
@@ -109,7 +109,7 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
     }
 
     SECTION( "return min value in the initializer list" ) {
-        const auto init_list = {1, 9, 3, 17}; 
+        const auto init_list = {1,   9, 3, 17}; 
 
         const int min_value = min(init_list);
 
@@ -117,7 +117,7 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
     }
 
     SECTION( "return min absolute value in the initializer list" ) {
-        const auto init_list = {-100, 1, -9, 3, 17}; 
+        const auto init_list = {-100,   1,   -9, 3, 17}; 
 
         auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
 
@@ -129,7 +129,7 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
 // possible clang bug
 #ifndef __clang__
     SECTION( "return min value in the initializer list as constexpr" ) {
-        constexpr auto init_list = {1, 9, 3, 17}; 
+        constexpr auto init_list = {1,   9, 3, 17}; 
 
         constexpr int min_value = min(init_list);
 
@@ -142,7 +142,7 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
 TEST_CASE( "min_element", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return min element in the range" ) {
-        const vector<int> vec{5, 9, 2, 10};
+        const vector<int> vec{5, 9,   2,   10};
 
         const auto min_it = min_element(cbegin(vec), cend(vec));
 
@@ -150,7 +150,7 @@ TEST_CASE( "min_element", "[std] [algorithm] [min max]" ) {
     } 
 
     SECTION( "return absolute min element in the range" ) {
-        const vector<int> vec{1, -15, 9, 2, 10};
+        const vector<int> vec{1,   -15, 9, 2, 10};
 
         auto compare_abs = [](int x, int y) { return abs(x) < abs(y); };
 
@@ -246,4 +246,3 @@ TEST_CASE( "minmax_element", "[std] [algorithm] [min max]" ) {
     }
 
 }
-
