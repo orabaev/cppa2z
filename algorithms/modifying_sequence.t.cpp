@@ -61,8 +61,8 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
 TEST_CASE( "copy_backward", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy last 3 elements to the end of non empty vector" ) {
-        const vector<int> from{1, 2, 3, 4, 5, 6, 7};
-              vector<int>   to{1, 2, 3, 4, 0, 0, 0};
+        const vector<int> from{1, 2, 3, 4,   5, 6, 7};
+              vector<int>   to{1, 2, 3, 4,   0, 0, 0};
 
         copy_backward(cbegin(from) + 4, cend(from), end(to));
 
