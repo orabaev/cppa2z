@@ -548,3 +548,34 @@ TEST_CASE( "readsome", "[std] [istream] [input]" ) {
     }
 
 }
+
+TEST_CASE( "unget", "[std] [istream] [input]" ) {
+
+    SECTION( "unget read character" ) {
+        istringstream sin{"ABCDEFG"};
+
+        REQUIRE( 'A' == sin.get() );
+        REQUIRE( sin.unget() );
+        REQUIRE( 'A' == sin.get() );
+    }
+
+    SECTION( "unget fails after eof" ) {
+        istringstream sin{"A"};
+
+        REQUIRE( 'A' == sin.get() );
+        REQUIRE( EOF == sin.get() );
+        REQUIRE_FALSE( sin.unget() );
+    }
+
+    SECTION( "unget last character" ) {
+        istringstream sin{"ABC"};
+
+        REQUIRE( 'A' == sin.get() );
+        REQUIRE( 'B' == sin.get() );
+
+        REQUIRE( 'C' == sin.get() );
+        REQUIRE( sin.unget() );
+        REQUIRE( 'C' == sin.get() );
+    }
+
+}
