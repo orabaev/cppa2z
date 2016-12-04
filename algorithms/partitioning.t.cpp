@@ -6,7 +6,7 @@ using namespace std;
 TEST_CASE( "is_partitioned", "[std] [algorithm] [partitioning]" ) {
     
     SECTION( "the range is partitioned with first group less than 3" ) {
-        const vector<int> vec{2, 0, 1, 3, 5, 4, 7};
+        const vector<int> vec{2, 0, 1,    3, 5, 4, 7};
 
         auto less_than_3 = [](int x) { return x < 3; };
 
@@ -30,13 +30,13 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
 
         auto less_than_3 = [](int x) { return x < 3; };
 
-        const auto first_it_second_group = partition(begin(vec), end(vec), less_than_3);
+        const auto first_it_in_second_group = partition(begin(vec), end(vec), less_than_3);
 
-        REQUIRE( first_it_second_group != cend(vec) );
-        REQUIRE( *first_it_second_group >= 3);
-        REQUIRE( 4 == distance(begin(vec), first_it_second_group) );
-        REQUIRE( all_of(begin(vec), first_it_second_group, less_than_3) );
-        REQUIRE( none_of(first_it_second_group, end(vec), less_than_3) );
+        REQUIRE( first_it_in_second_group != cend(vec) );
+        REQUIRE( *first_it_in_second_group >= 3);
+
+        REQUIRE( all_of(begin(vec), first_it_in_second_group, less_than_3) );
+        REQUIRE( none_of(first_it_in_second_group, end(vec), less_than_3) );
     } 
 
     SECTION( "partition the range, there is only second group" ) {
@@ -44,9 +44,9 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
 
         auto less_than_3 = [](int x) { return x < 3; };
 
-        const auto first_it_second_group = partition(begin(vec), end(vec), less_than_3);
+        const auto first_it_in_second_group = partition(begin(vec), end(vec), less_than_3);
 
-        REQUIRE( first_it_second_group == cbegin(vec) );
+        REQUIRE( first_it_in_second_group == cbegin(vec) );
     }
 
     SECTION( "partition the range, there is only first group" ) {
@@ -54,9 +54,9 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
 
         auto less_than_3 = [](int x) { return x < 3; };
 
-        const auto first_it_second_group = partition(begin(vec), end(vec), less_than_3);
+        const auto first_it_in_second_group = partition(begin(vec), end(vec), less_than_3);
 
-        REQUIRE( first_it_second_group == cend(vec) );
+        REQUIRE( first_it_in_second_group == cend(vec) );
     }
 }
 
@@ -88,14 +88,15 @@ TEST_CASE( "partition_copy", "[std] [algorithm] [partitioning] [copy]" ) {
 
 TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
     
-    SECTION( "partitioned point found" ) {
-        const vector<int> vec{2, 0, 1, 3, 5, 4, 7};
+    SECTION( "partition point found" ) {
+        const vector<int> vec{2, 0, 1,   3, 5, 4, 7};
 
         auto less_than_3 = [](int x) { return x < 3; };
 
         const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
 
         REQUIRE ( cend(vec) != it );
+
         const auto partition_pos = distance(cbegin(vec), it);        
         REQUIRE ( 3 == partition_pos ); 
     } 
@@ -110,19 +111,6 @@ TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
         REQUIRE ( cend(vec) == it );
     }
 
-    SECTION( "partition first group is not at the begining of the range" ) {
-        const vector<int> vec{4, 3, 1, 0, 2, 55, 8};
-
-        auto less_than_3 = [](int x) { return x < 3; };
-        
-        const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
-
-        REQUIRE ( cend(vec) != it );
-
-        const auto partition_pos = distance(cbegin(vec), it);        
-        REQUIRE ( 5 == partition_pos );
-    }
-
 }
 
 TEST_CASE( "stable_partition", "[std] [algorithm] [partitioning] [copy]" ) {
@@ -134,15 +122,13 @@ TEST_CASE( "stable_partition", "[std] [algorithm] [partitioning] [copy]" ) {
 
         auto less_than_3 = [](int x) { return x < 3; };
 
-        const auto first_it_second_group = stable_partition(begin(vec), end(vec), less_than_3);
+        const auto first_it_in_second_group = stable_partition(begin(vec), end(vec), less_than_3);
         
         bool first_as_expected = equal(cbegin(first), cend(first), cbegin(vec));
         REQUIRE ( first_as_expected  );
 
-        bool second_as_expected = equal(cbegin(second), cend(second), first_it_second_group);
+        bool second_as_expected = equal(cbegin(second), cend(second), first_it_in_second_group);
         REQUIRE ( first_as_expected  );
     } 
 
 }
-
-
