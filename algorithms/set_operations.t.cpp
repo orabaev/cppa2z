@@ -7,7 +7,7 @@ using namespace std;
 TEST_CASE( "includes", "[std] [algorithm] [set operations]" ) {
     
     SECTION( "sorted vec1 contains all elements from sorted vec2" ) {
-        const vector<int> vec1{0, 1, 2, 3, 4, 5, 6};
+        const vector<int> vec1{0, 1,   2, 3,   4, 5,   6};
         const vector<int> vec2{2, 3, 6};
 
         bool found = includes(
@@ -21,7 +21,7 @@ TEST_CASE( "includes", "[std] [algorithm] [set operations]" ) {
     } 
 
     SECTION( "descending sorted vec1 contains all elements from descending sorted vec2" ) {
-        const vector<int> vec1{6, 5, 4, 3, 2, 1, 0};
+        const vector<int> vec1{6,   5,   4, 3,   2,   1,   0};
         const vector<int> vec2{5, 2, 0};
 
         bool found = includes(
@@ -45,7 +45,7 @@ TEST_CASE( "inplace_merge", "[std] [algorithm] [set operations]" ) {
         const vector<int> expected{0, 1, 2, 3, 4, 5, 6};
         
         auto middle = begin(vec) + 3;
-        REQUIRE ( 1 == *middle);
+        REQUIRE ( 1 == *middle );
 
         inplace_merge(begin(vec), middle, end(vec));
 
@@ -58,7 +58,7 @@ TEST_CASE( "inplace_merge", "[std] [algorithm] [set operations]" ) {
         const vector<int> expected{6, 5, 4, 3, 2, 1, 0};
         
         auto middle = begin(vec) + 3;
-        REQUIRE ( 6 == *middle);
+        REQUIRE ( 6 == *middle );
 
         inplace_merge(
               begin(vec)
