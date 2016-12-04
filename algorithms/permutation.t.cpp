@@ -18,7 +18,6 @@ TEST_CASE( "is_permutation", "[std] [algorithm] [permutation]" ) {
                              );
                   
         REQUIRE( is_perm ); 
-
     } 
 
     SECTION( "one range is permutation of another using case insensetive compare" ) {
@@ -35,25 +34,23 @@ TEST_CASE( "is_permutation", "[std] [algorithm] [permutation]" ) {
                              );
                   
         REQUIRE( is_perm ); 
-
     } 
 
     SECTION( "one range is not permutation of another" ) {
         const vector<int> vec1{0, 1, 2, 3};
-        const vector<int> vec2{2, 1, 0, 3};
+        const vector<int> vec2{2, 1, 5, 3};
         
         const bool is_perm = is_permutation(
                                  cbegin(vec1)
                                , cend(vec1)
                                , cbegin(vec2)
-                               , cend(vec2) - 1
+                               , cend(vec2)
                              );
                   
         REQUIRE_FALSE( is_perm ); 
-
     } 
 
-    SECTION( "one range is another using case insensetive compare" ) {
+    SECTION( "one range is permutation of another range using case insensetive compare" ) {
         const string str1{"abcde"};
         const string str2{"CebDa"};
         
@@ -67,7 +64,6 @@ TEST_CASE( "is_permutation", "[std] [algorithm] [permutation]" ) {
                              );
                   
         REQUIRE( is_perm ); 
-
     }
 
 }
@@ -200,7 +196,7 @@ TEST_CASE( "next_permutation", "[std] [algorithm] [permutation]" ) {
 
 TEST_CASE( "prev_permutation", "[std] [algorithm] [permutation]" ) {
     
-    SECTION( "generates prev lexicographicaly ordered permutation" ) {
+    SECTION( "generates previous lexicographicaly ordered permutation" ) {
               vector<int>   vec{0, 1, 2};
         const vector<int> perm1{2, 1, 0};
         const vector<int> perm2{2, 0, 1};
@@ -228,7 +224,7 @@ TEST_CASE( "prev_permutation", "[std] [algorithm] [permutation]" ) {
         REQUIRE( perm6 == vec );
     } 
 
-    SECTION( "generates prev lexicographicaly ordered permutation using case insensitive compare" ) {
+    SECTION( "generates previous lexicographicaly ordered permutation using case insensitive compare" ) {
               string    str{"aBc"};
         const string  perm1{"cBa"};
         const string  perm2{"caB"};
