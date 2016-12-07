@@ -98,3 +98,33 @@ TEST_CASE( "seekg", "[std] [istream] [misc]" ) {
         REQUIRE_FALSE( sin.seekg(1, ios_base::cur) );
     }
 }
+
+struct Person {
+    string Name;
+    int    Age;
+};
+
+istream& operator>>(istream& sin, Person& person) {
+    // sentry -----
+    istream::sentry entry(sin);
+    // ------ sentry
+    if (entry) {
+        sin >> person.Name >> person.Age;    
+    }
+
+    return sin;
+} 
+
+TEST_CASE( "sentry", "[std] [istream] [misc]" ) {
+    
+    SECTION( "use sentry when implementing operator>> for input stream" ) {
+        istringstream sin{"Bill 70"};
+        
+        Person person{"NA", 0}; 
+        REQUIRE( sin >> person );
+        
+        REQUIRE( "Bill" == person.Name );
+        REQUIRE(     70 == person.Age  );
+    }
+
+} 
