@@ -73,6 +73,7 @@ void readme_gen::streams() {
     m_writer.heading3("istream");
 
     section("input functions"   , "./streams/istream_input.t.cpp");
+    section("miscellaneous"     , "./streams/istream_misc.t.cpp");
     
     m_writer.newline();
 }
