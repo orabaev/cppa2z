@@ -1,7 +1,7 @@
 #include <catch.hpp>
 #include <sstream>
+#include <fstream>
 #include <iostream>
-#include <limits>
 
 using namespace std;
 
@@ -128,3 +128,30 @@ TEST_CASE( "sentry", "[std] [istream] [misc]" ) {
     }
 
 } 
+
+TEST_CASE( "sync", "[std] [istream] [misc]" ) {
+    
+    SECTION( "sync file stream while underlying file has changed" ) {
+        ofstream fout("sync.tmp");
+        REQUIRE( fout );
+        fout << "abc"; 
+        fout.close();
+
+        ifstream fin("sync.tmp"); 
+        REQUIRE( fin );
+
+        REQUIRE( 'a' == fin.get() );
+
+        fout.open("sync.tmp");
+        fout << "ABC"; 
+        fout.close();
+
+        // sync ------
+        REQUIRE ( 0 == fin.sync() );
+        // ------ sync
+
+        REQUIRE( 'B' == fin.get() );
+        REQUIRE( 'C' == fin.get() );
+    }
+
+}
