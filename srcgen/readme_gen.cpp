@@ -70,10 +70,13 @@ void readme_gen::iterators() {
 
 void readme_gen::streams() {
     m_writer.heading2("streams");
-    m_writer.heading3("istream");
 
+    m_writer.heading3("istream");
     section("input functions"   , "./streams/istream_input.t.cpp");
     section("miscellaneous"     , "./streams/istream_misc.t.cpp");
+
+    m_writer.heading3("ostream");
+    section("output functions"   , "./streams/ostream_output.t.cpp");
     
     m_writer.newline();
 }
