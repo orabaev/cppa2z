@@ -75,10 +75,12 @@ void readme_gen::streams() {
     section("input functions"   , "./streams/istream_input.t.cpp");
     section("miscellaneous"     , "./streams/istream_misc.t.cpp");
 
+    m_writer.newline();
+
     m_writer.heading3("ostream");
     section("output functions"   , "./streams/ostream_output.t.cpp");
     section("miscellaneous"     , "./streams/ostream_misc.t.cpp");
-    
+
     m_writer.newline();
 }
 
