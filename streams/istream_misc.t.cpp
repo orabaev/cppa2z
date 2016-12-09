@@ -99,6 +99,7 @@ TEST_CASE( "seekg", "[std] [istream] [misc]" ) {
     }
 }
 
+namespace {
 struct Person {
     string Name;
     int    Age;
@@ -128,6 +129,7 @@ TEST_CASE( "sentry", "[std] [istream] [misc]" ) {
     }
 
 } 
+} // namespace
 
 TEST_CASE( "sync", "[std] [istream] [misc]" ) {
     

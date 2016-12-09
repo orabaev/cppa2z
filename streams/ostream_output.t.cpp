@@ -104,7 +104,6 @@ TEST_CASE( "write", "[std] [istream] [output]" ) {
         const int written_value = *(reinterpret_cast<const int*>(str.data()));
         
         REQUIRE( value == written_value );
-
     }
 
 }

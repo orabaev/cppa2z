@@ -9,8 +9,8 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o
-	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o
+	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o
 
 	./cppa2z
 
@@ -76,6 +76,8 @@ istream_misc.t.o: ./streams/istream_misc.t.cpp
 ostream_output.t.o: ./streams/ostream_output.t.cpp
 	$(COMPILE) ./streams/ostream_output.t.cpp
 
+ostream_misc.t.o: ./streams/ostream_misc.t.cpp
+	$(COMPILE) ./streams/ostream_misc.t.cpp
 
 #
 # strgen
