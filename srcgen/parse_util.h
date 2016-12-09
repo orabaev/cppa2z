@@ -18,6 +18,16 @@ auto find_delimiters(
     , const T& second_delim
 );
 
+// copies elements found after delimiter to another range
+// if no delimiter found copies all elements
+template<class InputIt, class T, class OutputIt>
+void copy_all_or_after(
+      InputIt first_it
+    , InputIt last_it
+    , const T& delim
+    , OutputIt output_it
+);
+
 // copies delimited elements in the range to another range
 // returns pair containing success flag and iterator to
 // the element right after the second delimiter
@@ -69,6 +79,23 @@ auto find_delimiters(
 
     ret.second = std::find(std::next(ret.first), last_it, second_delim);
     return ret;
+}
+
+template<class InputIt, class T, class OutputIt>
+void copy_all_or_after(
+      InputIt first_it
+    , InputIt last_it
+    , const T& delim
+    , OutputIt output_it
+)
+{
+    const auto it = std::find(first_it, last_it, delim);
+    auto copy_from_it =  first_it;
+    if (it != last_it) {
+        copy_from_it = it + 1;    
+    }
+
+    copy(copy_from_it, last_it, output_it);
 }
 
 template<class InputIt, class T, class OutputIt>

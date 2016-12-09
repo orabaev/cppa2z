@@ -121,6 +121,55 @@ TEST_CASE( "find_delimiters" ) {
     }
 }
 
+TEST_CASE( "copy_all_or_after" ) {
+    
+    SECTION( "copy when delimiter was found" ) {
+        const string     from{"istringstream.operator="};
+              string       to; 
+        const string expected{"operator="};
+        
+        copy_all_or_after(
+              cbegin(from)
+            , cend(from)
+            , '.'
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    } 
+
+    SECTION( "copy when delimiter was not found" ) {
+        const string     from{"operator="};
+              string       to; 
+        const string expected{"operator="};
+        
+        copy_all_or_after(
+              cbegin(from)
+            , cend(from)
+            , '.'
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    }
+
+    SECTION( "empty string" ) {
+        const string     from;
+              string       to; 
+        const string expected;
+        
+        copy_all_or_after(
+              cbegin(from)
+            , cend(from)
+            , '.'
+            , back_inserter(to)
+        );
+
+        REQUIRE( expected == to );
+    }
+
+}
+
 TEST_CASE( "copy_delimited" ) {
     
     SECTION( "value copied" ) {

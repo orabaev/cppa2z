@@ -9,13 +9,35 @@ default: cppa2z
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o
-	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o
+cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o istringstream.t.o
+	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o istringstream.t.o
 
 	./cppa2z
 
 main.o: main.cpp
 	$(COMPILE) main.cpp
+
+# strgen
+#
+parse_util.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp
+	$(COMPILE) ./srcgen/parse_util.cpp
+
+parse_util.t.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp ./srcgen/parse_util.t.cpp
+	$(COMPILE) ./srcgen/parse_util.t.cpp
+
+md_writer.o: ./srcgen/md_writer.h ./srcgen/md_writer.cpp
+	$(COMPILE) ./srcgen/md_writer.cpp
+
+md_writer.t.o: ./srcgen/md_writer.h ./srcgen/md_writer.cpp ./srcgen/md_writer.t.cpp
+	$(COMPILE) ./srcgen/md_writer.t.cpp
+
+readme_gen.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp
+	$(COMPILE) ./srcgen/readme_gen.cpp
+
+readme_gen.t.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp ./srcgen/readme_gen.t.cpp
+	$(COMPILE) ./srcgen/readme_gen.t.cpp
+
+
 
 #
 # algorithms
@@ -73,32 +95,14 @@ istream_input.t.o: ./streams/istream_input.t.cpp
 istream_misc.t.o: ./streams/istream_misc.t.cpp
 	$(COMPILE) ./streams/istream_misc.t.cpp
 
+istringstream.t.o: ./streams/istringstream.t.cpp
+	$(COMPILE) ./streams/istringstream.t.cpp
+
 ostream_output.t.o: ./streams/ostream_output.t.cpp
 	$(COMPILE) ./streams/ostream_output.t.cpp
 
 ostream_misc.t.o: ./streams/ostream_misc.t.cpp
 	$(COMPILE) ./streams/ostream_misc.t.cpp
-
-#
-# strgen
-#
-parse_util.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp
-	$(COMPILE) ./srcgen/parse_util.cpp
-
-parse_util.t.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp ./srcgen/parse_util.t.cpp
-	$(COMPILE) ./srcgen/parse_util.t.cpp
-
-md_writer.o: ./srcgen/md_writer.h ./srcgen/md_writer.cpp
-	$(COMPILE) ./srcgen/md_writer.cpp
-
-md_writer.t.o: ./srcgen/md_writer.h ./srcgen/md_writer.cpp ./srcgen/md_writer.t.cpp
-	$(COMPILE) ./srcgen/md_writer.t.cpp
-
-readme_gen.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp
-	$(COMPILE) ./srcgen/readme_gen.cpp
-
-readme_gen.t.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp ./srcgen/readme_gen.t.cpp
-	$(COMPILE) ./srcgen/readme_gen.t.cpp
 
 
 .PHONY: clean
