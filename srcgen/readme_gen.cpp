@@ -27,7 +27,16 @@ void readme_gen::section(const string& section, const string& file_path) {
     const auto test_case_lines = extract_test_case_lines(fin);
 
     for (const auto& value : test_case_lines) {
-        m_writer.link_to_repo_file(value.second, file_path, value.first);
+        string normalized_test_case_name;
+
+        copy_all_or_after(
+              cbegin(value.second)
+            , cend(value.second)
+            , '.'
+            , back_inserter(normalized_test_case_name)
+        );
+
+        m_writer.link_to_repo_file(normalized_test_case_name, file_path, value.first);
         m_writer.html_space().html_space();
     }
 
@@ -74,6 +83,7 @@ void readme_gen::streams() {
     m_writer.heading3("istream");
     section("input functions"   , "./streams/istream_input.t.cpp");
     section("miscellaneous"     , "./streams/istream_misc.t.cpp");
+    section("istringstream"     , "./streams/istringstream.t.cpp");
 
     m_writer.newline();
 
