@@ -77,6 +77,7 @@ void readme_gen::streams() {
 
     m_writer.heading3("ostream");
     section("output functions"   , "./streams/ostream_output.t.cpp");
+    section("miscellaneous"     , "./streams/ostream_misc.t.cpp");
     
     m_writer.newline();
 }
