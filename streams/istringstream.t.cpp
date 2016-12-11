@@ -33,7 +33,7 @@ TEST_CASE( "istringstream.opearator=", "[std] [istringstream]" ) {
 
 TEST_CASE( "istringstream.swap", "[std] [istringstream]" ) {
 
-    SECTION( "swap" ) {
+    SECTION( "member swap" ) {
         istringstream sin1{"sin1"};
         istringstream sin2{"sin2"};
 
@@ -42,10 +42,6 @@ TEST_CASE( "istringstream.swap", "[std] [istringstream]" ) {
         REQUIRE ( "sin2" == sin1.str() );
         REQUIRE ( "sin1" == sin2.str() );
     }
-
-}
-
-TEST_CASE( "istringstream.std::swap", "[std] [istringstream]" ) {
 
     SECTION( "std::swap" ) {
         istringstream sin1{"sin1"};
