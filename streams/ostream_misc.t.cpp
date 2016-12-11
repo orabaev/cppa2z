@@ -117,12 +117,12 @@ TEST_CASE( " sentry", "[std] [ostream] [misc]" ) {
 TEST_CASE( "flush", "[std] [ostream] [misc]" ) {
     
     SECTION( "flush file stream to sync with underlying file" ) {
-        ofstream fout("sync.tmp");
+        ofstream fout("flush.tmp");
         REQUIRE( fout );
         fout << "abc"; 
 
         string str;
-        ifstream fin("sync.tmp"); 
+        ifstream fin("flush.tmp"); 
         REQUIRE_FALSE( fin >> str );
         fin.close();
 
@@ -130,10 +130,11 @@ TEST_CASE( "flush", "[std] [ostream] [misc]" ) {
         REQUIRE( fout.flush() );
         // ---- flush
 
-        fin.open("sync.tmp");
+        fin.open("flush.tmp");
         REQUIRE( fin >> str );
 
         REQUIRE( "abc" == str );
     }
 
+    REQUIRE( 0 == remove("flush.tmp") );
 }

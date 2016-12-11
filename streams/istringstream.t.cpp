@@ -45,6 +45,20 @@ TEST_CASE( "istringstream.swap", "[std] [istringstream]" ) {
 
 }
 
+TEST_CASE( "istringstream.std::swap", "[std] [istringstream]" ) {
+
+    SECTION( "std::swap" ) {
+        istringstream sin1{"sin1"};
+        istringstream sin2{"sin2"};
+
+        swap(sin1, sin2);
+
+        REQUIRE ( "sin2" == sin1.str() );
+        REQUIRE ( "sin1" == sin2.str() );
+    }
+
+}
+
 TEST_CASE( "istringstream.rdbuf", "[std] [istringstream]" ) {
 
     SECTION( "rdbuf" ) {

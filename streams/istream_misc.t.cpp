@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -9,6 +10,12 @@ TEST_CASE( "tellg", "[std] [istream] [misc]" ) {
     
     SECTION( "input position indicator when nothing was read of the istream" ) {
         istringstream sin{"0123"};
+        
+        REQUIRE( 0 == sin.tellg() );
+    }
+
+    SECTION( "input position indicator when istream is empty" ) {
+        istringstream sin;
         
         REQUIRE( 0 == sin.tellg() );
     }
@@ -155,5 +162,7 @@ TEST_CASE( "sync", "[std] [istream] [misc]" ) {
         REQUIRE( 'B' == fin.get() );
         REQUIRE( 'C' == fin.get() );
     }
+
+    REQUIRE( 0 == remove("sync.tmp") );
 
 }

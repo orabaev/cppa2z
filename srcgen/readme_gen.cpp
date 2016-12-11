@@ -84,6 +84,7 @@ void readme_gen::streams() {
     section("input functions"   , "./streams/istream_input.t.cpp");
     section("miscellaneous"     , "./streams/istream_misc.t.cpp");
     section("istringstream"     , "./streams/istringstream.t.cpp");
+    section("ifstream"          , "./streams/ifstream.t.cpp");
 
     m_writer.newline();
 
