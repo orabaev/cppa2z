@@ -199,6 +199,8 @@ TEST_CASE( "ifstream.close", "[std] [ifstream]" ) {
 
     SECTION( "close non opened file" ) {
         ifstream fin;
+        
+        REQUIRE( fin );
 
         fin.close();
 
