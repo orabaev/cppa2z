@@ -41,19 +41,28 @@ TEST_CASE( "ofstream.ctor", "[std] [streams] [ofstream]" ) {
         REQUIRE( 3 == fout_create_new.tellp() );
         fout_create_new.close();
 
-        ofstream fout_write_at_the_end("ofstream.tmp", ios_base::out | ios_base::app);
+        ofstream fout("ofstream.tmp", ios_base::out | ios_base::app);
 
-        REQUIRE( 3 == fout_write_at_the_end.tellp() );
-        fout_write_at_the_end.seekp(0);
+        bool wrote_at_the_end = fout.tellp() == 3;
+        REQUIRE( wrote_at_the_end );
 
-        fout_write_at_the_end << "DEF";
-        REQUIRE( 6 == fout_write_at_the_end.tellp() );
+        fout.seekp(0);
+        fout << "DEF";
+
+        wrote_at_the_end = fout.tellp() == 6;
+        REQUIRE( wrote_at_the_end );
     }
 
     SECTION( "[out | in | ate] always use existing file, seeks at the end of the stream but can write anywhere" ) {
         ofstream fout_try_to_open("ofstream.tmp", ios_base::out | ios_base::in | ios_base::ate);
         bool file_does_not_exist = fout_try_to_open.tellp() == -1;
         REQUIRE( file_does_not_exist );
+
+        ofstream fout_create_new("ofstream.tmp", ios_base::out);
+        REQUIRE( 0 == fout_create_new.tellp() );
+        fout_create_new << "ABC";
+        REQUIRE( 3 == fout_create_new.tellp() );
+        fout_create_new.close();
 
         ofstream fout_make_sure_file_exists("ofstream.tmp", ios_base::out);
         fout_make_sure_file_exists << "ABC";
@@ -96,5 +105,62 @@ TEST_CASE( "ofstream.ctor", "[std] [streams] [ofstream]" ) {
     }
 
     remove("ofstream.tmp");
+
+}
+
+TEST_CASE( "ofstream.operator=", "[std] [streams] [ofstream]" ) {
+
+    SECTION( "operator=" ) {
+        ofstream  fout2;
+        REQUIRE( -1 == fout2.tellp() ); 
+
+        ofstream  fout1("ofstream.tmp");
+
+        fout2 = move(fout1);
+
+        REQUIRE( 0 == fout2.tellp() );
+    }
+
+    REQUIRE( 0 == remove("ofstream.tmp") );
+} 
+
+TEST_CASE( "ofstream.swap", "[std] [streams] [ofstream]" ) {
+
+    SECTION( "member swap" ) {
+        ofstream  fout1("ofstream.tmp");
+        ofstream  fout2;
+
+        REQUIRE(  0 == fout1.tellp() );
+        REQUIRE( -1 == fout2.tellp() );
+
+        fout1.swap(fout2);
+
+        REQUIRE( -1 == fout1.tellp() );
+        REQUIRE(  0 == fout2.tellp() );
+    }
+
+    SECTION( "std::swap" ) {
+        ofstream  fout1("ofstream.tmp");
+        ofstream  fout2;
+
+        REQUIRE(  0 == fout1.tellp() );
+        REQUIRE( -1 == fout2.tellp() );
+
+        std::swap(fout1, fout2);
+
+        REQUIRE( -1 == fout1.tellp() );
+        REQUIRE(  0 == fout2.tellp() );
+    }
+
+    REQUIRE( 0 == remove("ofstream.tmp") );
+}
+
+TEST_CASE( "ofstream.rdbuf", "[std] [streams] [ofstream]" ) {
+
+    SECTION( "rdbuf" ) {
+        ofstream  fout;
+
+        REQUIRE ( nullptr != fout.rdbuf() );
+    }
 
 }
