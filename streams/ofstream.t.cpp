@@ -164,3 +164,79 @@ TEST_CASE( "ofstream.rdbuf", "[std] [streams] [ofstream]" ) {
     }
 
 }
+
+TEST_CASE( "ofstream.is_open", "[std] [streams] [ofstream]" ) {
+
+    SECTION( "is_open file exist or created new" ) {
+        ofstream  fout("ofstream.tmp");
+
+        REQUIRE( fout.is_open() );
+    }
+
+    SECTION( "is_open when default contructed" ) {
+        ofstream  fout;
+        
+        REQUIRE_FALSE( fout.is_open() );
+    }
+
+    SECTION( "is_open file must exist" ) {
+        ofstream  fout("ofstream.tmp", ios_base::out | ios_base::in | ios_base::ate);
+         
+        REQUIRE_FALSE( fout.is_open() );
+    }
+
+    remove("ofstream.tmp");
+}
+
+TEST_CASE( "ofstream.open", "[std] [streams] [ofstream]" ) {
+
+    SECTION( "open when file exists" ) {
+        ofstream("ofstream.tmp");
+        
+        ofstream  fout;
+        fout.open("ofstream.tmp");
+         
+        REQUIRE( fout );
+    }
+
+    SECTION( "open when file does not exist but will be created on open" ) {
+        ofstream  fout;
+        fout.open("ofstream.tmp");
+         
+        REQUIRE( fout );
+    }
+
+    SECTION( "open when file does not exist" ) {
+        ofstream  fout;
+        fout.open("ofstream.tmp", ios_base::out | ios_base::in | ios_base::ate);
+         
+        REQUIRE_FALSE( fout );
+    }
+
+    remove("ofstream.tmp");
+
+}
+
+TEST_CASE( "ofstream.close", "[std] [streams]  [ofstream]" ) {
+
+    SECTION( "close opened file" ) {
+        ofstream fout("ofstream.tmp");
+
+        fout.close();
+
+        REQUIRE( fout );
+    }
+
+    SECTION( "close non opened file" ) {
+        ofstream fout;
+        
+        REQUIRE( fout );
+
+        fout.close();
+
+        REQUIRE_FALSE( fout );
+    }
+
+    remove("ofstream.tmp");
+
+}
