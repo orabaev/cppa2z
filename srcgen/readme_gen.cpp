@@ -85,7 +85,6 @@ void readme_gen::streams() {
     section("miscellaneous"     , "./streams/istream_misc.t.cpp");
     section("istringstream"     , "./streams/istringstream.t.cpp");
     section("ifstream"          , "./streams/ifstream.t.cpp");
-
     m_writer.newline();
 
     m_writer.heading3("ostream");
@@ -93,7 +92,10 @@ void readme_gen::streams() {
     section("miscellaneous"     , "./streams/ostream_misc.t.cpp");
     section("ostringstream"     , "./streams/ostringstream.t.cpp");
     section("ofstream"          , "./streams/ofstream.t.cpp");
+    m_writer.newline();
 
+    m_writer.heading3("manipulators");
+    section("manipulators"     , "./streams/manipulators.t.cpp");
     m_writer.newline();
 }
 
