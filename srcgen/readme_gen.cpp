@@ -92,6 +92,7 @@ void readme_gen::streams() {
     section("output functions"  , "./streams/ostream_output.t.cpp");
     section("miscellaneous"     , "./streams/ostream_misc.t.cpp");
     section("ostringstream"     , "./streams/ostringstream.t.cpp");
+    section("ofstream"          , "./streams/ofstream.t.cpp");
 
     m_writer.newline();
 }
