@@ -208,3 +208,115 @@ TEST_CASE( "noshowpoint", "[std] [ostream] [manipulators]" ) {
     }
 
 }
+
+TEST_CASE( "showpos", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( "<< showpos << integer" ) {
+        ostringstream sout;
+
+        sout << showpos << 27 ;
+
+        REQUIRE( "+27" == sout.str() );
+    }
+
+    SECTION( "<< showpos << floating-point" ) {
+        ostringstream sout;
+
+        sout << showpos << 27.123 ;
+
+        REQUIRE( "+27.123" == sout.str() );
+    }
+
+}
+
+TEST_CASE( "noshowpos", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( "<< noshowpos << integer" ) {
+        ostringstream sout;
+
+        sout << noshowpos << 27 ;
+
+        REQUIRE( "27" == sout.str() );
+    }
+
+    SECTION( "<< noshowpos << floating-point" ) {
+        ostringstream sout;
+
+        sout << noshowpos << 27.123 ;
+
+        REQUIRE( "27.123" == sout.str() );
+    }
+
+}
+
+TEST_CASE( "skipws", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( ">> skipws >> character" ) {
+        istringstream sin{"A B C"};
+        
+        char a, b, c = '\0';        
+
+        sin >> skipws >> a >> b >> c;
+
+        REQUIRE( 'A' == a);
+        REQUIRE( 'B' == b );
+        REQUIRE( 'C' == c );
+    }
+
+}
+
+TEST_CASE( "noskipws", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( ">> skipws >> character" ) {
+        istringstream sin{"A B C"};
+        
+        char a, b, c = '\0';        
+
+        sin >> noskipws >> a >> b >> c;
+
+        REQUIRE( 'A' == a);
+        REQUIRE( ' ' == b );
+        REQUIRE( 'B' == c );
+    }
+
+}
+
+TEST_CASE( "uppercase", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( "<< uppercase << hex << integer" ) {
+        ostringstream sout;;
+        
+        sout << uppercase << hex << 255;
+
+        REQUIRE( "FF" == sout.str() );
+    }
+
+    SECTION( "<< uppercase << hex << floating-point" ) {
+        ostringstream sout;;
+        
+        sout << uppercase << hex << 1e-35;
+
+        REQUIRE( "1E-35" == sout.str() );
+    }
+
+}
+
+TEST_CASE( "nouppercase", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( "<< nouppercase << hex << integer" ) {
+        ostringstream sout;;
+        
+        sout << nouppercase << hex << 255;
+
+        REQUIRE( "ff" == sout.str() );
+    }
+
+    SECTION( "<< uppercase << hex << floating-point" ) {
+        ostringstream sout;;
+        
+        sout << nouppercase << hex << 1e-35;
+
+        REQUIRE( "1e-35" == sout.str() );
+    }
+
+}
