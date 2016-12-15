@@ -1,9 +1,10 @@
 #include <catch.hpp>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
-TEST_CASE( "boolalpha", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "boolalpha", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< boolalpha" ) {
         ostringstream sout;
@@ -36,7 +37,7 @@ TEST_CASE( "boolalpha", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "noboolalpha", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "noboolalpha", "[std] [streams] [manipulators]" ) {
 
     SECTION( "<< noboolalpha" ) {
         ostringstream sout;
@@ -69,7 +70,7 @@ TEST_CASE( "noboolalpha", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "showbase", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "showbase", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< showbase << hex" ) {
         ostringstream sout;
@@ -119,7 +120,7 @@ TEST_CASE( "showbase", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "noshowbase", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "noshowbase", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< noshowbase << hex" ) {
         ostringstream sout;
@@ -169,7 +170,7 @@ TEST_CASE( "noshowbase", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "showpoint", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "showpoint", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< showpoint << floating-point with zeroes after decimal point" ) {
         ostringstream sout;
@@ -189,7 +190,7 @@ TEST_CASE( "showpoint", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "noshowpoint", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "noshowpoint", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< noshowpoint << floating-point with zeroes after decimal point" ) {
         ostringstream sout;
@@ -209,7 +210,7 @@ TEST_CASE( "noshowpoint", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "showpos", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "showpos", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< showpos << integer" ) {
         ostringstream sout;
@@ -229,7 +230,7 @@ TEST_CASE( "showpos", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "noshowpos", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "noshowpos", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< noshowpos << integer" ) {
         ostringstream sout;
@@ -249,7 +250,7 @@ TEST_CASE( "noshowpos", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "skipws", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "skipws", "[std] [streams] [manipulators]" ) {
     
     SECTION( ">> skipws >> character" ) {
         istringstream sin{"A B C"};
@@ -265,7 +266,7 @@ TEST_CASE( "skipws", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "noskipws", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "noskipws", "[std] [streams] [manipulators]" ) {
     
     SECTION( ">> skipws >> character" ) {
         istringstream sin{"A B C"};
@@ -281,7 +282,7 @@ TEST_CASE( "noskipws", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "uppercase", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "uppercase", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< uppercase << hex << integer" ) {
         ostringstream sout;;
@@ -301,7 +302,7 @@ TEST_CASE( "uppercase", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "nouppercase", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "nouppercase", "[std] [streams] [manipulators]" ) {
     
     SECTION( "<< nouppercase << hex << integer" ) {
         ostringstream sout;;
@@ -317,6 +318,129 @@ TEST_CASE( "nouppercase", "[std] [ostream] [manipulators]" ) {
         sout << nouppercase << hex << 1e-35;
 
         REQUIRE( "1e-35" == sout.str() );
+    }
+
+}
+
+TEST_CASE( "unitbuf", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "automatically flushes the buffer after each output operation" ) {
+        ofstream fout("unitbuf.tmp");;
+        fout << unitbuf << "flushed";
+        
+        ifstream fin("unitbuf.tmp");;
+        string str;
+        fin >> str; 
+
+        REQUIRE( "flushed" == str );
+        
+        fout.close();
+        fin.close();
+        remove("unitbuf.tmp");
+    }
+
+}
+
+TEST_CASE( "nounitbuf", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "does not automatically flush the buffer after each output operation" ) {
+        ofstream fout("unitbuf.tmp");;
+        fout << unitbuf;
+        fout << nounitbuf << "not flushed";
+        
+        ifstream fin("unitbuf.tmp");;
+        string str;
+        REQUIRE_FALSE( fin >> str );
+        
+        fout.close();
+        fin.close();
+        remove("unitbuf.tmp");
+    }
+
+}
+
+TEST_CASE( "left", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "left adjust text" ) {
+        ostringstream sout;
+
+        sout << setw(10) << left << "ABCDE";
+        
+        REQUIRE( "ABCDE     " == sout.str() ); 
+    }
+
+    SECTION( "left adjust number" ) {
+        ostringstream sout;
+
+        sout << setw(10) << left << 12345;
+        
+        REQUIRE( "12345     " == sout.str() ); 
+    }
+
+    SECTION( "left adjust text with custom fill character" ) {
+        ostringstream sout;
+
+        sout << setw(10) << left << setfill('@')  << "ABCDE";
+        
+        REQUIRE( "ABCDE@@@@@" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "right", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "right adjust text" ) {
+        ostringstream sout;
+
+        sout << setw(10) << right << "ABCDE";
+        
+        REQUIRE( "     ABCDE" == sout.str() ); 
+    }
+
+    SECTION( "right adjust number" ) {
+        ostringstream sout;
+
+        sout << setw(10) << right << 12345;
+        
+        REQUIRE( "     12345" == sout.str() ); 
+    }
+
+    SECTION( "left adjust text with custom fill character" ) {
+        ostringstream sout;
+
+        sout << setw(10) << right << setfill('@')  << "ABCDE";
+        
+        REQUIRE( "@@@@@ABCDE" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "internal", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "insert fill character at internal point for negative integer" ) {
+        ostringstream sout;
+
+        sout << setw(10) << internal << -1;
+        
+        REQUIRE( "-        1" == sout.str() ); 
+    }
+
+    SECTION( "insert fill character at internal point for hex output" ) {
+        ostringstream sout;
+
+        sout << setw(10) << internal << hex << showbase << 255;
+        
+        REQUIRE( "0x      ff" == sout.str() ); 
+    }
+
+    SECTION( "insert fill character at internal point for money output" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+
+        int cents = 199;
+        sout << setw(10) << internal << showbase << put_money(cents);
+
+        REQUIRE( "$     1.99" == sout.str() );
     }
 
 }
