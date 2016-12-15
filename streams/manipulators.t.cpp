@@ -444,3 +444,63 @@ TEST_CASE( "internal", "[std] [streams] [manipulators]" ) {
     }
 
 }
+
+TEST_CASE( "hex", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "output number in hexadecimal format" ) {
+        ostringstream sout;
+
+        sout << hex << 15 << ' ' << 0xFF << ' ' << 0777;
+        
+        REQUIRE( "f ff 1ff" == sout.str() ); 
+    }
+
+    SECTION( "output number in hexadecimal format with uppercase base prefix" ) {
+        ostringstream sout;
+
+        sout << hex << showbase << uppercase << 15 << ' ' << 0xFF << ' ' << 0777;
+        
+        REQUIRE( "0XF 0XFF 0X1FF" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "oct", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "output number in octal format" ) {
+        ostringstream sout;
+
+        sout << oct << 15 << ' ' << 0xFF << ' ' << 0777;
+        
+        REQUIRE( "17 377 777" == sout.str() ); 
+    }
+
+    SECTION( "output number in octal format with base prefix" ) {
+        ostringstream sout;
+
+        sout << oct << showbase << 15 << ' ' << 0xFF << ' ' << 0777;
+        
+        REQUIRE( "017 0377 0777" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "dec", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "output number in decimal format" ) {
+        ostringstream sout;
+
+        sout << dec << 15 << ' ' << 0xFF << ' ' << 0777;
+        
+        REQUIRE( "15 255 511" == sout.str() ); 
+    }
+
+    SECTION( "by default output number in decimal format" ) {
+        ostringstream sout;
+
+        sout << 15 << ' ' << 0xFF << ' ' << 0777;
+        
+        REQUIRE( "15 255 511" == sout.str() ); 
+    }
+
+}
