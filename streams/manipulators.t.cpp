@@ -169,22 +169,42 @@ TEST_CASE( "noshowbase", "[std] [ostream] [manipulators]" ) {
 
 }
 
-TEST_CASE( "showpoint noshowpoint", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "showpoint", "[std] [ostream] [manipulators]" ) {
     
-    SECTION( "floating-point with zeroes after decimal point" ) {
-        stringstream ss;
+    SECTION( "<< showpoint << floating-point with zeroes after decimal point" ) {
+        ostringstream sout;
 
-        ss << showpoint << 27.0 << " " << noshowpoint << 27.0;
+        sout << showpoint << 27.0 ;
 
-        REQUIRE( "27.0000 27" == ss.str() );
+        REQUIRE( "27.0000" == sout.str() );
     }
 
-    SECTION( "floating-point with non zeroes after decimal point" ) {
-        stringstream ss;
+    SECTION( "<< showpoint << floating-point with no zeroes after decimal point" ) {
+        ostringstream sout;
 
-        ss << showpoint << 27.12 << " " << noshowpoint << 27.12;
+        sout << showpoint << 27.12 ;
 
-        REQUIRE( "27.1200 27.12" == ss.str() );
+        REQUIRE( "27.1200" == sout.str() );
+    }
+
+}
+
+TEST_CASE( "noshowpoint", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( "<< noshowpoint << floating-point with zeroes after decimal point" ) {
+        ostringstream sout;
+
+        sout << noshowpoint << 27.0 ;
+
+        REQUIRE( "27" == sout.str() );
+    }
+
+    SECTION( "<< noshowpoint << floating-point with non zeroes after decimal point" ) {
+        ostringstream sout;
+
+        sout << noshowpoint << 27.12 ;
+
+        REQUIRE( "27.12" == sout.str() );
     }
 
 }
