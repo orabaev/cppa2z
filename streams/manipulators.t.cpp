@@ -3,50 +3,168 @@
 
 using namespace std;
 
-TEST_CASE( "boolalpha noboolalpha", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "boolalpha", "[std] [ostream] [manipulators]" ) {
     
-    SECTION( "boolalpha" ) {
-        stringstream ss;
+    SECTION( "<< boolalpha" ) {
+        ostringstream sout;
 
-        ss << boolalpha << true << ' ' << false;
+        sout << boolalpha << true << ' ' << false;
 
-        REQUIRE( "true false" == ss.str() );
+        REQUIRE( "true false" == sout.str() );
     }
 
-    SECTION( "noboolalpha" ) {
-        stringstream ss;
+    SECTION( ">> boolalpha" ) {
+        istringstream sin{"true false"};
 
-        ss << noboolalpha << true << ' ' << false;
+        bool value = false;
 
-        REQUIRE( "1 0" == ss.str() );
+        sin >> boolalpha >> value ;
+        REQUIRE( true ==  value);
+
+        sin >> value ;
+        REQUIRE( false ==  value);
+    }
+
+    SECTION( "invalid >> boolalpha" ) {
+        istringstream sin{"1 0"};
+
+        bool value = false;
+        sin >> boolalpha >> value ;
+
+        REQUIRE_FALSE( sin );
     }
 
 }
 
-TEST_CASE( "showbase noshowbase", "[std] [ostream] [manipulators]" ) {
+TEST_CASE( "noboolalpha", "[std] [ostream] [manipulators]" ) {
+
+    SECTION( "<< noboolalpha" ) {
+        ostringstream sout;
+
+        sout << noboolalpha << true << ' ' << false;
+
+        REQUIRE( "1 0" == sout.str() );
+    }
+
+    SECTION( ">> noboolalpha" ) {
+        istringstream sin{"1 0"};
+
+        bool value = false;
+
+        sin >> noboolalpha >> value ;
+        REQUIRE( true ==  value);
+
+        sin >> value ;
+        REQUIRE( false ==  value);
+    }
+
+    SECTION( "invalid >> noboolalpha" ) {
+        istringstream sin{"true false"};
+
+        bool value = false;
+        sin >> noboolalpha >> value ;
+
+        REQUIRE_FALSE( sin );
+    }
+
+}
+
+TEST_CASE( "showbase", "[std] [ostream] [manipulators]" ) {
     
-    SECTION( "hex" ) {
-        stringstream ss;
+    SECTION( "<< showbase << hex" ) {
+        ostringstream sout;
 
-        ss << hex << showbase << 27 << " " << noshowbase << 27;
+        sout << showbase << hex << 255;
 
-        REQUIRE( "0x1b 1b" == ss.str() );
+        REQUIRE( "0xff" == sout.str() );
     }
 
-    SECTION( "oct" ) {
-        stringstream ss;
+    SECTION( "<< showbase << oct" ) {
+        ostringstream sout;
 
-        ss << oct << showbase << 27 << " " << noshowbase << 27;
+        sout << showbase << oct << 511;
 
-        REQUIRE( "033 33" == ss.str() );
+        REQUIRE( "0777" == sout.str() );
     }
 
-    SECTION( "dec" ) {
-        stringstream ss;
+    SECTION( "<< showbase << put_money" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
 
-        ss << dec << showbase << 27 << " " << noshowbase << 27;
+        int cents = 199;
+        sout << showbase << put_money(cents);
 
-        REQUIRE( "27 27" == ss.str() );
+        REQUIRE( "$1.99" == sout.str() );
+    }
+
+    SECTION( ">> showbase >> get_money" ) {
+        istringstream sin{"$1.99"};
+        sin.imbue(locale("en_US"));
+
+        long double cents = 0;
+        sin >> showbase >> get_money(cents);
+
+        REQUIRE( 199.0 == cents );
+    }
+
+    SECTION( "invalid >> showbase >> get_money" ) {
+        istringstream sin{"1.99"};
+        sin.imbue(locale("en_US"));
+
+        long double cents = 0;
+        sin >> showbase >> get_money(cents);
+        
+        REQUIRE_FALSE( sin );
+    }
+
+}
+
+TEST_CASE( "noshowbase", "[std] [ostream] [manipulators]" ) {
+    
+    SECTION( "<< noshowbase << hex" ) {
+        ostringstream sout;
+
+        sout << noshowbase << hex << 255;
+
+        REQUIRE( "ff" == sout.str() );
+    }
+
+    SECTION( "<< noshowbase << oct" ) {
+        ostringstream sout;
+
+        sout << noshowbase << oct << 511;
+
+        REQUIRE( "777" == sout.str() );
+    }
+
+    SECTION( "<< noshowbase << put_money" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+
+        int cents = 199;
+        sout << noshowbase << put_money(cents);
+
+        REQUIRE( "1.99" == sout.str() );
+    }
+
+    SECTION( ">> noshowbase >> get_money" ) {
+        istringstream sin{"1.99"};
+        sin.imbue(locale("en_US"));
+
+        long double cents = 0;
+        sin >> noshowbase >> get_money(cents);
+
+        REQUIRE( 199.0 == cents );
+    }
+
+    SECTION( "has base >> noshowbase >> get_money" ) {
+        istringstream sin{"$1.99"};
+        sin.imbue(locale("en_US"));
+
+        long double cents = 0;
+        sin >> noshowbase >> get_money(cents);
+        
+        REQUIRE( 199.0 == cents );
     }
 
 }
@@ -70,5 +188,3 @@ TEST_CASE( "showpoint noshowpoint", "[std] [ostream] [manipulators]" ) {
     }
 
 }
-
-
