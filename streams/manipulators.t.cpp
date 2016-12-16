@@ -504,3 +504,27 @@ TEST_CASE( "dec", "[std] [streams] [manipulators]" ) {
     }
 
 }
+
+TEST_CASE( "fixed", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "set default formating for floating-point to fixed " ) {
+        ostringstream sout;
+        
+        sout << fixed << 0.1 << ' ' << 2.0011 << ' ' << 2.123456789;
+        
+        REQUIRE( "0.100000 2.001100 2.123457" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "scientific", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "set default formating for floating-point to scientific " ) {
+        ostringstream sout;
+        
+        sout << scientific << 0.1 << ' ' << 0.0011 << ' ' << 1234.0001;
+
+        REQUIRE( "1.000000e-01 1.100000e-03 1.234000e+03" == sout.str() ); 
+    }
+
+}
