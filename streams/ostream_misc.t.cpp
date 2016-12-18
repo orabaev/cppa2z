@@ -136,5 +136,5 @@ TEST_CASE( "flush", "[std] [ostream] [misc]" ) {
         REQUIRE( "abc" == str );
     }
 
-    REQUIRE( 0 == remove("flush.tmp") );
+    remove("flush.tmp");
 }

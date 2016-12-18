@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include <sstream>
 #include <fstream>
+#include <strstream>
 
 using namespace std;
 
@@ -551,4 +552,91 @@ TEST_CASE( "defaultfloat", "[std] [streams] [manipulators]" ) {
         REQUIRE( "0.1 2.0011 2.12346" == sout.str() ); 
     }
 
+}
+
+TEST_CASE( "ws", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "discards leading white space from input stream" ) {
+        istringstream sin{"    Hello C++\n   ws not discarded\n  ws discarded"};
+        string str;
+
+        getline(sin >> ws, str);  
+        REQUIRE( "Hello C++" == str );
+
+        getline(sin, str);  
+        REQUIRE( "   ws not discarded" == str );
+
+
+        getline(sin >> ws, str);  
+        REQUIRE( "ws discarded" == str );
+    }
+
+}
+
+TEST_CASE( "ends", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "insert null character" ) {
+        ostrstream sout;
+
+        sout << "0123456" << ends;
+        const char* str = sout.str(); 
+        
+        REQUIRE( '\0' == str[7] );
+
+        sout.freeze(false);
+    }
+ 
+}
+
+TEST_CASE( "manipulator.flush", "[std] [ostream] [misc]" ) {
+    
+    SECTION( "flush file stream to sync with underlying file" ) {
+        ofstream fout("flush.tmp");
+        REQUIRE( fout );
+        fout << "abc"; 
+
+        string str;
+        ifstream fin("flush.tmp"); 
+        REQUIRE_FALSE( fin >> str );
+        fin.close();
+
+        // flush ----
+        REQUIRE( fout << flush );
+        // ---- flush
+
+        fin.open("flush.tmp");
+        REQUIRE( fin >> str );
+
+        REQUIRE( "abc" == str );
+    }
+
+    remove("flush.tmp");
+}
+
+TEST_CASE( "endl", "[std] [ostream] [misc]" ) {
+    
+    SECTION( "insert new line character flush file stream to sync with underlying file" ) {
+        ofstream fout("endl.tmp");
+        REQUIRE( fout );
+        fout << "abc" << '\n'; 
+
+        string str;
+        ifstream fin("endl.tmp"); 
+        REQUIRE_FALSE( fin >> str );
+        fin.close();
+
+        // endl ----
+        fout << "def" << endl; 
+        // ---- endl
+
+        fin.open("endl.tmp");
+
+        getline(fin, str);
+        REQUIRE( "abc" == str );
+
+        getline(fin, str);
+        REQUIRE( "def" == str );
+    }
+
+    remove("endl.tmp");
 }
