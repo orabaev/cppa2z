@@ -884,7 +884,7 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
     SECTION( "format as Sun Dec 18 09:03:07 2016" ) {
         ostringstream sout;
         sout.imbue(locale("en_US"));
-        
+
         sout << put_time(&date_time, "%c");
 
         REQUIRE( "Sun Dec 18 09:03:07 2016" == sout.str() ); 
@@ -897,6 +897,89 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         sout << put_time(&date_time, "%D");
 
         REQUIRE( "12/18/16" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
+    
+    tm expected_date_time{};
+    expected_date_time.tm_year  = 116; // 2016     Since 1900
+    expected_date_time.tm_mon   = 11;  // December [0,11]
+    expected_date_time.tm_mday  = 18;  //          [1, 31]
+    expected_date_time.tm_hour  = 9;   //          [0, 23]
+    expected_date_time.tm_min   = 3;   //          [0, 59]
+    expected_date_time.tm_sec   = 7;   //          [0, 54]
+    expected_date_time.tm_wday  = 0;   // Saturday [0, 6]
+    expected_date_time.tm_yday  = 352; //          [0, 365]
+    expected_date_time.tm_isdst = 0;   // Off      
+
+    SECTION( "parse as 2016/12/18 09:03:07" ) {
+        istringstream sin{"2016/12/18 09:03:07"};
+        sin.imbue(locale("en_US"));
+        
+        tm date_time{};
+        sin >> get_time(&date_time, "%Y/%m/%d %H:%M:%S");
+        
+        REQUIRE( 116 == date_time.tm_year ); 
+        REQUIRE( 11  == date_time.tm_mon ); 
+        REQUIRE( 18  == date_time.tm_mday ); 
+        REQUIRE( 9   == date_time.tm_hour ); 
+        REQUIRE( 3   == date_time.tm_min ); 
+        REQUIRE( 7   == date_time.tm_sec ); 
+    }
+
+    SECTION( "format as Sunday, December 18, 2016" ) {
+        istringstream sin{"Sunday, December 18, 2016"};
+        sin.imbue(locale("en_US"));
+        
+        tm date_time{};
+        sin >> get_time(&date_time, "%A, %B %d, %Y");
+        
+        REQUIRE( 116 == date_time.tm_year ); 
+        REQUIRE( 11  == date_time.tm_mon ); 
+        REQUIRE( 18  == date_time.tm_mday ); 
+        REQUIRE( 0   == date_time.tm_wday ); 
+    }
+
+    SECTION( "parse as Sun, Dec 18" ) {
+        istringstream sin{"Sunday, December 18, 2016"};
+        sin.imbue(locale("en_US"));
+        
+        tm date_time{};
+        sin >> get_time(&date_time, "%a, %b %d");
+        
+        REQUIRE( 11  == date_time.tm_mon ); 
+        REQUIRE( 18  == date_time.tm_mday ); 
+        REQUIRE( 0   == date_time.tm_wday ); 
+    }
+
+    SECTION( "parse as Sun Dec 18 09:03:07 2016" ) {
+        istringstream sin{"Sun Dec 18 09:03:07 2016"};
+        sin.imbue(locale("en_US"));
+        
+        tm date_time{};
+        sin >> get_time(&date_time, "%c");
+        
+        REQUIRE( 116 == date_time.tm_year ); 
+        REQUIRE( 11  == date_time.tm_mon ); 
+        REQUIRE( 18  == date_time.tm_mday ); 
+        REQUIRE( 9   == date_time.tm_hour ); 
+        REQUIRE( 3   == date_time.tm_min ); 
+        REQUIRE( 7   == date_time.tm_sec ); 
+        REQUIRE( 0   == date_time.tm_wday ); 
+    }
+
+    SECTION( "parse as 12/18/16" ) {
+        istringstream sin{"12/18/16"};
+        sin.imbue(locale("en_US"));
+        
+        tm date_time{};
+        sin >> get_time(&date_time, "%D");
+        
+        REQUIRE( 116 == date_time.tm_year ); 
+        REQUIRE( 11  == date_time.tm_mon ); 
+        REQUIRE( 18  == date_time.tm_mday ); 
     }
 
 }
