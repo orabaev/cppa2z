@@ -1,8 +1,8 @@
-COMPILER = g++
-COMPILER_FLAGS = -Wall -std=c++14
-INCLUDE_DIRECTORY = -I. -I./srcgen
-COMPILE = $(COMPILER) $(COMPILER_FLAGS) $(INCLUDE_DIRECTORY) -c
-LINK = $(COMPILER) $(COMPILER_FLAGS) -o
+CXX = g++
+CXXFLAGS = -Wall -std=c++14
+INCLUDE= -I. -I./srcgen
+COMPILE = $(CXX) $(CXXFLAGS) $(INCLUDE) -c
+LINK = $(CXX) $(CXXFLAGS) -o
 
 CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp) 
 OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o))

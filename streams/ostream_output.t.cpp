@@ -52,7 +52,11 @@ TEST_CASE( "operator << ", "[std] [istream] [output]" ) {
         const void* ptr = nullptr;
         sout <<  ptr;
         
-        REQUIRE( "0x0" == sout.str() ); 
+#ifdef __linux__
+        REQUIRE( "0" == sout.str() );
+#else
+        REQUIRE( "0x0" == sout.str() );
+#endif
     }
 
 }

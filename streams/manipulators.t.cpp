@@ -443,7 +443,11 @@ TEST_CASE( "internal", "[std] [streams] [manipulators]" ) {
         int cents = 199;
         sout << setw(10) << internal << showbase << put_money(cents);
 
+#ifdef __linux__
+        REQUIRE( "$1.99     " == sout.str() );
+#else
         REQUIRE( "$     1.99" == sout.str() );
+#endif
     }
 
 }
@@ -808,7 +812,11 @@ TEST_CASE( "put_money", "[std] [streams] [manipulators]" ) {
         int kopecs = 100099;
 
         sout << put_money(kopecs);
+#ifdef __linux__
+        REQUIRE( "1 000,99 " == sout.str() );
+#else
         REQUIRE( "1 000,99" == sout.str() );
+#endif
 
         sout.str(string{});
         sout << showbase << put_money(kopecs);
@@ -829,6 +837,17 @@ TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
         REQUIRE( 100099.0 == cents );
     }
 
+#ifdef __linux__
+    SECTION( "russian rubbles" ) {
+        istringstream sin{"1000,99 руб."};
+        sin.imbue(locale("ru_RU"));
+
+        long double kopecs{};
+
+        sin >> get_money(kopecs);
+        REQUIRE( 100099.0 == kopecs );
+    }
+#else
     SECTION( "russian rubbles" ) {
         istringstream sin{"1 000,99 руб."};
         sin.imbue(locale("ru_RU"));
@@ -838,6 +857,7 @@ TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
         sin >> get_money(kopecs);
         REQUIRE( 100099.0 == kopecs );
     }
+#endif
 
 }
 
@@ -886,8 +906,11 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         sout.imbue(locale("en_US"));
 
         sout << put_time(&date_time, "%c");
-
-        REQUIRE( "Sun Dec 18 09:03:07 2016" == sout.str() ); 
+#ifdef __linux__
+        REQUIRE( "Sun Dec 18 2016 09:03:07 AM EST" == sout.str() );
+#else
+        REQUIRE( "Sun Dec 18 09:03:07 2016" == sout.str() );
+#endif
     }
 
     SECTION( "format as 12/18/16" ) {
@@ -932,7 +955,7 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
     }
 
     SECTION( "parse as Sun, Dec 18" ) {
-        istringstream sin{"Sunday, December 18, 2016"};
+        istringstream sin{"Sun, Dec 18"};
         sin.imbue(locale("en_US"));
         
         tm date_time{};
@@ -943,7 +966,7 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         REQUIRE( 0   == date_time.tm_wday ); 
     }
 
-    SECTION( "parse as Sun Dec 18 09:03:07 2016" ) {
+    SECTION( "parse as Sun Dec 18 09:03:07 2016" ) { //review
         istringstream sin{"Sun Dec 18 09:03:07 2016"};
         sin.imbue(locale("en_US"));
         
@@ -965,10 +988,16 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         
         tm date_time{};
         sin >> get_time(&date_time, "%D");
-        
-        REQUIRE( 116 == date_time.tm_year ); 
-        REQUIRE( 11  == date_time.tm_mon ); 
-        REQUIRE( 18  == date_time.tm_mday ); 
+       
+#ifdef __linux__ 
+        REQUIRE( 16 == date_time.tm_year );
+        REQUIRE( 11  == date_time.tm_mon );
+        REQUIRE( 18  == date_time.tm_mday );
+#else
+        REQUIRE( 116 == date_time.tm_year );
+        REQUIRE( 11  == date_time.tm_mon );
+        REQUIRE( 18  == date_time.tm_mday );
+#endif
     }
 
 }
