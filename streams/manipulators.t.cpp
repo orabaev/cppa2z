@@ -903,17 +903,6 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
 
 TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
     
-    tm expected_date_time{};
-    expected_date_time.tm_year  = 116; // 2016     Since 1900
-    expected_date_time.tm_mon   = 11;  // December [0,11]
-    expected_date_time.tm_mday  = 18;  //          [1, 31]
-    expected_date_time.tm_hour  = 9;   //          [0, 23]
-    expected_date_time.tm_min   = 3;   //          [0, 59]
-    expected_date_time.tm_sec   = 7;   //          [0, 54]
-    expected_date_time.tm_wday  = 0;   // Saturday [0, 6]
-    expected_date_time.tm_yday  = 352; //          [0, 365]
-    expected_date_time.tm_isdst = 0;   // Off      
-
     SECTION( "parse as 2016/12/18 09:03:07" ) {
         istringstream sin{"2016/12/18 09:03:07"};
         sin.imbue(locale("en_US"));
@@ -929,7 +918,7 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         REQUIRE( 7   == date_time.tm_sec ); 
     }
 
-    SECTION( "format as Sunday, December 18, 2016" ) {
+    SECTION( "parse as Sunday, December 18, 2016" ) {
         istringstream sin{"Sunday, December 18, 2016"};
         sin.imbue(locale("en_US"));
         
@@ -980,6 +969,78 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         REQUIRE( 116 == date_time.tm_year ); 
         REQUIRE( 11  == date_time.tm_mon ); 
         REQUIRE( 18  == date_time.tm_mday ); 
+    }
+
+}
+
+TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "<< quoted" ) {
+        ostringstream sout;
+
+        sout << quoted("Hello C++");
+
+        REQUIRE( "\"Hello C++\"" == sout.str() );
+    }
+
+    SECTION( "<< quoted custom delimiter" ) {
+        ostringstream sout;
+
+        sout << quoted("Hello C++", '|');
+
+        REQUIRE( "|Hello C++|" == sout.str() );
+    }
+
+    SECTION( "<< quoted with default escape" ) {
+        ostringstream sout;
+
+        sout << quoted("Hello \\ C++");
+
+        REQUIRE( "\"Hello \\\\ C++\"" == sout.str() );
+    }
+
+    SECTION( "<< quoted with custom delimiter and escape" ) {
+        ostringstream sout;
+
+        sout << quoted("Hello ? C++", '|', '?');
+
+        REQUIRE( "|Hello ?? C++|" == sout.str() );
+    }
+
+    SECTION( ">> quoted" ) {
+        istringstream sin{"\"Hello C++\""};
+        string str;
+            
+        sin >> quoted(str);
+
+        REQUIRE( "Hello C++" == str );
+    }
+
+    SECTION( ">> quoted custom delimiter" ) {
+        istringstream sin{"|Hello C++|"};
+        string str;
+            
+        sin >> quoted(str, '|');
+
+        REQUIRE( "Hello C++" == str );
+    }
+
+    SECTION( ">> quoted with default escape" ) {
+        istringstream sin{"\"Hello \\\\ C++\""};
+        string str;
+
+        sin >> quoted(str);
+
+        REQUIRE( "Hello \\ C++" == str );
+    }
+
+    SECTION( ">> quoted with custom delimiter and escape" ) {
+        istringstream sin{"|Hello ?? C++|"};
+        string str;
+
+        sin >> quoted(str, '|', '?');
+
+        REQUIRE( "Hello ? C++" == str );
     }
 
 }
