@@ -2,6 +2,8 @@
 #include <sstream>
 #include <fstream>
 #include <strstream>
+#include <iomanip>
+#include <iostream>
 
 using namespace std;
 
@@ -783,30 +785,6 @@ TEST_CASE( "setw", "[std] [streams] [manipulators]" ) {
 
 }
 
-TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
-
-    SECTION( "us dollars" ) {
-        istringstream sin{"$1,000.99"};
-        sin.imbue(locale("en_US"));
-
-        long double cents{};
-
-        sin >> get_money(cents);
-        REQUIRE( 100099.0 == cents );
-    }
-
-    SECTION( "russian rubbles" ) {
-        istringstream sin{"1 000,99 руб."};
-        sin.imbue(locale("ru_RU"));
-
-        long double kopecs{};
-
-        sin >> get_money(kopecs);
-        REQUIRE( 100099.0 == kopecs );
-    }
-
-}
-
 TEST_CASE( "put_money", "[std] [streams] [manipulators]" ) {
 
     SECTION( "us dollars" ) {
@@ -835,6 +813,90 @@ TEST_CASE( "put_money", "[std] [streams] [manipulators]" ) {
         sout.str(string{});
         sout << showbase << put_money(kopecs);
         REQUIRE( "1 000,99 руб." == sout.str() );
+    }
+
+}
+
+TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
+
+    SECTION( "us dollars" ) {
+        istringstream sin{"$1,000.99"};
+        sin.imbue(locale("en_US"));
+
+        long double cents{};
+
+        sin >> get_money(cents);
+        REQUIRE( 100099.0 == cents );
+    }
+
+    SECTION( "russian rubbles" ) {
+        istringstream sin{"1 000,99 руб."};
+        sin.imbue(locale("ru_RU"));
+
+        long double kopecs{};
+
+        sin >> get_money(kopecs);
+        REQUIRE( 100099.0 == kopecs );
+    }
+
+}
+
+TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
+    
+    tm date_time{};
+    date_time.tm_year  = 116; // 2016     Since 1900
+    date_time.tm_mon   = 11;  // December [0,11]
+    date_time.tm_mday  = 18;  //          [1, 31]
+    date_time.tm_hour  = 9;   //          [0, 23]
+    date_time.tm_min   = 3;   //          [0, 59]
+    date_time.tm_sec   = 7;   //          [0, 54]
+    date_time.tm_wday  = 0;   // Saturday [0, 6]
+    date_time.tm_yday  = 352; //          [0, 365]
+    date_time.tm_isdst = 0;   // Off      
+
+    SECTION( "format as 2016/12/18 09:03:07" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+        
+        sout << put_time(&date_time, "%Y/%m/%d %H:%M:%S");
+        
+        REQUIRE( "2016/12/18 09:03:07" == sout.str() ); 
+    }
+
+    SECTION( "format as Sunday, December 18, 2016" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+        
+        sout << put_time(&date_time, "%A, %B %d, %Y");
+        
+        REQUIRE( "Sunday, December 18, 2016" == sout.str() ); 
+    }
+
+    SECTION( "format as Sun, Dec 18" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+        
+        sout << put_time(&date_time, "%a, %b %d");
+        
+        REQUIRE( "Sun, Dec 18" == sout.str() ); 
+    }
+
+    SECTION( "format as Sun Dec 18 09:03:07 2016" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+        
+        sout << put_time(&date_time, "%c");
+
+        REQUIRE( "Sun Dec 18 09:03:07 2016" == sout.str() ); 
+    }
+
+    SECTION( "format as 12/18/16" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+        
+        sout << put_time(&date_time, "%D");
+
+        REQUIRE( "12/18/16" == sout.str() ); 
     }
 
 }
