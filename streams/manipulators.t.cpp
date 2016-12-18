@@ -528,3 +528,27 @@ TEST_CASE( "scientific", "[std] [streams] [manipulators]" ) {
     }
 
 }
+
+TEST_CASE( "hexfloat", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "set default formating for floating-point to hexfloat " ) {
+        ostringstream sout;
+        
+        sout << hexfloat << 0.1 << ' ' << 0.0011 << ' ' << 1234.0001;
+
+        REQUIRE( "0x1.999999999999ap-4 0x1.205bc01a36e2fp-10 0x1.348001a36e2ebp+10" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "defaultfloat", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "set default formating for floating-point to defaultfloat" ) {
+        ostringstream sout;
+        
+        sout << defaultfloat << 0.1 << ' ' << 2.0011 << ' ' << 2.123456789;
+        
+        REQUIRE( "0.1 2.0011 2.12346" == sout.str() ); 
+    }
+
+}
