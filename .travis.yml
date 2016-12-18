@@ -13,7 +13,7 @@ matrix:
           packages: ['g++-6']
       env: COMPILER='g++-6'
       script:
-        - locale-gen "en_US" "ru_RU"
+        - sudo locale-gen "en_US" "ru_RU"
         - make CXX=$COMPILER 
 
     # mac clang++
