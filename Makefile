@@ -4,20 +4,23 @@ INCLUDE_DIRECTORY = -I. -I./srcgen
 COMPILE = $(COMPILER) $(COMPILER_FLAGS) $(INCLUDE_DIRECTORY) -c
 LINK = $(COMPILER) $(COMPILER_FLAGS) -o
 
+CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp) 
+OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o))
+
 default: cppa2z
 
 run:
 	./cppa2z
 	
-cppa2z: main.o non_modifying_sequence.t.o modifying_sequence.t.o partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o	numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o istringstream.t.o ifstream.t.o ostringstream.t.o ofstream.t.o manipulators.t.o
-	$(LINK) cppa2z main.o non_modifying_sequence.t.o modifying_sequence.t.o  partitioning.t.o sorting.t.o binary_search.t.o set_operations.t.o heap.t.o min_max.t.o permutation.t.o numeric_operations.t.o iterator_adaptors.t.o stream_iterators.t.o iterator_operations.t.o parse_util.t.o parse_util.o md_writer.o md_writer.t.o readme_gen.o readme_gen.t.o istream_input.t.o istream_misc.t.o ostream_output.t.o ostream_misc.t.o istringstream.t.o ifstream.t.o ostringstream.t.o ofstream.t.o manipulators.t.o
+cppa2z: $(OBJ_FILES)
+	$(LINK) cppa2z $(OBJ_FILES)
 
 	./cppa2z
 
 main.o: main.cpp
 	$(COMPILE) main.cpp
 
-# strgen
+# srcgen
 #
 parse_util.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp
 	$(COMPILE) ./srcgen/parse_util.cpp
