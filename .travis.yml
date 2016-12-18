@@ -1,0 +1,37 @@
+language: cpp
+sudo: false
+dist: precise
+
+matrix:
+  include:
+
+    # linux clang++
+    - os: linux
+      compiler: clang
+      addons: &clang38
+        apt:
+          sources: ['llvm-toolchain-precise-3.8', 'ubuntu-toolchain-r-test']
+          packages: ['clang-3.8']
+      env: COMPILER='clang++-3.8'
+
+    # linux g++
+    - os: linux
+      compiler: gcc
+      addons: &gcc5
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+      env: COMPILER='ccache g++-5' BUILD_TYPE='Release'
+
+    # mac clang++
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
+      env: COMPILER='clang++'
+
+
+install: true
+
+script:
+  - make CXX=$COMPILER 
+
