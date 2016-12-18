@@ -782,3 +782,59 @@ TEST_CASE( "setw", "[std] [streams] [manipulators]" ) {
     }
 
 }
+
+TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
+
+    SECTION( "us dollars" ) {
+        istringstream sin{"$1,000.99"};
+        sin.imbue(locale("en_US"));
+
+        long double cents{};
+
+        sin >> get_money(cents);
+        REQUIRE( 100099.0 == cents );
+    }
+
+    SECTION( "russian rubbles" ) {
+        istringstream sin{"1 000,99 руб."};
+        sin.imbue(locale("ru_RU"));
+
+        long double kopecs{};
+
+        sin >> get_money(kopecs);
+        REQUIRE( 100099.0 == kopecs );
+    }
+
+}
+
+TEST_CASE( "put_money", "[std] [streams] [manipulators]" ) {
+
+    SECTION( "us dollars" ) {
+        ostringstream sout;
+        sout.imbue(locale("en_US"));
+
+        int cents = 100099;
+
+        sout << put_money(cents);
+        REQUIRE( "1,000.99" == sout.str() );
+
+        sout.str(string{});
+        sout << showbase << put_money(cents);
+        REQUIRE( "$1,000.99" == sout.str() );
+    }
+
+    SECTION( "russian rubbles" ) {
+        ostringstream sout;
+        sout.imbue(locale("ru_RU"));
+
+        int kopecs = 100099;
+
+        sout << put_money(kopecs);
+        REQUIRE( "1 000,99" == sout.str() );
+
+        sout.str(string{});
+        sout << showbase << put_money(kopecs);
+        REQUIRE( "1 000,99 руб." == sout.str() );
+    }
+
+}
