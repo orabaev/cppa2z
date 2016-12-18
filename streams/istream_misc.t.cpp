@@ -138,6 +138,8 @@ TEST_CASE( "sentry", "[std] [istream] [misc]" ) {
 } 
 } // namespace
 
+// sync does not work on linux
+#ifndef __linux__
 TEST_CASE( "sync", "[std] [istream] [misc]" ) {
     
     SECTION( "sync file stream while underlying file has changed" ) {
@@ -166,3 +168,4 @@ TEST_CASE( "sync", "[std] [istream] [misc]" ) {
     REQUIRE( 0 == remove("sync.tmp") );
 
 }
+#endif
