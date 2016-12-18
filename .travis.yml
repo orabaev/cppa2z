@@ -12,13 +12,14 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-6']
       env: COMPILER='g++-6'
+      script:
+        - make CXX=$COMPILER 
 
     # mac clang++
     - os: osx
       osx_image: xcode8
       compiler: clang
       env: COMPILER='clang++'
-
-script:
-  - make CXX=$COMPILER 
+      script:
+        - make CXX=$COMPILER 
 
