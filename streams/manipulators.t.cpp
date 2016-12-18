@@ -464,6 +464,18 @@ TEST_CASE( "hex", "[std] [streams] [manipulators]" ) {
         REQUIRE( "0XF 0XFF 0X1FF" == sout.str() ); 
     }
 
+    SECTION( "parse number from input in hex format" ) {
+        istringstream sin{"10 10"};
+        
+        int i{};
+
+        sin >> i;
+        REQUIRE( 10 == i ); 
+
+        sin >> hex >> i;
+        REQUIRE( 16 == i ); 
+    }
+
 }
 
 TEST_CASE( "oct", "[std] [streams] [manipulators]" ) {
@@ -482,6 +494,18 @@ TEST_CASE( "oct", "[std] [streams] [manipulators]" ) {
         sout << oct << showbase << 15 << ' ' << 0xFF << ' ' << 0777;
         
         REQUIRE( "017 0377 0777" == sout.str() ); 
+    }
+
+    SECTION( "parse number from input in octal format" ) {
+        istringstream sin{"10 10"};
+        
+        int i{};
+
+        sin >> i;
+        REQUIRE( 10 == i ); 
+
+        sin >> oct >> i;
+        REQUIRE( 8 == i ); 
     }
 
 }
@@ -588,7 +612,7 @@ TEST_CASE( "ends", "[std] [streams] [manipulators]" ) {
  
 }
 
-TEST_CASE( "manipulator.flush", "[std] [ostream] [misc]" ) {
+TEST_CASE( "manipulator.flush", "[std] [streams] [manipulators]" ) {
     
     SECTION( "flush file stream to sync with underlying file" ) {
         ofstream fout("flush.tmp");
@@ -639,4 +663,122 @@ TEST_CASE( "endl", "[std] [ostream] [misc]" ) {
     }
 
     remove("endl.tmp");
+}
+
+TEST_CASE( "resetiosflags", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "reset formating flags" ) {
+        ostringstream sout;
+
+        sout << hex << showbase << uppercase 
+             << 255 
+             << resetiosflags(ios::hex | ios::showbase | ios::uppercase)
+             << ' '
+             << 255;
+        
+        REQUIRE( "0XFF 255" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "setiosflags", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "set formating flags" ) {
+        ostringstream sout;
+
+        sout << 255 
+             << ' '
+             << resetiosflags(ios::dec)
+             << setiosflags(ios::hex | ios::showbase | ios::uppercase)
+             << 255;
+        
+        REQUIRE( "255 0XFF" == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "setbase", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "<< set numeric base" ) {
+        ostringstream sout;
+
+        int invalid_base_will_default_to_base_10 = 17;
+
+        sout << setbase(8) << 16
+             << ' '
+             << setbase(10)  << 16
+             << ' '
+             << setbase(16)  << 16
+             << ' '
+             << setbase(invalid_base_will_default_to_base_10)  << 16;
+        
+        REQUIRE( "20 16 10 16" == sout.str() ); 
+    }
+
+    SECTION( ">> set numeric base" ) {
+        istringstream sin{"20 16 10 16"};;
+
+        int invalid_base_will_default_to_base_10 = 17;
+        int i{}; 
+
+        sin >> setbase(8) >> i;
+        REQUIRE( 16 == i );
+
+        sin >> setbase(10) >> i;
+        REQUIRE( 16 == i );
+
+        sin >> setbase(16) >> i;
+        REQUIRE( 16 == i );
+
+        sin >> setbase(invalid_base_will_default_to_base_10) >> i;
+        REQUIRE( 16 == i );
+    }
+
+}
+
+TEST_CASE( "setfill", "[std] [streams] [manipulators]" ) {
+    
+    SECTION( "set default fill character for adjusted text" ) {
+        ostringstream sout;
+
+        sout << setw(25) << left << setfill('*') <<  "ABCDE";
+        REQUIRE( "ABCDE********************" == sout.str() ); 
+
+        sout.str(string{});
+        sout << setw(25) << left << setfill(' ') <<  "ABCDE";
+        REQUIRE( "ABCDE                    " == sout.str() ); 
+    }
+
+}
+
+TEST_CASE( "setprecision", "[std] [streams] [manipulators]" ) {
+   
+    SECTION( "set default fill character for adjusted text" ) {
+        ostringstream sout;
+        const long double pi = 3.14159265358979;;
+        
+        sout << pi
+             << ' '
+             << setprecision(10) << pi
+             << ' '
+             << setprecision(15) << pi;
+
+        REQUIRE( "3.14159 3.141592654 3.14159265358979" == sout.str() );
+    }
+
+}
+
+TEST_CASE( "setw", "[std] [streams] [manipulators]" ) {
+   
+    SECTION( "set width for adjusted text" ) {
+        ostringstream sout;
+        
+        sout << setw(1) << "ABC";
+        REQUIRE( "ABC" == sout.str() );
+
+        sout.str(string{});
+        sout << setw(10) << "ABC";
+        REQUIRE( "       ABC" == sout.str() );
+    }
+
 }
