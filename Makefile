@@ -124,3 +124,4 @@ manipulators.t.o: ./streams/manipulators.t.cpp
 clean:
 	$(RM) cppa2z *.o
 
+
