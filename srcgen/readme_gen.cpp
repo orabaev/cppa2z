@@ -96,7 +96,13 @@ void readme_gen::streams() {
     m_writer.newline();
 
     m_writer.heading3("manipulators");
-    section("manipulators"     , "./streams/manipulators.t.cpp");
+    section("adjust"            , "./streams/adjust_manipulators.t.cpp");
+    section("floating-point"    , "./streams/float_manipulators.t.cpp");
+    section("numeric"           , "./streams/numeric_manipulators.t.cpp");
+    section("time/money"        , "./streams/time_money_manipulators.t.cpp");
+    section("flush"             , "./streams/flush_manipulators.t.cpp");
+    section("white space"       , "./streams/ws_manipulators.t.cpp");
+    section("char"              , "./streams/char_manipulators.t.cpp");
     m_writer.newline();
 }
 

@@ -116,9 +116,29 @@ ostringstream.t.o: ./streams/ostringstream.t.cpp
 ofstream.t.o: ./streams/ofstream.t.cpp
 	$(COMPILE) ./streams/ofstream.t.cpp
 
-manipulators.t.o: ./streams/manipulators.t.cpp
-	$(COMPILE) ./streams/manipulators.t.cpp
+adjust_manipulators.t.o: ./streams/adjust_manipulators.t.cpp
+	$(COMPILE) ./streams/adjust_manipulators.t.cpp
 
+float_manipulators.t.o: ./streams/float_manipulators.t.cpp
+	$(COMPILE) ./streams/float_manipulators.t.cpp
+
+numeric_manipulators.t.o: ./streams/numeric_manipulators.t.cpp
+	$(COMPILE) ./streams/numeric_manipulators.t.cpp
+
+time_money_manipulators.t.o: ./streams/time_money_manipulators.t.cpp
+	$(COMPILE) ./streams/time_money_manipulators.t.cpp
+
+flush_manipulators.t.o: ./streams/flush_manipulators.t.cpp
+	$(COMPILE) ./streams/flush_manipulators.t.cpp
+
+flags_manipulators.t.o: ./streams/flags_manipulators.t.cpp
+	$(COMPILE) ./streams/flags_manipulators.t.cpp
+
+ws_manipulators.t.o: ./streams/ws_manipulators.t.cpp
+	$(COMPILE) ./streams/ws_manipulators.t.cpp
+
+char_manipulators.t.o: ./streams/char_manipulators.t.cpp
+	$(COMPILE) ./streams/char_manipulators.t.cpp
 
 .PHONY: clean
 clean:
