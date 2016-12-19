@@ -16,6 +16,18 @@ matrix:
         - sudo locale-gen "en_US" "ru_RU"
         - make CXX=$COMPILER 
 
+    # linux clang++
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources: ['llvm-toolchain-precise-3.8', 'ubuntu-toolchain-r-test']
+          packages: ['clang-3.8']
+      env: COMPILER='clang++-3.8'
+      script:
+        - sudo locale-gen "en_US" "ru_RU"
+        - make CXX=$COMPILER 
+
     # mac clang++
     - os: osx
       osx_image: xcode8
