@@ -1,5 +1,4 @@
-language: cpp
-dist: trusty
+language: generic
 sudo: required
 
 matrix:
