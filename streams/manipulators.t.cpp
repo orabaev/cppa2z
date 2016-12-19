@@ -888,17 +888,16 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         REQUIRE( "Sun, Dec 18" == sout.str() ); 
     }
 
+#ifndef __linux__
     SECTION( "format as Sun Dec 18 09:03:07 2016" ) {
         ostringstream sout;
         sout.imbue(locale("en_US"));
 
         sout << put_time(&date_time, "%c");
-#ifdef __linux__
-        REQUIRE( "Sun 18 Dec 2016 09:03:07 AM EST" == sout.str() );
-#else
+
         REQUIRE( "Sun Dec 18 09:03:07 2016" == sout.str() );
-#endif
     }
+#endif
 
     SECTION( "format as 12/18/16" ) {
         ostringstream sout;
