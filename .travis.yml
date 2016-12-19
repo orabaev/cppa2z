@@ -19,10 +19,15 @@ matrix:
     # linux clang++
     - os: linux
       compiler: clang
+
       addons:
         apt:
-          sources: ['llvm-toolchain-precise', 'ubuntu-toolchain-r-test']
-          packages: ['clang-3.7']
+          sources: 
+            -llvm-toolchain-precise
+            -ubuntu-toolchain-r-test
+          packages: 
+            -clang-3.7
+            -g++-6
       env: COMPILER='clang++-3.7'
       script:
         - sudo locale-gen "en_US" "ru_RU"
