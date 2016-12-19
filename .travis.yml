@@ -9,8 +9,10 @@ matrix:
       compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-6']
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
       env: COMPILER='g++-6'
       script:
         - sudo locale-gen "en_US" "ru_RU"
@@ -19,16 +21,15 @@ matrix:
     # linux clang++
     - os: linux
       compiler: clang
-
       addons:
         apt:
           sources: 
             - llvm-toolchain-precise-3.7
             - ubuntu-toolchain-r-test
           packages: 
-            - clang-3.7
+            - clang-3.8
             - g++-6
-      env: COMPILER='clang++-3.7'
+      env: COMPILER='clang++-3.8'
       script:
         - sudo locale-gen "en_US" "ru_RU"
         - make CXX=$COMPILER 
