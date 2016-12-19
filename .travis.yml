@@ -23,11 +23,11 @@ matrix:
       addons:
         apt:
           sources: 
-            -llvm-toolchain-precise
-            -ubuntu-toolchain-r-test
+            - llvm-toolchain-precise
+            - ubuntu-toolchain-r-test
           packages: 
-            -clang-3.7
-            -g++-6
+            - clang-3.7
+            - g++-6
       env: COMPILER='clang++-3.7'
       script:
         - sudo locale-gen "en_US" "ru_RU"
