@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/orabaev/cppa2z.svg?branch=master)](https://travis-ci.org/orabaev/cppa2z)  
 #cppa2z
 Document modern C++ using unit tests   
 ##algorithms
