@@ -55,7 +55,7 @@ void readme_gen::caption() {
 
 void readme_gen::modern() {
     m_writer.heading2("C++11/14");
-    section("modern" , "./modern/lambda.t.cpp");
+    section("lambda" , "./modern/lambda.t.cpp");
 
     m_writer.newline();
 }
