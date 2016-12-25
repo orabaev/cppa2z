@@ -1,10 +1,10 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++14
-INCLUDE= -I. -I./srcgen
+INCLUDE = -I. -I./srcgen
 COMPILE = $(CXX) $(CXXFLAGS) $(INCLUDE) -c
 LINK = $(CXX) $(CXXFLAGS) -o
 
-CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp) 
+CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp)
 OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o))
 
 default: cppa2z
@@ -20,6 +20,7 @@ cppa2z: $(OBJ_FILES)
 main.o: main.cpp
 	$(COMPILE) main.cpp
 
+#
 # srcgen
 #
 parse_util.o: ./srcgen/parse_util.h ./srcgen/parse_util.cpp
@@ -40,7 +41,11 @@ readme_gen.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp
 readme_gen.t.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp ./srcgen/readme_gen.t.cpp
 	$(COMPILE) ./srcgen/readme_gen.t.cpp
 
-
+#
+# modern
+#
+lambda.t.o: ./modern/lambda.t.cpp
+	$(COMPILE) ./modern/lambda.t.cpp
 
 #
 # algorithms
@@ -75,7 +80,6 @@ permutation.t.o: ./algorithms/permutation.t.cpp
 numeric_operations.t.o: ./algorithms/numeric_operations.t.cpp
 	$(COMPILE) ./algorithms/numeric_operations.t.cpp
 
-
 #
 # iterators
 #
@@ -87,7 +91,6 @@ stream_iterators.t.o: ./iterators/stream_iterators.t.cpp
 
 iterator_operations.t.o: ./iterators/iterator_operations.t.cpp
 	$(COMPILE) ./iterators/iterator_operations.t.cpp
-
 
 #
 # streams

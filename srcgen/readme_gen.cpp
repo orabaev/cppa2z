@@ -16,6 +16,7 @@ readme_gen::readme_gen(std::ostream& out)
 
 void readme_gen::generate() {
     caption();
+    modern();
     algorithms();
     iterators();
     streams();
@@ -49,6 +50,13 @@ void readme_gen::section(const string& section, const string& file_path) {
 void readme_gen::caption() {
     m_writer.heading1("cppa2z");
     m_writer.write("Document modern C++ using unit tests");
+    m_writer.newline();
+}
+
+void readme_gen::modern() {
+    m_writer.heading2("C++11/14");
+    section("modern" , "./modern/lambda.t.cpp");
+
     m_writer.newline();
 }
 
