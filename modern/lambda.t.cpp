@@ -1,4 +1,5 @@
 #include <catch.hpp>
+#include <functional>
 #include <vector>
 #include <list>
 
@@ -178,15 +179,15 @@ TEST_CASE( "generic lambda.(auto x)", "[std] [modern] [lambda] [C++14]" ) {
                                          replace(begin(collection), end(collection), from, to); 
                                      };  
          
-              vector<int>          vec{1, 2, 3, 1, 4, 1, 1};         
-        const vector<int> expected_vec{0, 2, 3, 0, 4, 0, 0};         
+              vector<int>          vec{1, 2, 3, 1, 4, 1, 1};
+        const vector<int> expected_vec{0, 2, 3, 0, 4, 0, 0};
         
         replace_in_collection(vec, 1, 0);
         REQUIRE( expected_vec == vec );
 
 
-              list<int>          lst{1, 2, 3, 1, 4, 1, 1};         
-        const list<int> expected_lst{0, 2, 3, 0, 4, 0, 0};         
+              list<int>          lst{1, 2, 3, 1, 4, 1, 1};
+        const list<int> expected_lst{0, 2, 3, 0, 4, 0, 0};
         
         replace_in_collection(lst, 1, 0);
         REQUIRE( expected_lst == lst );
@@ -225,6 +226,40 @@ TEST_CASE( "lambda capture initializer.(x = value)", "[std] [modern] [lambda] [C
         REQUIRE(  3 == vec_ref[2] );
 
         REQUIRE(  10 == push_value_and_return(10)[3] );
+    }
+
+}
+
+TEST_CASE( "callback", "[std] [modern] [lambda]" ) {
+
+    SECTION( "class with callback" ) {
+        class class_with_callback {
+        private:
+            function<int (int) > m_callback;             
+
+        public:
+            int execute(int x) { 
+                if (m_callback) return m_callback(x); 
+                return 0;
+            }
+
+            void set_callback(decltype(m_callback) callback) {
+                m_callback = callback;
+            }
+            
+        };
+
+        class_with_callback obj;
+
+        auto x_times_x = [](int x) { return x * x; };
+        obj.set_callback(x_times_x);
+
+        REQUIRE( 4 == obj.execute(2) );
+
+        auto x_times_x_times_x = [](int x) { return x * x * x; };
+        obj.set_callback(x_times_x_times_x);
+
+        REQUIRE( 27 == obj.execute(3) );
     }
 
 }
