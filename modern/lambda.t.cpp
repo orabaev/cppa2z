@@ -1,4 +1,6 @@
 #include <catch.hpp>
+#include <vector>
+#include <list>
 
 using namespace std;
 
@@ -139,7 +141,7 @@ TEST_CASE( "[&, x]", "[std] [modern] [lambda]" ) {
 
 }
 
-TEST_CASE( "[this]", "[std] [modern] [lambda]" ) {
+TEST_CASE( "capture this pointer.[this]", "[std] [modern] [lambda]" ) {
 
     class A {
     private:
@@ -158,12 +160,71 @@ TEST_CASE( "[this]", "[std] [modern] [lambda]" ) {
 
     };
 
-    SECTION( "use lambda from member function,  with the lambda having write access to object state" ) {
+    SECTION( "use lambda from member function, the lambda has write access to the object state" ) {
         A a{10};
         REQUIRE( 10 == a.get_x() );
 
         a.reset_x_using_lambda();
         REQUIRE( 0 == a.get_x() );
+    }
+
+}
+
+TEST_CASE( "generic lambda.[](auto x)", "[std] [modern] [lambda] [C++14]" ) {
+
+     SECTION( "generic lambda expression" ) {
+        
+        auto replace_in_collection = [](auto& collection, const auto& from, const auto& to) {
+                                         replace(begin(collection), end(collection), from, to); 
+                                     };  
+         
+              vector<int>          vec{1, 2, 3, 1, 4, 1, 1};         
+        const vector<int> expected_vec{0, 2, 3, 0, 4, 0, 0};         
+        
+        replace_in_collection(vec, 1, 0);
+        REQUIRE( expected_vec == vec );
+
+
+              list<int>          lst{1, 2, 3, 1, 4, 1, 1};         
+        const list<int> expected_lst{0, 2, 3, 0, 4, 0, 0};         
+        
+        replace_in_collection(lst, 1, 0);
+        REQUIRE( expected_lst == lst );
+
+    }
+
+}
+
+TEST_CASE( "lambda capture initializer.[](x = value)", "[std] [modern] [lambda] [C++14]" ) {
+
+    SECTION( "increment by" ) {
+        const int start_value  = 1;
+        const int increment_by_value = 3;
+           
+        auto increment_by = [x = start_value, increment_by_value] () mutable {
+            x += increment_by_value;                  
+            return x; 
+        };
+ 
+        REQUIRE(  4 == increment_by() );
+        REQUIRE(  7 == increment_by() );
+        REQUIRE( 10 == increment_by() );
+    }
+
+    SECTION( "vector state in lambda" ) {
+        vector<int> initial_values{1, 2};
+           
+        auto push_value_and_return = [vec = initial_values] (int x) mutable -> vector<int>& {
+            vec.push_back(x);
+            return vec; 
+        };
+ 
+        vector<int>& vec_ref = push_value_and_return(3);
+        REQUIRE(  1 == vec_ref[0] );
+        REQUIRE(  2 == vec_ref[1] );
+        REQUIRE(  3 == vec_ref[2] );
+
+        REQUIRE(  10 == push_value_and_return(10)[3] );
     }
 
 }
