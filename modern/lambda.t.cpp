@@ -6,7 +6,7 @@ static int static_i = 0;
 
 TEST_CASE( "[]", "[std] [modern] [lambda]" ) {
     
-    SECTION( "default capture nothing minimal lambda called directly" ) {
+    SECTION( "default, capture nothing, minimal lambda called directly" ) {
         [] { static_i = 1; } ();
 
         REQUIRE( 1 == static_i);
@@ -19,6 +19,10 @@ TEST_CASE( "[]", "[std] [modern] [lambda]" ) {
 
         REQUIRE( 2 == static_i);
     }
+
+}
+
+TEST_CASE( "[](int x)", "[std] [modern] [lambda]" ) {
 
     SECTION( "passing parameters" ) {
         auto is_even = [](int x) { return x % 2 == 0; };
@@ -86,6 +90,80 @@ TEST_CASE( "[&x, y]", "[std] [modern] [lambda]" ) {
         x_assign_y();
 
         REQUIRE( 7 == x );
+    }
+
+}
+
+TEST_CASE( "-> type", "[std] [modern] [lambda]" ) {
+
+    SECTION( "explicitly return a particular type from lambda" ) {
+        auto sqr = [] (int x) -> double { return x * x; };
+
+        const auto value = sqr(4);
+
+        REQUIRE( 16.0 == value );
+    }
+
+}
+
+TEST_CASE( "[=, &x]", "[std] [modern] [lambda]" ) {
+
+    SECTION( "capture x by reference the rest by value" ) {
+        int x = 0;
+        int y = 1;
+        int z = 2;
+
+        auto x_assign_y_plus_z = [=, &x] { x = y + z; };
+
+        x_assign_y_plus_z();
+
+        REQUIRE( 3 == x );
+    }
+
+}
+
+TEST_CASE( "[&, x]", "[std] [modern] [lambda]" ) {
+
+    SECTION( "capture x by value the rest by reference" ) {
+        int x = 2;
+        int y = 0;
+        int z = 0;
+
+        auto change_y_z = [&, x] { y = x * x; z = x * x * x; };
+
+        change_y_z();
+
+        REQUIRE( 4 == y );
+        REQUIRE( 8 == z );
+    }
+
+}
+
+TEST_CASE( "[this]", "[std] [modern] [lambda]" ) {
+
+    class A {
+    private:
+        int m_x;
+
+    public:
+        A(int x): m_x(x) {}
+
+        void reset_x_using_lambda() {
+            auto lambda = [this] { m_x = 0; };
+
+            lambda();
+        }
+
+        int get_x() { return m_x; }
+
+    };
+
+    SECTION( "use lambda from member function,  with the lambda having write access to object state" ) {
+        A a{10};
+        REQUIRE( 10 == a.get_x() );
+
+        a.reset_x_using_lambda();
+        REQUIRE( 0 == a.get_x() );
     }
 
 }
