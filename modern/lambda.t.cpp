@@ -24,7 +24,7 @@ TEST_CASE( "[]", "[std] [modern] [lambda]" ) {
 
 }
 
-TEST_CASE( "[](int x)", "[std] [modern] [lambda]" ) {
+TEST_CASE( "(int x)", "[std] [modern] [lambda]" ) {
 
     SECTION( "passing parameters" ) {
         auto is_even = [](int x) { return x % 2 == 0; };
@@ -170,7 +170,7 @@ TEST_CASE( "capture this pointer.[this]", "[std] [modern] [lambda]" ) {
 
 }
 
-TEST_CASE( "generic lambda.[](auto x)", "[std] [modern] [lambda] [C++14]" ) {
+TEST_CASE( "generic lambda.(auto x)", "[std] [modern] [lambda] [C++14]" ) {
 
      SECTION( "generic lambda expression" ) {
         
@@ -195,7 +195,7 @@ TEST_CASE( "generic lambda.[](auto x)", "[std] [modern] [lambda] [C++14]" ) {
 
 }
 
-TEST_CASE( "lambda capture initializer.[](x = value)", "[std] [modern] [lambda] [C++14]" ) {
+TEST_CASE( "lambda capture initializer.(x = value)", "[std] [modern] [lambda] [C++14]" ) {
 
     SECTION( "increment by" ) {
         const int start_value  = 1;
