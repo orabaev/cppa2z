@@ -6,9 +6,6 @@
 
 using namespace std;
 
-bool runtime_is_const_ref(int& r) { return false; }
-bool runtime_is_const_ref(const int& r) { return true; }
-
 TEST_CASE( "auto", "[std] [modern] [types]" ) {
     
     SECTION( "extreme readability for complex types" ) {
@@ -88,7 +85,7 @@ TEST_CASE( "decltype", "[std] [modern] [types]" ) {
     SECTION( "declare variable based on the type of the expression" ) {
         int x = 12345;
         decltype(x) y;
-        static_assert( is_same<int, decltype(x)>::value, "expected int" );
+        static_assert( is_same<int, decltype(y)>::value, "expected int" );
 
         decltype(12345) i;
         static_assert( is_same<int, decltype(i)>::value, "expected int" );
@@ -113,6 +110,46 @@ TEST_CASE( "decltype", "[std] [modern] [types]" ) {
 
         decltype( (x) ) another_way_int_ref = x;
         static_assert( is_same<int&, decltype(another_way_int_ref)>::value, "expected int&&" );
+    }
+
+    SECTION( "trailing return type" ) {
+        class F {
+        public:
+            static auto add(int x, float y) -> decltype(x + y)  {
+                return x + y;
+            }
+        };
+
+        auto value = F::add(12, 14.5);
+        static_assert( is_same<float, decltype(value)>::value, "expected float" );
+    }
+
+}
+
+TEST_CASE( "decltype(auto)", "[std] [modern] [types]" ) {
+
+    SECTION( "preserve const / volatile / reference" ) {
+        class F {
+        public:
+            static int ret_int(int& i) { return i; }
+            static int& ret_int_ref(int& i) { return i; }
+            static const int& ret_const_int_ref(int& i) { return i; }
+            static volatile int& ret_volatile_int_ref(int& i) { return i; }
+        };
+
+        int i = 0;
+
+        decltype(auto) v = F::ret_int(i);
+        static_assert( is_same<int, decltype(v)>::value, "expected int" );
+
+        decltype(auto) int_ref = F::ret_int_ref(i);
+        static_assert( is_same<int&, decltype(int_ref)>::value, "expected int&" );
+
+        decltype(auto) const_int_ref = F::ret_const_int_ref(i);
+        static_assert( is_same<const int&, decltype(const_int_ref)>::value, "expected const int&" );
+
+        decltype(auto) volatile_int_ref = F::ret_volatile_int_ref(i);
+        static_assert( is_same<volatile int&, decltype(volatile_int_ref)>::value, "expected volatile int&" );
     }
 
 }
