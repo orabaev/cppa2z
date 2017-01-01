@@ -23,45 +23,38 @@ TEST_CASE( "auto", "[std] [modern] [types]" ) {
 
     SECTION( "deduced type based on initialization" ) {
         auto d = 12.34;
-        REQUIRE( typeid(d) == typeid(double) );
+        static_assert( is_same<double, decltype(d)>::value, "expected double" );
 
         auto b = true;
-        REQUIRE( typeid(b) == typeid(bool) );
+        static_assert( is_same<bool, decltype(b)>::value, "expected bool" );
 
         auto i = 0;
-        REQUIRE( typeid(i) == typeid(int) );
+        static_assert( is_same<int, decltype(i)>::value, "expected int" );
 
         auto& int_ref = i;
-        REQUIRE( typeid(int_ref) == typeid(int) );
-        REQUIRE( is_reference<decltype(int_ref)>::value );
+        static_assert( is_same<int&, decltype(int_ref)>::value, "expected int&" );
 
-        const auto& int_const_ref = i;
-        REQUIRE( typeid(int_const_ref) == typeid(int) );
-        REQUIRE( is_reference<decltype(int_const_ref)>::value );
-        REQUIRE( runtime_is_const_ref(int_const_ref) );
+        const auto& const_int_ref = i;
+        static_assert( is_same<const int&, decltype(const_int_ref)>::value, "expected const int&" );
 
         auto&& not_rvalue_ref = i;
-        REQUIRE( typeid(not_rvalue_ref) == typeid(int) );
-        REQUIRE( is_reference<decltype(not_rvalue_ref)>::value );
-        REQUIRE_FALSE( is_rvalue_reference<decltype(not_rvalue_ref)>::value );
+        static_assert( is_same<int&, decltype(not_rvalue_ref)>::value, "expected int&" );
 
         auto&& rvalue_ref = 12345;
-        REQUIRE( typeid(rvalue_ref) == typeid(int) );
-        REQUIRE( is_rvalue_reference<decltype(rvalue_ref)>::value );
+        static_assert( is_same<int&&, decltype(rvalue_ref)>::value, "expected int&&" );
 
         auto ptr = new int;
-        REQUIRE( typeid(ptr) == typeid(int*) );
+        static_assert( is_same<int*, decltype(ptr)>::value, "expected int*" );
         delete ptr;
 
         auto init_list = {1};
-        REQUIRE( typeid(init_list) == typeid(initializer_list<int>) );
+        static_assert( is_same<initializer_list<int>, decltype(init_list)>::value, "expected initializer_list<int>" );
     }
 
     SECTION( "deduced type based on function return" ) {
         auto lambda = [] () -> int { return 100; };
-
         auto value = lambda();
-        REQUIRE( typeid(value) == typeid(int) );
+        static_assert( is_same<int, decltype(value)>::value, "expected int" );
     }
 
     SECTION( "deduced function return type" ) {
@@ -72,8 +65,8 @@ TEST_CASE( "auto", "[std] [modern] [types]" ) {
             }
         };
 
-        auto d = F::add(12, 14.5);
-        REQUIRE( typeid(d) == typeid(double) );
+        auto value = F::add(12, 14.5);
+        static_assert( is_same<double, decltype(value)>::value, "expected double" );
     }
 
     SECTION( "trailing return type" ) {
@@ -84,8 +77,42 @@ TEST_CASE( "auto", "[std] [modern] [types]" ) {
             }
         };
 
-        auto d = F::add(12, 14.5);
-        REQUIRE( typeid(d) == typeid(double) );
+        auto value = F::add(12, 14.5);
+        static_assert( is_same<double, decltype(value)>::value, "expected double" );
+    }
+
+}
+
+TEST_CASE( "decltype", "[std] [modern] [types]" ) {
+
+    SECTION( "declare variable based on the type of the expression" ) {
+        int x = 12345;
+        decltype(x) y;
+        static_assert( is_same<int, decltype(x)>::value, "expected int" );
+
+        decltype(12345) i;
+        static_assert( is_same<int, decltype(i)>::value, "expected int" );
+
+        decltype(12.34) d;
+        static_assert( is_same<double, decltype(d)>::value, "expected double" );
+
+        decltype(true) b;
+        static_assert( is_same<bool, decltype(b)>::value, "expected bool" );
+        
+        int& int_ref1 = x;
+        decltype(int_ref1) int_ref2 = x;
+        static_assert( is_same<int&, decltype(int_ref2)>::value, "expected int&" );
+
+        const int& const_int_ref1 = x;
+        decltype(const_int_ref1) const_int_ref2 = x;
+        static_assert( is_same<const int&, decltype(const_int_ref2)>::value, "expected const int&" );
+        
+        int&& rvalue_ref1 = 12345;
+        decltype(rvalue_ref1) rvalue_ref2 = 54321;
+        static_assert( is_same<int&&, decltype(rvalue_ref2)>::value, "expected int&&" );
+
+        decltype( (x) ) another_way_int_ref = x;
+        static_assert( is_same<int&, decltype(another_way_int_ref)>::value, "expected int&&" );
     }
 
 }
