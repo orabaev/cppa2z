@@ -78,6 +78,30 @@ TEST_CASE( "auto", "[std] [modern] [types]" ) {
         static_assert( is_same<double, decltype(value)>::value, "expected double" );
     }
 
+    SECTION( "auto does not preserve const / volatile / reference" ) {
+        class F {
+        public:
+            static int ret_int(int& i) { return i; }
+            static int& ret_int_ref(int& i) { return i; }
+            static const int& ret_const_int_ref(int& i) { return i; }
+            static volatile int& ret_volatile_int_ref(int& i) { return i; }
+        };
+
+        int i = 0;
+
+        auto v1 = F::ret_int(i);
+        static_assert( is_same<int, decltype(v1)>::value, "expected int" );
+
+        auto v2 = F::ret_int_ref(i);
+        static_assert( is_same<int, decltype(v2)>::value, "expected int" );
+
+        auto v3 = F::ret_const_int_ref(i);
+        static_assert( is_same<int, decltype(v3)>::value, "expected int" );
+
+        auto v4 = F::ret_volatile_int_ref(i);
+        static_assert( is_same<int, decltype(v4)>::value, "expected int" );
+    }
+
 }
 
 TEST_CASE( "decltype", "[std] [modern] [types]" ) {
