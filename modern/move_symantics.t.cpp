@@ -1,6 +1,6 @@
 #include <catch.hpp>
 #include <type_traits>
-#include <map>
+#include <utility>
 #include <string>
 #include <vector>
 
@@ -50,6 +50,71 @@ TEST_CASE( "rvalue references", "[std] [modern] [move symantics]" ) {
         function_that_takes_rvalue_ref( static_cast<int&&>(named_rvalue_ref) );
         function_that_takes_rvalue_ref( move(named_rvalue_ref) );
         // COMPILE ERROR function_that_takes_rvalue_ref( named_rvalue_ref );
+    }
+
+}
+
+TEST_CASE( "std.move", "[std] [modern] [move symantics]" ) {
+
+    SECTION( "move always returns unnamed rvalue reference" ) {
+        int lvalue = 0;
+        static_assert( is_same<int&&, decltype(move(lvalue))>::value, "expected int&&" );
+
+        int& lvalue_ref = lvalue;
+        static_assert( is_same<int&&, decltype(move(lvalue_ref ))>::value, "expected int&&" );
+
+        int&& rvalue_ref = 0;
+        static_assert( is_same<int&&, decltype(move(rvalue_ref))>::value, "expected int&&" );
+
+        static_assert( is_same<int&&, decltype(move(move(rvalue_ref)))>::value, "expected int&&" );
+    }
+
+    SECTION( "move vector of strings" ) {
+        vector<string>           from{"Hello", "C++", "move", "symantics"};
+        vector<string>             to;
+        const vector<string> expected{"Hello", "C++", "move", "symantics"};
+        
+        to = move(from); 
+
+        REQUIRE( expected == to );
+    }
+
+}
+
+class ForwardExample {
+private:
+    static string func(int&& value) {
+        return string{"int&&"};
+    }
+
+    static string func(int& value) {
+        return string{"int&"};
+    }
+
+    static string func(const int& value) {
+        return string{"const int&"};
+    }
+
+public:
+    template<class T>
+    static string perfect_forwarding_wrapper(T&& value)
+    {
+        return func(forward<T>(value));
+    }
+
+};
+
+TEST_CASE( "std.forward", "[std] [modern] [move symantics]" ) {
+
+    SECTION( "move always returns unnamed rvalue reference" ) {
+        int lvalue = 0;
+
+        REQUIRE( "int&&" == ForwardExample::perfect_forwarding_wrapper(move(lvalue)) );
+
+        REQUIRE( "int&" == ForwardExample::perfect_forwarding_wrapper(lvalue) );
+
+        const int& const_ref = lvalue;
+        REQUIRE( "const int&" == ForwardExample::perfect_forwarding_wrapper(const_ref) );
     }
 
 }
