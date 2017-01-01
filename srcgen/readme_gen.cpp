@@ -56,7 +56,7 @@ void readme_gen::caption() {
 void readme_gen::modern() {
     m_writer.heading2("C++11/14");
     section("lambda" , "./modern/lambda.t.cpp");
-    section("type deduction" , "./modern/types.t.cpp");
+    section("type deduction" , "./modern/type_deduction.t.cpp");
 
     m_writer.newline();
 }

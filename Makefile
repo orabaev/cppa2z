@@ -47,8 +47,8 @@ readme_gen.t.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp ./srcgen/readme_ge
 lambda.t.o: ./modern/lambda.t.cpp
 	$(COMPILE) ./modern/lambda.t.cpp
 
-types.t.o: ./modern/types.t.cpp
-	$(COMPILE) ./modern/types.t.cpp
+type_deduction.t.o: ./modern/type_deduction.t.cpp
+	$(COMPILE) ./modern/type_deduction.t.cpp
 
 #
 # algorithms
