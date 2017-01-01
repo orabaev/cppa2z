@@ -50,6 +50,9 @@ lambda.t.o: ./modern/lambda.t.cpp
 type_deduction.t.o: ./modern/type_deduction.t.cpp
 	$(COMPILE) ./modern/type_deduction.t.cpp
 
+move_symantics.t.o: ./modern/move_symantics.t.cpp
+	$(COMPILE) ./modern/move_symantics.t.cpp
+
 #
 # algorithms
 #

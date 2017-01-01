@@ -57,6 +57,7 @@ void readme_gen::modern() {
     m_writer.heading2("C++11/14");
     section("lambda" , "./modern/lambda.t.cpp");
     section("type deduction" , "./modern/type_deduction.t.cpp");
+    section("move symantics" , "./modern/move_symantics.t.cpp");
 
     m_writer.newline();
 }
