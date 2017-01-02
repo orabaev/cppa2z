@@ -53,6 +53,9 @@ type_deduction.t.o: ./modern/type_deduction.t.cpp
 move_symantics.t.o: ./modern/move_symantics.t.cpp
 	$(COMPILE) ./modern/move_symantics.t.cpp
 
+range_loop.t.o: ./modern/range_loop.t.cpp
+	$(COMPILE) ./modern/range_loop.t.cpp
+
 #
 # algorithms
 #
