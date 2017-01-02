@@ -81,7 +81,7 @@ TEST_CASE( "std.move", "[std] [modern] [move symantics]" ) {
 
 }
 
-class ForwardExample {
+class forward_example {
 private:
     static string func(int&& value) {
         return string{"int&&"};
@@ -109,12 +109,106 @@ TEST_CASE( "std.forward", "[std] [modern] [move symantics]" ) {
     SECTION( "move always returns unnamed rvalue reference" ) {
         int lvalue = 0;
 
-        REQUIRE( "int&&" == ForwardExample::perfect_forwarding_wrapper(move(lvalue)) );
+        REQUIRE( "int&&" == forward_example::perfect_forwarding_wrapper(move(lvalue)) );
 
-        REQUIRE( "int&" == ForwardExample::perfect_forwarding_wrapper(lvalue) );
+        REQUIRE( "int&" == forward_example::perfect_forwarding_wrapper(lvalue) );
 
         const int& const_ref = lvalue;
-        REQUIRE( "const int&" == ForwardExample::perfect_forwarding_wrapper(const_ref) );
+        REQUIRE( "const int&" == forward_example::perfect_forwarding_wrapper(const_ref) );
+    }
+
+}
+
+class special_member_functions {
+private:
+    string m_str;   
+
+    string m_which_function_was_called;
+
+public:
+    special_member_functions(const string& str) 
+    : m_str(str) 
+    {
+        
+    }
+
+    // copy constructor
+    special_member_functions(const special_member_functions& obj)
+    : m_str( obj.m_str ) 
+    {
+        m_which_function_was_called = "copy constructor";
+    }
+    
+    // SPECIAL function move constructor
+    special_member_functions(special_member_functions&& obj)
+    : m_str( move(obj.m_str) ) 
+    {
+        m_which_function_was_called = "move constructor";
+    }
+
+    // copy assignment operator
+    special_member_functions& operator=(const special_member_functions& obj) {
+        string temp_exception_safe = obj.m_str;    
+        m_str = move(temp_exception_safe); 
+
+        m_which_function_was_called = "copy assignment operator";
+        return *this;
+    }
+
+    // SPECIAL function move assignment operator
+    special_member_functions& operator=(special_member_functions&& obj) {
+        m_str = move(obj.m_str);
+
+        m_which_function_was_called = "move assignment operator";
+        return *this;
+    }
+
+    const string& which_function_was_called() {
+        return m_which_function_was_called;
+    }
+
+    const string& str() {
+        return m_str;
+    }
+     
+};
+
+TEST_CASE( "special member functions", "[std] [modern] [move symantics]" ) {
+
+    SECTION( "copy constructor" ) {
+        special_member_functions from("special");
+        
+        special_member_functions copy_to(from);
+        REQUIRE( "copy constructor" == copy_to.which_function_was_called() );
+        REQUIRE( "special" == copy_to.str() );
+    }
+
+    SECTION( "move constructor" ) {
+        special_member_functions from("class");
+        
+        special_member_functions move_to( move(from) );
+        REQUIRE( "move constructor" == move_to.which_function_was_called() );
+        REQUIRE( "class" == move_to.str() );
+    }
+
+    SECTION( "copy assignment operator" ) {
+        special_member_functions from("memeber");
+        
+        special_member_functions copy_assign_to("");
+        copy_assign_to = from; 
+
+        REQUIRE( "copy assignment operator" == copy_assign_to.which_function_was_called() );
+        REQUIRE( "memeber" == copy_assign_to.str() );
+    }
+
+    SECTION( "move assignment operator" ) {
+        special_member_functions from("functions");
+        
+        special_member_functions move_assign_to("");
+        move_assign_to = move(from); 
+
+        REQUIRE( "move assignment operator" == move_assign_to.which_function_was_called() );
+        REQUIRE( "functions" == move_assign_to.str() );
     }
 
 }
