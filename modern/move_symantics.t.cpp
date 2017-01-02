@@ -119,61 +119,61 @@ TEST_CASE( "std.forward", "[std] [modern] [move symantics]" ) {
 
 }
 
-class special_member_functions {
-private:
-    string m_str;   
-
-    string m_which_function_was_called;
-
-public:
-    special_member_functions(const string& str) 
-    : m_str(str) 
-    {
-        
-    }
-
-    // copy constructor
-    special_member_functions(const special_member_functions& obj)
-    : m_str( obj.m_str ) 
-    {
-        m_which_function_was_called = "copy constructor";
-    }
-    
-    // SPECIAL function move constructor
-    special_member_functions(special_member_functions&& obj)
-    : m_str( move(obj.m_str) ) 
-    {
-        m_which_function_was_called = "move constructor";
-    }
-
-    // copy assignment operator
-    special_member_functions& operator=(const special_member_functions& obj) {
-        string temp_exception_safe = obj.m_str;    
-        m_str = move(temp_exception_safe); 
-
-        m_which_function_was_called = "copy assignment operator";
-        return *this;
-    }
-
-    // SPECIAL function move assignment operator
-    special_member_functions& operator=(special_member_functions&& obj) {
-        m_str = move(obj.m_str);
-
-        m_which_function_was_called = "move assignment operator";
-        return *this;
-    }
-
-    const string& which_function_was_called() {
-        return m_which_function_was_called;
-    }
-
-    const string& str() {
-        return m_str;
-    }
-     
-};
-
 TEST_CASE( "special member functions", "[std] [modern] [move symantics]" ) {
+
+    class special_member_functions {
+    private:
+        string m_str;   
+
+        string m_which_function_was_called;
+
+    public:
+        special_member_functions(const string& str) 
+        : m_str(str) 
+        {
+            
+        }
+
+        // copy constructor
+        special_member_functions(const special_member_functions& obj)
+        : m_str( obj.m_str ) 
+        {
+            m_which_function_was_called = "copy constructor";
+        }
+        
+        // SPECIAL function move constructor
+        special_member_functions(special_member_functions&& obj)
+        : m_str( move(obj.m_str) ) 
+        {
+            m_which_function_was_called = "move constructor";
+        }
+
+        // copy assignment operator
+        special_member_functions& operator=(const special_member_functions& obj) {
+            string temp_exception_safe = obj.m_str;    
+            m_str = move(temp_exception_safe); 
+
+            m_which_function_was_called = "copy assignment operator";
+            return *this;
+        }
+
+        // SPECIAL function move assignment operator
+        special_member_functions& operator=(special_member_functions&& obj) {
+            m_str = move(obj.m_str);
+
+            m_which_function_was_called = "move assignment operator";
+            return *this;
+        }
+
+        const string& which_function_was_called() {
+            return m_which_function_was_called;
+        }
+
+        const string& str() {
+            return m_str;
+        }
+         
+    };
 
     SECTION( "copy constructor" ) {
         special_member_functions from("special");
