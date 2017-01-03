@@ -56,6 +56,10 @@ move_symantics.t.o: ./modern/move_symantics.t.cpp
 range_loop.t.o: ./modern/range_loop.t.cpp
 	$(COMPILE) ./modern/range_loop.t.cpp
 
+class_members.t.o: ./modern/class_members.t.cpp
+	$(COMPILE) ./modern/class_members.t.cpp
+
+
 #
 # algorithms
 #
