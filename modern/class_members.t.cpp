@@ -224,12 +224,26 @@ TEST_CASE( "final specifier", "[std] [modern] [class members]" ) {
         };
     }
 
+    SECTION( "cannot inherit from base class marked final" ) {
+        struct base final {
+
+        };
+
+        // COMPILE ERROR 
+        // base 'base' is marked 'final' 
+
+        //struct derived : base {
+
+        //};
+    }
+
     SECTION( "only virtual member function can be marked final" ) {
         struct base {
         };
 
-        struct derived_a : public base {
+        struct derived  {
             // COMPILE ERROR 
+            // only virtual member functions can be marked 'final' 
             // void func() final {} 
         };
     }
