@@ -59,6 +59,9 @@ range_loop.t.o: ./modern/range_loop.t.cpp
 class_members.t.o: ./modern/class_members.t.cpp
 	$(COMPILE) ./modern/class_members.t.cpp
 
+smart_pointers.t.o: ./modern/smart_pointers.t.cpp
+	$(COMPILE) ./modern/smart_pointers.t.cpp
+
 
 #
 # algorithms
