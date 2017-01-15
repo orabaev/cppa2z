@@ -69,8 +69,13 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
     SECTION( "move copy" ) {
         resource::dtor_called = 0; 
         {
-            auto ptr1 = make_unique<resource>();
+            auto ptr1 = make_unique<resource>(1, 2.345);
+
             auto ptr2(move(ptr1));
+            REQUIRE( ptr2 );
+            REQUIRE( 1 == ptr2->i );
+            REQUIRE( 2.345 == ptr2->d );
+
             REQUIRE( 0 == resource::dtor_called );
         }
         REQUIRE( 1 == resource::dtor_called );
@@ -80,8 +85,14 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         resource::dtor_called = 0; 
         {
             auto ptr1 = make_unique<resource>(1, 2.345);
+
             decltype(ptr1) ptr2;
+
             ptr2 = move(ptr1);
+            REQUIRE( ptr2 );
+            REQUIRE( 1 == ptr2->i );
+            REQUIRE( 2.345 == ptr2->d );
+
             REQUIRE( 0 == resource::dtor_called );
         }
         REQUIRE( 1 == resource::dtor_called );
