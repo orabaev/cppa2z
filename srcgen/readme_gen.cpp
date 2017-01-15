@@ -60,7 +60,7 @@ void readme_gen::modern() {
     section("range-based for loop" , "./modern/range_loop.t.cpp");
     section("move symantics"       , "./modern/move_symantics.t.cpp");
     section("class members"        , "./modern/class_members.t.cpp");
-    section("smart pointers"       , "./modern/smart_ptr.t.cpp");
+    section("smart pointers"       , "./modern/smart_pointers.t.cpp");
 
     m_writer.newline();
 }
