@@ -24,8 +24,9 @@ TEST_CASE( "nullptr", "[std] [modern] [smart pointers]" ) {
             static bool is_pointer_argument(int   ) { return false; }
         };
 
-        REQUIRE_FALSE( nullptr_int_overload::is_pointer_argument(10) );
         REQUIRE( nullptr_int_overload::is_pointer_argument(nullptr) );
+
+        REQUIRE_FALSE( nullptr_int_overload::is_pointer_argument(10) );
     }
 
 }
@@ -34,10 +35,9 @@ TEST_CASE( "nullptr", "[std] [modern] [smart pointers]" ) {
 namespace {
 struct resource {
     int i = 0;
-    double d = 0.0;
     static int dtor_called;
     resource() {}
-    resource(int x, double y): i(x), d(y)  {}; 
+    resource(int x): i(x) {}; 
     ~resource() { ++dtor_called; };
 };
 int resource::dtor_called = 0; 
@@ -55,10 +55,9 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
     }
 
     SECTION( "use * and ->  operators to access members of the owned pointer object" ) {
-        unique_ptr<resource> ptr1 = make_unique<resource>(12, 3.45);
-        REQUIRE( ptr1 );
-        REQUIRE( 12 == (*ptr1).i );
-        REQUIRE( 3.45 == ptr1->d );
+        unique_ptr<resource> ptr = make_unique<resource>(1);
+        REQUIRE( ptr );
+        REQUIRE( 1 == (*ptr).i );
     }
 
     SECTION( "cannot copy or assign" ) {
@@ -69,12 +68,11 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
     SECTION( "move copy" ) {
         resource::dtor_called = 0; 
         {
-            auto ptr1 = make_unique<resource>(1, 2.345);
+            auto ptr1 = make_unique<resource>(2);
 
             auto ptr2(move(ptr1));
             REQUIRE( ptr2 );
-            REQUIRE( 1 == ptr2->i );
-            REQUIRE( 2.345 == ptr2->d );
+            REQUIRE( 2 == ptr2->i );
 
             REQUIRE( 0 == resource::dtor_called );
         }
@@ -84,14 +82,13 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
     SECTION( "move assign" ) {
         resource::dtor_called = 0; 
         {
-            auto ptr1 = make_unique<resource>(1, 2.345);
+            auto ptr1 = make_unique<resource>(3);
 
             decltype(ptr1) ptr2;
 
             ptr2 = move(ptr1);
             REQUIRE( ptr2 );
-            REQUIRE( 1 == ptr2->i );
-            REQUIRE( 2.345 == ptr2->d );
+            REQUIRE( 3 == ptr2->i );
 
             REQUIRE( 0 == resource::dtor_called );
         }
@@ -101,11 +98,11 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
     SECTION( "get" ) {
         resource::dtor_called = 0; 
         {
-            auto ptr = make_unique<resource>(1, 2.345);
+            auto ptr = make_unique<resource>(4);
 
             resource* raw_ptr = ptr.get();
-            REQUIRE( 1 == raw_ptr->i );
-            REQUIRE( 2.345 == raw_ptr->d );
+            REQUIRE( 4 == raw_ptr->i );
+            REQUIRE( ptr );
         }
         REQUIRE( 1 == resource::dtor_called );
     }
@@ -114,11 +111,11 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         resource::dtor_called = 0; 
         resource* raw_ptr = nullptr;
         {
-            auto ptr = make_unique<resource>(1, 2.345);
+            auto ptr = make_unique<resource>(5);
 
             raw_ptr = ptr.release();
-            REQUIRE( 1 == raw_ptr->i );
-            REQUIRE( 2.345 == raw_ptr->d );
+            REQUIRE( 5 == raw_ptr->i );
+            REQUIRE_FALSE( ptr );
         }
         REQUIRE( 0 == resource::dtor_called );
 
@@ -131,19 +128,17 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
 
         unique_ptr<resource>  ptr;
 
-        ptr.reset(new resource(1, 2.345));
+        ptr.reset(new resource(6));
 
         REQUIRE( ptr );
         REQUIRE( 0 == resource::dtor_called );
-        REQUIRE( 1 == ptr->i );
-        REQUIRE( 2.345 == ptr->d );
+        REQUIRE( 6 == ptr->i );
 
-        ptr.reset(new resource(0, 0.1));
+        ptr.reset(new resource(7));
 
         REQUIRE( ptr );
         REQUIRE( 1 == resource::dtor_called );
-        REQUIRE( 0 == ptr->i );
-        REQUIRE( 0.1 == ptr->d );
+        REQUIRE( 7 == ptr->i );
 
         ptr.reset();
 
@@ -155,7 +150,7 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         resource::dtor_called = 0; 
 
         auto pass_to_function_by_value = [](unique_ptr<resource> p) {};
-        auto ptr = make_unique<resource>(1, 2.34);
+        auto ptr = make_unique<resource>(8);
 
         pass_to_function_by_value(move(ptr)); 
 
@@ -163,8 +158,8 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
     }
 
     SECTION( "compares value owned pointers" ) {
-        auto ptr1 = make_unique<int>(1);
-        auto ptr2 = make_unique<int>(1);
+        auto ptr1 = make_unique<int>(9);
+        auto ptr2 = make_unique<int>(9);
 
         REQUIRE( ptr1 != ptr2);
 
