@@ -54,6 +54,14 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         REQUIRE( 1 == resource::dtor_called );
     }
 
+    SECTION( "check if stored  pointer is null" ) {
+        unique_ptr<resource>  ptr;
+        REQUIRE_FALSE( ptr );
+        
+        ptr.reset(new resource);
+        REQUIRE( ptr );
+    }
+
     SECTION( "use * and ->  operators to access members of the owned pointer object" ) {
         unique_ptr<resource> ptr = make_unique<resource>(1);
         REQUIRE( ptr );
@@ -175,6 +183,187 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         
         {
             unique_ptr_d ptr(new int(10), deleter);; 
+        }
+
+        REQUIRE( 1 == delete_count );
+    }
+
+}
+
+TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
+
+    SECTION( "automatically reclame resource using shared_ptr" ) {
+        resource::dtor_called = 0; 
+        {
+            shared_ptr<resource>  ptr(new resource);
+        }
+        REQUIRE( 1 == resource::dtor_called );
+    }
+
+    SECTION( "check if stored pointer is null" ) {
+        shared_ptr<resource>  ptr;
+        REQUIRE_FALSE( ptr );
+        
+        ptr.reset(new resource);
+        REQUIRE( ptr );
+    }
+
+    SECTION( "unique and use count" ) {
+        shared_ptr<resource>  ptr1;
+        REQUIRE_FALSE( ptr1.unique() );
+        REQUIRE( 0 == ptr1.use_count() );
+
+        ptr1.reset(new resource);
+        REQUIRE( ptr1.unique() );
+        REQUIRE( 1 == ptr1.use_count() );
+
+        auto ptr2 = ptr1;;
+        REQUIRE_FALSE( ptr1.unique() );
+        REQUIRE_FALSE( ptr2.unique() );
+        REQUIRE( 2 == ptr1.use_count() );
+        REQUIRE( 2 == ptr2.use_count() );
+    }
+
+    SECTION( "use * and ->  operators to access members of the owned pointer object" ) {
+        shared_ptr<resource> ptr = make_shared<resource>(1);
+        REQUIRE( ptr );
+        REQUIRE( 1 == (*ptr).i );
+    }
+
+    SECTION( "copy" ) {
+        resource::dtor_called = 0; 
+        {
+            auto ptr1 = make_shared<resource>(2);
+
+            auto ptr2(ptr1);
+            REQUIRE( ptr1 );
+            REQUIRE( ptr2 );
+            REQUIRE( 2 == ptr2->i );
+
+            REQUIRE( 0 == resource::dtor_called );
+        }
+        REQUIRE( 1 == resource::dtor_called );
+    }
+
+    SECTION( "assign" ) {
+        resource::dtor_called = 0; 
+        {
+            auto ptr1 = make_shared<resource>(3);
+
+            decltype(ptr1) ptr2;
+
+            ptr2 = ptr1;
+            REQUIRE( ptr1 );
+            REQUIRE( ptr2 );
+            REQUIRE( 3 == ptr2->i );
+
+            REQUIRE( 0 == resource::dtor_called );
+        }
+        REQUIRE( 1 == resource::dtor_called );
+    }
+
+    SECTION( "move copy" ) {
+        resource::dtor_called = 0; 
+        {
+            auto ptr1 = make_shared<resource>(2);
+
+            auto ptr2(move(ptr1));
+            REQUIRE( ptr2 );
+            REQUIRE( 2 == ptr2->i );
+            REQUIRE( ptr2.unique() );
+            REQUIRE( 1 == ptr2.use_count() );
+
+            REQUIRE( 0 == resource::dtor_called );
+        }
+        REQUIRE( 1 == resource::dtor_called );
+    }
+
+    SECTION( "move assign" ) {
+        resource::dtor_called = 0; 
+        {
+            auto ptr1 = make_shared<resource>(3);
+
+            decltype(ptr1) ptr2;
+
+            ptr2 = move(ptr1);
+            REQUIRE( ptr2 );
+            REQUIRE( 3 == ptr2->i );
+            REQUIRE( ptr2.unique() );
+            REQUIRE( 1 == ptr2.use_count() );
+
+            REQUIRE( 0 == resource::dtor_called );
+        }
+        REQUIRE( 1 == resource::dtor_called );
+    }
+
+    SECTION( "get" ) {
+        resource::dtor_called = 0; 
+        {
+            auto ptr = make_shared<resource>(4);
+
+            resource* raw_ptr = ptr.get();
+            REQUIRE( 4 == raw_ptr->i );
+            REQUIRE( ptr );
+        }
+        REQUIRE( 1 == resource::dtor_called );
+    }
+
+    SECTION( "reset" ) {
+        resource::dtor_called = 0; 
+
+        shared_ptr<resource>  ptr1;
+
+        ptr1.reset(new resource(6));
+
+        REQUIRE( ptr1 );
+        REQUIRE( 0 == resource::dtor_called );
+        REQUIRE( 6 == ptr1->i );
+
+        ptr1.reset(new resource(7));
+
+        REQUIRE( ptr1 );
+        REQUIRE( 1 == resource::dtor_called );
+        REQUIRE( 7 == ptr1->i );
+
+        auto ptr2 = ptr1;
+        ptr1.reset();
+
+        REQUIRE( 1 == resource::dtor_called );
+        REQUIRE_FALSE( ptr1 );
+
+        ptr2.reset();
+
+        REQUIRE_FALSE( ptr2 );
+        REQUIRE( 2 == resource::dtor_called );
+    }
+
+    SECTION( "pass to function by value" ) {
+        resource::dtor_called = 0; 
+
+        auto pass_to_function_by_value = [](shared_ptr<resource> p) {};
+        auto ptr = make_shared<resource>(8);
+
+        pass_to_function_by_value(ptr); 
+
+        REQUIRE( 0 == resource::dtor_called );
+    }
+
+    SECTION( "compares value owned pointers" ) {
+        auto ptr1 = make_shared<int>(9);
+        auto ptr2 = make_shared<int>(9);
+
+        REQUIRE( ptr1 != ptr2);
+
+        ptr1.reset();
+        REQUIRE( ptr1 == nullptr);
+    }
+
+    SECTION( "custom deleter" ) {
+        int delete_count = 0;
+        auto deleter = [&delete_count] (auto value) { delete value; ++delete_count; };
+        
+        {
+            shared_ptr<int> ptr(new int(10), deleter);; 
         }
 
         REQUIRE( 1 == delete_count );
