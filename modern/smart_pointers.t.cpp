@@ -165,7 +165,7 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         REQUIRE( 1 == resource::dtor_called );
     }
 
-    SECTION( "compares value owned pointers" ) {
+    SECTION( "compare" ) {
         auto ptr1 = make_unique<int>(9);
         auto ptr2 = make_unique<int>(9);
 
@@ -193,9 +193,13 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
 TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
 
     SECTION( "automatically reclame resource using shared_ptr" ) {
-        resource::dtor_called = 0; 
         {
-            shared_ptr<resource>  ptr(new resource);
+            shared_ptr<resource>  ptr1(new resource);
+            resource::dtor_called = 0; 
+            {
+                shared_ptr<resource>  ptr2(ptr1);
+            }
+            REQUIRE( 0 == resource::dtor_called );
         }
         REQUIRE( 1 == resource::dtor_called );
     }
@@ -348,7 +352,7 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         REQUIRE( 0 == resource::dtor_called );
     }
 
-    SECTION( "compares value owned pointers" ) {
+    SECTION( "compare" ) {
         auto ptr1 = make_shared<int>(9);
         auto ptr2 = make_shared<int>(9);
 
@@ -356,6 +360,9 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
 
         ptr1.reset();
         REQUIRE( ptr1 == nullptr);
+
+        ptr1 = ptr2;
+        REQUIRE( ptr1 == ptr2);
     }
 
     SECTION( "custom deleter" ) {
@@ -367,6 +374,41 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         }
 
         REQUIRE( 1 == delete_count );
+    }
+
+    SECTION( "pointer_cast" ) {
+        struct base {
+            virtual void foo() = 0;
+            virtual ~base() {}
+        };
+
+        struct derived1 : public base {
+            virtual void foo() override {}
+            void derived1_only() {};
+        };
+
+        struct derived2 : public base {
+            virtual void foo() override {}
+            void derived2_only() {};
+        };
+
+        shared_ptr<base> ptr_base = make_shared<derived1>(); 
+        
+        // safe and correct
+        auto ptr_derived1 = dynamic_pointer_cast<derived1>(ptr_base);
+        REQUIRE( ptr_derived1 );
+
+        // not safe and correct
+        ptr_derived1 = static_pointer_cast<derived1>(ptr_base);
+        REQUIRE( ptr_derived1 );
+
+        // safe and incorrect
+        auto ptr_derived2 = dynamic_pointer_cast<derived2>(ptr_derived1);
+        REQUIRE_FALSE( ptr_derived2 );
+        
+        // undefined  
+        ptr_derived2 = static_pointer_cast<derived2>(ptr_base);
+        REQUIRE( ptr_derived2 );
     }
 
 }
