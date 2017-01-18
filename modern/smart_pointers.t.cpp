@@ -165,11 +165,11 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         REQUIRE( 1 == resource::dtor_called );
     }
 
-    SECTION( "compare" ) {
+    SECTION( "==" ) {
         auto ptr1 = make_unique<int>(9);
         auto ptr2 = make_unique<int>(9);
 
-        REQUIRE( ptr1 != ptr2);
+        REQUIRE_FALSE( ptr1 == ptr2);
 
         ptr1.reset();
         REQUIRE( ptr1 == nullptr);
@@ -212,18 +212,14 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         REQUIRE( ptr );
     }
 
-    SECTION( "unique and use count" ) {
+    SECTION( "use_count" ) {
         shared_ptr<resource>  ptr1;
-        REQUIRE_FALSE( ptr1.unique() );
         REQUIRE( 0 == ptr1.use_count() );
 
         ptr1.reset(new resource);
-        REQUIRE( ptr1.unique() );
         REQUIRE( 1 == ptr1.use_count() );
 
         auto ptr2 = ptr1;;
-        REQUIRE_FALSE( ptr1.unique() );
-        REQUIRE_FALSE( ptr2.unique() );
         REQUIRE( 2 == ptr1.use_count() );
         REQUIRE( 2 == ptr2.use_count() );
     }
@@ -352,11 +348,11 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         REQUIRE( 0 == resource::dtor_called );
     }
 
-    SECTION( "compare" ) {
+    SECTION( "==" ) {
         auto ptr1 = make_shared<int>(9);
         auto ptr2 = make_shared<int>(9);
 
-        REQUIRE( ptr1 != ptr2);
+        REQUIRE_FALSE( ptr1 == ptr2);
 
         ptr1.reset();
         REQUIRE( ptr1 == nullptr);
@@ -393,22 +389,76 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         };
 
         shared_ptr<base> ptr_base = make_shared<derived1>(); 
-        
-        // safe and correct
+         
+        // const_pointer_cast
+        shared_ptr<const base> const_ptr = ptr_base; 
+        ptr_base = const_pointer_cast<base>(const_ptr);
+
+        // dynamic_pointer_cast safe and correct
         auto ptr_derived1 = dynamic_pointer_cast<derived1>(ptr_base);
         REQUIRE( ptr_derived1 );
 
-        // not safe and correct
+        // static_pointer_cast not safe and correct
         ptr_derived1 = static_pointer_cast<derived1>(ptr_base);
         REQUIRE( ptr_derived1 );
 
-        // safe and incorrect
+        // dynamic_pointer_cast safe and incorrect
         auto ptr_derived2 = dynamic_pointer_cast<derived2>(ptr_derived1);
         REQUIRE_FALSE( ptr_derived2 );
         
-        // undefined  
+        // static_pointer_cast undefined 
         ptr_derived2 = static_pointer_cast<derived2>(ptr_base);
         REQUIRE( ptr_derived2 );
+    }
+
+}
+
+TEST_CASE( "weak_ptr", "[std] [modern] [smart pointers]" ) {
+    
+    SECTION( "basic usage assing/lock" ) {
+        resource::dtor_called = 0;
+        shared_ptr<resource> shared = make_shared<resource>();
+
+        weak_ptr<resource> weak = shared;
+        REQUIRE_FALSE( weak.expired() );
+
+        {
+            shared_ptr<resource> ptr = weak.lock();
+            REQUIRE( ptr );
+        }
+        
+        shared.reset();
+        REQUIRE( 1 == resource::dtor_called );
+        REQUIRE( weak.expired() );
+
+        {
+            shared_ptr<resource> ptr = weak.lock();
+            REQUIRE_FALSE( ptr );
+        }
+    }
+
+    SECTION( "reset" ) {
+        shared_ptr<resource> shared = make_shared<resource>();
+
+        weak_ptr<resource> weak(shared);
+        REQUIRE_FALSE( weak.expired() );
+
+        weak.reset();
+        REQUIRE( weak.expired() );
+        REQUIRE( 0 == weak.use_count() );
+    }
+
+    SECTION( "use_count" ) {
+        auto shared1 = make_shared<resource>();
+
+        weak_ptr<resource> weak = shared1;
+        REQUIRE( 1 == weak.use_count() );
+
+        auto shared2 = shared1;
+        REQUIRE( 2 == weak.use_count() );
+
+        auto shared3 = shared1;
+        REQUIRE( 3 == weak.use_count() );
     }
 
 }
