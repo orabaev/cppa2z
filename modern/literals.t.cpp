@@ -53,11 +53,11 @@ TEST_CASE( "std-user-defined", "[std] [modern] [literals]" ) {
         using namespace std::chrono_literals;
        
         auto day_in_hours           = 24h;
-        auto day_in_minutes         = 1'440min;
-        auto day_in_seconds         = 86'400s;
-        auto day_in_milliseconds    = 86'400'000ms;
-        auto day_in_microseconds    = 86'400'000'000us;
-        auto day_in_nanoseconds     = 86'400'000'000'000ns;
+        auto day_in_minutes         = 1440min;
+        auto day_in_seconds         = 86400s;
+        auto day_in_milliseconds    = 86400'000ms;
+        auto day_in_microseconds    = 86400000000us;
+        auto day_in_nanoseconds     = 86400000000000ns;
 
         REQUIRE( day_in_hours == day_in_minutes );
         REQUIRE( day_in_hours == day_in_seconds );

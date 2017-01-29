@@ -65,6 +65,9 @@ smart_pointers.t.o: ./modern/smart_pointers.t.cpp
 literals.t.o: ./modern/literals.t.cpp
 	$(COMPILE) ./modern/literals.t.cpp
 
+compile_time.t.o: ./modern/compile_time.t.cpp
+	$(COMPILE) ./modern/compile_time.t.cpp
+
 #
 # algorithms
 #
