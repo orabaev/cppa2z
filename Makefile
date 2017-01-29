@@ -62,6 +62,8 @@ class_members.t.o: ./modern/class_members.t.cpp
 smart_pointers.t.o: ./modern/smart_pointers.t.cpp
 	$(COMPILE) ./modern/smart_pointers.t.cpp
 
+literals.t.o: ./modern/literals.t.cpp
+	$(COMPILE) ./modern/literals.t.cpp
 
 #
 # algorithms
