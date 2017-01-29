@@ -61,6 +61,7 @@ void readme_gen::modern() {
     section("move symantics"       , "./modern/move_symantics.t.cpp");
     section("class members"        , "./modern/class_members.t.cpp");
     section("smart pointers"       , "./modern/smart_pointers.t.cpp");
+    section("literals"             , "./modern/literals.t.cpp");
 
     m_writer.newline();
 }

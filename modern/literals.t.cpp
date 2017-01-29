@@ -45,14 +45,6 @@ TEST_CASE( "user-defined", "[std] [modern] [literals]" ) {
 
 }
 
-TEST_CASE( "std-user-defined", "[std] [modern] [literals]" ) {
-    
-    SECTION( "" ) {
-
-    }
-
-}
-
 TEST_CASE( "digit separators", "[std] [modern] [literals]" ) {
     
     SECTION( "use digit separators to visualy distinguish" ) {
