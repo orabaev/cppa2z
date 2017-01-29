@@ -1,4 +1,5 @@
 #include <catch.hpp>
+#include <chrono>
 
 using namespace std;
 
@@ -41,6 +42,28 @@ TEST_CASE( "user-defined", "[std] [modern] [literals]" ) {
 
         
         REQUIRE( Approx(5.29) == 2.3_square );
+    }
+
+}
+
+TEST_CASE( "std-user-defined", "[std] [modern] [literals]" ) {
+    
+
+    SECTION( "chrono" ) {
+        using namespace std::chrono_literals;
+       
+        auto day_in_hours           = 24h;
+        auto day_in_minutes         = 1'440min;
+        auto day_in_seconds         = 86'400s;
+        auto day_in_milliseconds    = 86'400'000ms;
+        auto day_in_microseconds    = 86'400'000'000us;
+        auto day_in_nanoseconds     = 86'400'000'000'000ns;
+
+        REQUIRE( day_in_hours == day_in_minutes );
+        REQUIRE( day_in_hours == day_in_seconds );
+        REQUIRE( day_in_hours == day_in_milliseconds );
+        REQUIRE( day_in_hours == day_in_microseconds );
+        REQUIRE( day_in_hours == day_in_nanoseconds );
     }
 
 }
