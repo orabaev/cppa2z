@@ -68,6 +68,9 @@ literals.t.o: ./modern/literals.t.cpp
 compile_time.t.o: ./modern/compile_time.t.cpp
 	$(COMPILE) ./modern/compile_time.t.cpp
 
+templates.t.o: ./modern/templates.t.cpp
+	$(COMPILE) ./modern/templates.t.cpp
+
 #
 # algorithms
 #
