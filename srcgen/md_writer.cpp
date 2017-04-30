@@ -9,17 +9,17 @@ md_writer::md_writer(std::ostream& out)
 }
 
 md_writer& md_writer::heading1(const std::string& str) {
-    m_out << '#' << str << '\n';
+    m_out << "# " << str << '\n';
     return *this;
 }
 
 md_writer& md_writer::heading2(const std::string& str) {
-    m_out << "##" << str << '\n';
+    m_out << "## " << str << '\n';
     return *this;
 }
 
 md_writer& md_writer::heading3(const std::string& str) {
-    m_out << "###" << str << '\n';
+    m_out << "### " << str << '\n';
     return *this;
 }
 

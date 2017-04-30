@@ -17,7 +17,7 @@ TEST_CASE( "md_writer.heading1" ) {
     md_writer writer(out);
 
     SECTION("heading1") {
-        const string expected{"#Heading1\n"};
+        const string expected{"# Heading1\n"};
 
         writer.heading1("Heading1");
 
@@ -25,7 +25,7 @@ TEST_CASE( "md_writer.heading1" ) {
     }
 
     SECTION("chain") {
-        const string expected{"#Heading1\n#Other\n"};
+        const string expected{"# Heading1\n# Other\n"};
 
         writer.heading1("Heading1")
               .heading1("Other");
@@ -39,7 +39,7 @@ TEST_CASE( "md_writer.heading2" ) {
     md_writer writer(out);
 
     SECTION("heading2") {
-        const string expected{"##Heading2\n"};
+        const string expected{"## Heading2\n"};
 
         writer.heading2("Heading2");
 
@@ -47,7 +47,7 @@ TEST_CASE( "md_writer.heading2" ) {
     }
 
     SECTION("chain") {
-        const string expected{"##Heading2\n#Other\n"};
+        const string expected{"## Heading2\n# Other\n"};
 
         writer.heading2("Heading2")
               .heading1("Other");
@@ -61,7 +61,7 @@ TEST_CASE( "md_writer.heading3" ) {
     md_writer writer(out);
 
     SECTION("heading3") {
-        const string expected{"###Heading3\n"};
+        const string expected{"### Heading3\n"};
 
         writer.heading3("Heading3");
 
@@ -69,7 +69,7 @@ TEST_CASE( "md_writer.heading3" ) {
     }
 
     SECTION("chain") {
-        const string expected{"###Heading3\n#Other\n"};
+        const string expected{"### Heading3\n# Other\n"};
 
         writer.heading3("Heading3")
               .heading1("Other");
