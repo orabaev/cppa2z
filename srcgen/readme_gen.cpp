@@ -55,15 +55,15 @@ void readme_gen::caption() {
 
 void readme_gen::modern() {
     m_writer.heading2("C++11/14");
-    section("lambda"                , "./modern/lambda.t.cpp");
-    section("type deduction"        , "./modern/type_deduction.t.cpp");
-    section("range-based for loop"  , "./modern/range_loop.t.cpp");
-    section("move symantics"        , "./modern/move_symantics.t.cpp");
-    section("class members"         , "./modern/class_members.t.cpp");
-    section("smart pointers"        , "./modern/smart_pointers.t.cpp");
-    section("literals"              , "./modern/literals.t.cpp");
-    section("compile-time"          , "./modern/compile_time.t.cpp");
-    section("templates"             , "./modern/templates.t.cpp");
+    section("lambda"                , "./modern_11_14/lambda.t.cpp");
+    section("type deduction"        , "./modern_11_14/type_deduction.t.cpp");
+    section("range-based for loop"  , "./modern_11_14/range_loop.t.cpp");
+    section("move symantics"        , "./modern_11_14/move_symantics.t.cpp");
+    section("class members"         , "./modern_11_14/class_members.t.cpp");
+    section("smart pointers"        , "./modern_11_14/smart_pointers.t.cpp");
+    section("literals"              , "./modern_11_14/literals.t.cpp");
+    section("compile-time"          , "./modern_11_14/compile_time.t.cpp");
+    section("templates"             , "./modern_11_14/templates.t.cpp");
 
     m_writer.newline();
 }
