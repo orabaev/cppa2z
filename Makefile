@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++14
+CXXFLAGS = -Wall -std=c++17
 INCLUDE = -I. -I./srcgen
 COMPILE = $(CXX) $(CXXFLAGS) $(INCLUDE) -c
 LINK = $(CXX) $(CXXFLAGS) -o
