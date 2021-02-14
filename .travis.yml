@@ -29,7 +29,7 @@ matrix:
           packages: 
             - clang-6.0
             - g++-7
-      env: COMPILER='clang++-6.0
+      env: COMPILER='clang++-6.0'
       script:
         - sudo locale-gen "en_US" "ru_RU"
         - make CXX=$COMPILER 
