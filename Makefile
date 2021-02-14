@@ -4,7 +4,7 @@ INCLUDE = -I. -I./srcgen
 COMPILE = $(CXX) $(CXXFLAGS) $(INCLUDE) -c
 LINK = $(CXX) $(CXXFLAGS) -o
 
-CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp)
+CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern_11_14/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp)
 OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o))
 
 default: cppa2z
@@ -42,34 +42,34 @@ readme_gen.t.o: ./srcgen/readme_gen.h ./srcgen/readme_gen.cpp ./srcgen/readme_ge
 	$(COMPILE) ./srcgen/readme_gen.t.cpp
 
 #
-# modern
+# modern_11_14
 #
-lambda.t.o: ./modern/lambda.t.cpp
-	$(COMPILE) ./modern/lambda.t.cpp
+lambda.t.o: ./modern_11_14/lambda.t.cpp
+	$(COMPILE) ./modern_11_14/lambda.t.cpp
 
-type_deduction.t.o: ./modern/type_deduction.t.cpp
-	$(COMPILE) ./modern/type_deduction.t.cpp
+type_deduction.t.o: ./modern_11_14/type_deduction.t.cpp
+	$(COMPILE) ./modern_11_14/type_deduction.t.cpp
 
-move_symantics.t.o: ./modern/move_symantics.t.cpp
-	$(COMPILE) ./modern/move_symantics.t.cpp
+move_symantics.t.o: ./modern_11_14/move_symantics.t.cpp
+	$(COMPILE) ./modern_11_14/move_symantics.t.cpp
 
-range_loop.t.o: ./modern/range_loop.t.cpp
-	$(COMPILE) ./modern/range_loop.t.cpp
+range_loop.t.o: ./modern_11_14/range_loop.t.cpp
+	$(COMPILE) ./modern_11_14/range_loop.t.cpp
 
-class_members.t.o: ./modern/class_members.t.cpp
-	$(COMPILE) ./modern/class_members.t.cpp
+class_members.t.o: ./modern_11_14/class_members.t.cpp
+	$(COMPILE) ./modern_11_14/class_members.t.cpp
 
-smart_pointers.t.o: ./modern/smart_pointers.t.cpp
-	$(COMPILE) ./modern/smart_pointers.t.cpp
+smart_pointers.t.o: ./modern_11_14/smart_pointers.t.cpp
+	$(COMPILE) ./modern_11_14/smart_pointers.t.cpp
 
-literals.t.o: ./modern/literals.t.cpp
-	$(COMPILE) ./modern/literals.t.cpp
+literals.t.o: ./modern_11_14/literals.t.cpp
+	$(COMPILE) ./modern_11_14/literals.t.cpp
 
-compile_time.t.o: ./modern/compile_time.t.cpp
-	$(COMPILE) ./modern/compile_time.t.cpp
+compile_time.t.o: ./modern_11_14/compile_time.t.cpp
+	$(COMPILE) ./modern_11_14/compile_time.t.cpp
 
-templates.t.o: ./modern/templates.t.cpp
-	$(COMPILE) ./modern/templates.t.cpp
+templates.t.o: ./modern_11_14/templates.t.cpp
+	$(COMPILE) ./modern_11_14/templates.t.cpp
 
 #
 # algorithms
