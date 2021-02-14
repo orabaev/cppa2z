@@ -202,7 +202,8 @@ TEST_CASE( "lambda capture initializer.(x = value)", "[std] [modern] [lambda] [C
         const int start_value  = 1;
         const int increment_by_value = 3;
            
-        auto increment_by = [x = start_value, increment_by_value] () mutable {
+        auto increment_by = [x = start_value] () mutable {
+            // NOTE THAT increment_by_value is implicitly captured by lambda
             x += increment_by_value;                  
             return x; 
         };

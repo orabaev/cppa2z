@@ -26,7 +26,8 @@ TEST_CASE( "rvalue references", "[std] [modern] [move symantics]" ) {
 
     SECTION( "unnamed rvalue reference is an rvalue" ) {
         int x = 0;
-        static_cast<int&&>(x); // unnamed
+
+        static_assert( is_rvalue_reference<decltype(static_cast<int&&>(x))>::value, "expected unnamed rvalue ref" );
         // COMPILE ERROR static_cast<int&&>(x) = 1;
 
         move(x); // unnamed
