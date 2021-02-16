@@ -4,7 +4,7 @@ INCLUDE = -I. -I./srcgen
 COMPILE = $(CXX) $(CXXFLAGS) $(INCLUDE) -c
 LINK = $(CXX) $(CXXFLAGS) -o
 
-CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern_11_14/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp)
+CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern_11_14/*.cpp) $(wildcard modern_17/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp)
 OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o))
 
 default: cppa2z
@@ -70,6 +70,12 @@ compile_time.t.o: ./modern_11_14/compile_time.t.cpp
 
 templates.t.o: ./modern_11_14/templates.t.cpp
 	$(COMPILE) ./modern_11_14/templates.t.cpp
+
+#
+# modern_17
+#
+utility_types.t.o: ./modern_17/utility_types.t.cpp
+	$(COMPILE) ./modern_17/utility_types.t.cpp
 
 #
 # algorithms

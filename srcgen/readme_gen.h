@@ -23,7 +23,8 @@ public:
 private:
     void section(const std::string& section, const std::string& file_path);
     void caption();
-    void modern();
+    void modern_11_14();
+    void modern_17();
     void algorithms();
     void iterators();
     void streams();

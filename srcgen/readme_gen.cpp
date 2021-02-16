@@ -16,7 +16,8 @@ readme_gen::readme_gen(std::ostream& out)
 
 void readme_gen::generate() {
     caption();
-    modern();
+    modern_11_14();
+    modern_17();
     algorithms();
     iterators();
     streams();
@@ -53,7 +54,7 @@ void readme_gen::caption() {
     m_writer.newline();
 }
 
-void readme_gen::modern() {
+void readme_gen::modern_11_14() {
     m_writer.heading2("C++11/14");
     section("lambda"                , "./modern_11_14/lambda.t.cpp");
     section("type deduction"        , "./modern_11_14/type_deduction.t.cpp");
@@ -65,6 +66,11 @@ void readme_gen::modern() {
     section("compile-time"          , "./modern_11_14/compile_time.t.cpp");
     section("templates"             , "./modern_11_14/templates.t.cpp");
 
+    m_writer.newline();
+}
+
+void readme_gen::modern_17() {
+    m_writer.heading2("C++17");
     m_writer.newline();
 }
 
