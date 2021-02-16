@@ -71,6 +71,7 @@ void readme_gen::modern_11_14() {
 
 void readme_gen::modern_17() {
     m_writer.heading2("C++17");
+    section("utility types"         , "./modern_17/utility_types.t.cpp");
     m_writer.newline();
 }
 
