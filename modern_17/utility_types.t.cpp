@@ -45,7 +45,7 @@ TEST_CASE( "optional", "[std] [modern] [optional] [C++17]" ) {
     SECTION( "move" ) {
         optional<string> opt1("Allocate very very very very very very long string");
         optional<string> opt2 = move(*opt1);
-        REQUIRE( opt2 == "Allocate very very very very very very long string" );
+        REQUIRE( *opt2 == "Allocate very very very very very very long string" );
         REQUIRE( opt1 != opt2 );
     }
 
