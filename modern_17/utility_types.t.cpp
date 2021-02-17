@@ -1,4 +1,5 @@
 #include <catch.hpp>
+#include <type_traits>
 #include <any>
 #include <optional>
 #include <variant>
@@ -81,6 +82,30 @@ TEST_CASE( "variant", "[std] [modern] [variant] [C++17]" ) {
         REQUIRE( get_if<string>(&var) == nullptr );
         REQUIRE( *get_if<double>(&var) == 123.456 );
     }
+
+    SECTION( "visit" ) {
+        vector<variant<int, string, double>> vec;
+        vec.emplace_back(11);
+        vec.emplace_back("Hello");
+        vec.emplace_back(123.456);
+
+        for (auto& var : vec)
+        {
+            std::visit([&](auto&& arg) {
+                using T = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<T, int>)
+                    REQUIRE( arg == 11 );
+                else if constexpr (std::is_same_v<T, string>)
+                    REQUIRE( arg == "Hello" );
+                else if constexpr (std::is_same_v<T, double>)
+                    REQUIRE( arg == 123.456 );
+                else
+                    REQUIRE( false );
+                    
+            }, var);
+        }
+    }
+
 
     SECTION( "holds_alternative" ) {
         variant<int, string, double> var; 
