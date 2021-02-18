@@ -7,8 +7,40 @@
 
 using namespace std;
 
-static int static_i = 0;
+TEST_CASE( "any", "[std] [modern] [any] [C++17]" ) {
+    SECTION( "with no value" ) {
+        any a;
+        REQUIRE_FALSE( a.has_value());
+    }
+    
+    SECTION( "with value" ) {
+        any a = 11;
+        REQUIRE( a.has_value());
+        REQUIRE( any_cast<int>(a) == 11 );
 
+        a = string("Hello");
+        REQUIRE( any_cast<string>(a) == "Hello" );
+    }
+
+    SECTION( "bad_any_cast" ) {
+        any a = 11;
+        REQUIRE_THROWS_AS( any_cast<double>(a), bad_any_cast );
+        REQUIRE_THROWS_AS( any_cast<string>(a), bad_any_cast );
+    }
+
+    SECTION( "reset" ) {
+        any a = 11;
+        a.reset();
+        REQUIRE_FALSE( a.has_value() );
+    }
+
+    SECTION( "type" ) {
+        any a = 11;
+        REQUIRE( a.type() == typeid(int) );
+        a = string("Hello");
+        REQUIRE( a.type() == typeid(string) );
+    }
+}
 
 TEST_CASE( "optional", "[std] [modern] [optional] [C++17]" ) {
     SECTION( "with no value" ) {
