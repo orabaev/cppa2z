@@ -137,15 +137,15 @@ TEST_CASE( "variant", "[std] [modern] [variant] [C++17]" ) {
         variant<int, string, double> var; 
 
         var = 11;
-        REQUIRE( get<0>(var) == 11 );
+        REQUIRE( get<0>(var)   == 11 );
         REQUIRE( get<int>(var) == 11 );
 
         var = "Hello";
-        REQUIRE( get<1>(var) == "Hello" );
+        REQUIRE( get<1>(var)      == "Hello" );
         REQUIRE( get<string>(var) == "Hello" );
 
         var = 123.456;
-        REQUIRE( get<2>(var) == 123.456 );
+        REQUIRE( get<2>(var)      == 123.456 );
         REQUIRE( get<double>(var) == 123.456 );
 
         REQUIRE_THROWS_AS( get<0>(var), bad_variant_access );
@@ -155,18 +155,18 @@ TEST_CASE( "variant", "[std] [modern] [variant] [C++17]" ) {
         variant<int, string, double> var; 
 
         var = 11;
-        REQUIRE( *get_if<int>(&var) == 11 );
+        REQUIRE( *get_if<int>(&var)   == 11 );
         REQUIRE( get_if<string>(&var) == nullptr );
         REQUIRE( get_if<double>(&var) == nullptr );
 
         var = "Hello";
-        REQUIRE( get_if<int>(&var) == nullptr );
+        REQUIRE( get_if<int>(&var)     == nullptr );
         REQUIRE( *get_if<string>(&var) == "Hello" );
-        REQUIRE( get_if<double>(&var) == nullptr );
+        REQUIRE( get_if<double>(&var)  == nullptr );
 
         var = 123.456;
-        REQUIRE( get_if<int>(&var) == nullptr );
-        REQUIRE( get_if<string>(&var) == nullptr );
+        REQUIRE( get_if<int>(&var)     == nullptr );
+        REQUIRE( get_if<string>(&var)  == nullptr );
         REQUIRE( *get_if<double>(&var) == 123.456 );
     }
 
@@ -213,3 +213,42 @@ TEST_CASE( "variant", "[std] [modern] [variant] [C++17]" ) {
     }
 }
 
+TEST_CASE( "tuple", "[std] [modern] [tuple] [C++17]" ) {
+    SECTION( "default ctor" ) {
+        tuple<int, string, double> tpl;
+        REQUIRE( get<int>(tpl) == 0 );
+        REQUIRE( get<0>(tpl)   == 0 );
+
+        REQUIRE( get<string>(tpl) == "" );
+        REQUIRE( get<1>(tpl)      == "" );
+
+        REQUIRE( get<double>(tpl) == 0.0 );
+        REQUIRE( get<2>(tpl)      == 0.0 );
+    }
+
+    SECTION( "seting and geting the value" ) {
+        tuple<int, string> tpl;
+        get<int>(tpl) = 123;
+        REQUIRE( get<0>(tpl) == 123 );
+
+        get<1>(tpl) = "";
+        REQUIRE( get<string>(tpl) == "" );
+    }
+    
+    SECTION( "make_tuple" ) {
+        auto tpl = make_tuple(123, string("Hello"));
+        REQUIRE( get<0>(tpl) == 123     );
+        REQUIRE( get<1>(tpl) == "Hello" );
+    }
+
+    SECTION( "tuple_cat" ) {
+        auto tpl1 = make_tuple(123, string("Hello"));
+        auto tpl2 = make_tuple(12.34, 321);
+        auto tpl3 = tuple_cat(tpl1, tpl2);
+        static_assert( tuple_size<decltype(tpl3)>::value == 4 );
+        REQUIRE( get<0>(tpl3) == 123     );
+        REQUIRE( get<1>(tpl3) == "Hello" );
+        REQUIRE( get<2>(tpl3) == 12.34   );
+        REQUIRE( get<3>(tpl3) == 321     );
+    }
+}
