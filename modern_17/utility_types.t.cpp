@@ -250,5 +250,11 @@ TEST_CASE( "tuple", "[std] [modern] [tuple] [C++17]" ) {
         REQUIRE( get<1>(tpl3) == "Hello" );
         REQUIRE( get<2>(tpl3) == 12.34   );
         REQUIRE( get<3>(tpl3) == 321     );
+
+        int i = 789;
+        auto tpl4 = tuple_cat(tpl1, tie(i));
+        REQUIRE( get<0>(tpl4) == 123     );
+        REQUIRE( get<1>(tpl4) == "Hello" );
+        REQUIRE( get<2>(tpl4) == 789     );
     }
 }
