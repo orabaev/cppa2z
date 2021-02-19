@@ -231,8 +231,8 @@ TEST_CASE( "tuple", "[std] [modern] [tuple] [C++17]" ) {
         get<int>(tpl) = 123;
         REQUIRE( get<0>(tpl) == 123 );
 
-        get<1>(tpl) = "";
-        REQUIRE( get<string>(tpl) == "" );
+        get<1>(tpl) = "Hello";
+        REQUIRE( get<string>(tpl) == "Hello" );
     }
     
     SECTION( "make_tuple" ) {
