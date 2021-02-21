@@ -123,7 +123,7 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
 
         REQUIRE( expected == vec );
 
-        REQUIRE( 4 == *it );
+        REQUIRE( *it == 4 );
     }
 
 }
@@ -454,7 +454,7 @@ TEST_CASE( "swap", "[std] [algorithm] [modifying]" ) {
     
         swap(vec,  empty_vector);
         
-        REQUIRE (vec.empty() ); 
+        REQUIRE( vec.empty() ); 
 
     }
 
@@ -493,7 +493,7 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
                         );
 
         REQUIRE( expected == str );
-        REQUIRE( cend(str) == it );
+        REQUIRE( it == cend(str) );
     }
 
     SECTION( "sum each element from different containers and store results in another container" ) {
@@ -513,7 +513,7 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
                         );
 
         REQUIRE( expected == result );
-        REQUIRE( cend(result) == it );
+        REQUIRE( it == cend(result) );
     }
 
 }
@@ -576,4 +576,3 @@ TEST_CASE( "unique_copy", "[std] [algorithm] [modifying]" ) {
     }
 
 }
-

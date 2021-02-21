@@ -14,20 +14,20 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
 
         const auto it = adjacent_find(cbegin(vec), end(vec));
 
-        REQUIRE( cend(vec) != it );
+        REQUIRE( it != cend(vec) );
 
         const auto found_at_pos = distance(cbegin(vec), it);
-        REQUIRE( 2 == found_at_pos );
+        REQUIRE( found_at_pos == 2 );
     } 
 
     SECTION( "determine if multiset has duplicate elements" ) {
         const multiset<int> mset{0, 1, 2,   3, 3,   4, 5};
 
         const auto it = adjacent_find(cbegin(mset), end(mset));
-        bool has_duplicates = cend(mset) != it;
+        bool has_duplicates = it != cend(mset);
 
         REQUIRE( has_duplicates );
-        REQUIRE( 3 == *it );
+        REQUIRE( *it == 3 );
     } 
 
     SECTION( "two consecutive upper case characters found in the range at position 3" ) {
@@ -37,10 +37,10 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
 
         const auto it = adjacent_find(cbegin(str), cend(str), both_upper);
 
-        REQUIRE( cend(str) != it );
+        REQUIRE( it != cend(str) );
 
         const auto found_at_pos = distance(cbegin(str), it);
-        REQUIRE( 3 == found_at_pos );
+        REQUIRE( found_at_pos == 3 );
     }
 
 }
@@ -74,7 +74,7 @@ TEST_CASE( "count", "[std] [algorithm] [non modifying]" ) {
     SECTION( "returns count of 1s in the range" ) {
         const vector<int> vec{1, 1,   2, 5,   1, 1,  6};
 
-        REQUIRE( 4 == count(cbegin(vec), cend(vec), 1) );
+        REQUIRE( count(cbegin(vec), cend(vec), 1)  == 4 );
     } 
 
 }
@@ -86,7 +86,7 @@ TEST_CASE( "count_if", "[std] [algorithm] [non modifying]" ) {
 
         auto is_even = [](int x) { return x % 2 == 0; };
 
-        REQUIRE( 4 == count_if(cbegin(vec), cend(vec), is_even) );
+        REQUIRE( count_if(cbegin(vec), cend(vec), is_even) == 4 );
     }
 
 }
@@ -151,7 +151,7 @@ TEST_CASE( "find", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( it != cend(vec) );
 
         const auto found_at_pos = distance(cbegin(vec), it);
-        REQUIRE( 3 == found_at_pos );
+        REQUIRE( found_at_pos  == 3 );
     }
 
 }
@@ -172,7 +172,7 @@ TEST_CASE( "find_first_of", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( it != cend(vec1) );
 
         const auto found_at_pos = distance(cbegin(vec1), it);
-        REQUIRE( 1 == found_at_pos );
+        REQUIRE( found_at_pos == 1 );
     }
 
     SECTION( "character from second string found in the first string at position 2" ) {
@@ -189,10 +189,10 @@ TEST_CASE( "find_first_of", "[std] [algorithm] [non modifying]" ) {
                             , case_insensitive_compare
                         );
 
-        REQUIRE( cend(str1) != it );
+        REQUIRE( it != cend(str1) );
 
         const auto found_at_pos = distance(cbegin(str1), it);
-        REQUIRE( 2 == found_at_pos );
+        REQUIRE( found_at_pos == 2 );
     }
 
 }
@@ -206,10 +206,10 @@ TEST_CASE( "find_if", "[std] [algorithm] [non modifying]" ) {
 
         const auto it = find_if(cbegin(vec), cend(vec), is_even);
 
-        REQUIRE( cend(vec) != it );
+        REQUIRE( it != cend(vec) );
 
         const auto found_at_pos = distance(cbegin(vec), it);
-        REQUIRE( 4 == found_at_pos );
+        REQUIRE( found_at_pos == 4 );
     }
 
 }
@@ -223,10 +223,10 @@ TEST_CASE( "find_if_not", "[std] [algorithm] [non modifying]" ) {
 
         const auto it = find_if_not(cbegin(vec), cend(vec), is_even);
 
-        REQUIRE( cend(vec) != it );
+        REQUIRE( it != cend(vec) );
 
         const auto found_at_pos = distance(cbegin(vec), it);
-        REQUIRE( 4 == found_at_pos );
+        REQUIRE( found_at_pos == 4 );
     }
 
 }
@@ -239,10 +239,10 @@ TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
         
         const auto it = find_end(cbegin(vec1), cend(vec1), cbegin(vec2), cend(vec2));
 
-        REQUIRE( cend(vec1) != it );
+        REQUIRE( it != cend(vec1) );
 
         const auto found_at_pos = distance(cbegin(vec1), it);
-        REQUIRE( 6 == found_at_pos );
+        REQUIRE( found_at_pos == 6 );
     }
 
     SECTION( "last occurence of sub sequence found in the range at position 3" ) {
@@ -259,10 +259,10 @@ TEST_CASE( "find_end", "[std] [algorithm] [non modifying]" ) {
                             , case_insensitive_compare
                         );
 
-        REQUIRE( cend(str1) != it );
+        REQUIRE( it != cend(str1) );
 
         const auto found_at_pos = distance(cbegin(str1), it);
-        REQUIRE( 3 == found_at_pos );
+        REQUIRE( found_at_pos == 3 );
     }
 
 }
@@ -277,7 +277,7 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
          
         for_each(cbegin(vec1), cend(vec1), add_total);
 
-        REQUIRE( 28 == total );
+        REQUIRE( total == 28 );
     }
     
     SECTION( "convert all elements in the range to upper case" ) {
@@ -287,7 +287,7 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
          
         for_each(begin(str), end(str), change_to_upper);
 
-        REQUIRE( "HELLO C++" == str );
+        REQUIRE( str == "HELLO C++" );
     }
 
 }
@@ -300,8 +300,8 @@ TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
 
         const auto pr = mismatch(cbegin(vec1), cend(vec1), cbegin(vec2));
         
-        REQUIRE( 0 == *pr.first );
-        REQUIRE( 4 == *pr.second );
+        REQUIRE( *pr.first  == 0 );
+        REQUIRE( *pr.second == 4 );
     } 
 
     SECTION( "return the frirst summed non even pair of elements from two ranges" ) {
@@ -317,8 +317,8 @@ TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
                             , sum_is_even
                         );
         
-        REQUIRE( 2 == *pr.first );
-        REQUIRE( 5 == *pr.second );
+        REQUIRE( *pr.first  == 2);
+        REQUIRE( *pr.second == 5);
     }
 
     SECTION( "return the first mismatching pair of elements from two ranges of different size" ) {
@@ -332,8 +332,8 @@ TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
                             , cend(vec2)
                         );
         
-        REQUIRE( 4 == *pr.first );
-        REQUIRE( cend(vec2) == pr.second );
+        REQUIRE( *pr.first == 4 );
+        REQUIRE( pr.second == cend(vec2) );
     }
 
 }
@@ -363,10 +363,10 @@ TEST_CASE( "search", "[std] [algorithm] [non modifying]" ) {
                             , cend(vec2)
                         );
 
-        REQUIRE( cend(vec1) != it );
+        REQUIRE( it != cend(vec1) );
 
         const auto found_at_pos = distance(cbegin(vec1), it);
-        REQUIRE( 3 == found_at_pos );
+        REQUIRE( found_at_pos == 3 );
     }
 
     SECTION( "first occurence of sub sequence found in the range at position 0" ) {
@@ -383,10 +383,10 @@ TEST_CASE( "search", "[std] [algorithm] [non modifying]" ) {
                             , case_insensitive_compare
                         );
 
-        REQUIRE( cend(str1) != it );
+        REQUIRE( it != cend(str1) );
 
         const auto found_at_pos = distance(cbegin(str1), it);
-        REQUIRE( 0 == found_at_pos );
+        REQUIRE( found_at_pos == 0 );
     }
 
 }
@@ -406,10 +406,10 @@ TEST_CASE( "search_n", "[std] [algorithm] [non modifying]" ) {
                               , value
                         );
 
-        REQUIRE( cend(str) != it );
+        REQUIRE( it != cend(str) );
 
         const auto found_at_pos = distance(cbegin(str), it);
-        REQUIRE( 6 == found_at_pos );
+        REQUIRE( found_at_pos == 6 );
     }
 
     SECTION( "3 consecutive even numbers  found in the range at position 2" ) {
@@ -428,10 +428,10 @@ TEST_CASE( "search_n", "[std] [algorithm] [non modifying]" ) {
                             , divisible_by_value
                         );
 
-        REQUIRE( cend(vec) != it );
+        REQUIRE( it != cend(vec) );
 
         const auto found_at_pos = distance(cbegin(vec), it);
-        REQUIRE( 2 == found_at_pos );
+        REQUIRE( found_at_pos == 2 );
     }
 
 }

@@ -58,7 +58,7 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
 
         const auto last = is_heap_until(cbegin(vec), cend(vec));
 
-        REQUIRE( cend(vec) == last );
+        REQUIRE( last == cend(vec) );
     }
 
     SECTION( "returns last iterator where range is not max heap" ) {
@@ -66,8 +66,8 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
 
         const auto last = is_heap_until(cbegin(vec), cend(vec));
 
-        REQUIRE( cbegin(vec) + 1 == last );
-        REQUIRE( 5 == *last );
+        REQUIRE( last == next(cbegin(vec)) );
+        REQUIRE( *last == 5 );
 
     }
 
@@ -75,17 +75,17 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
         vector<int> vec {5, 4, 3, 2, 1};
 
         const auto last = is_heap_until(cbegin(vec), cend(vec));
-        REQUIRE( cend(vec) == last );
+        REQUIRE( last == cend(vec) );
     }
 
     SECTION( "returns last iterator of the partial max heap" ) {
         vector<int> vec {5, 4, 3,   10,   100};
 
         const auto last = is_heap_until(cbegin(vec), cend(vec));
-        REQUIRE( cend(vec) != last );
+        REQUIRE( last != cend(vec) );
 
         const auto last_pos = distance(cbegin(vec), last);
-        REQUIRE( 3 == last_pos );
+        REQUIRE( last_pos == 3  );
    }
 
    // min heap
@@ -95,7 +95,7 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
 
         const auto last = is_heap_until(cbegin(vec), cend(vec), greater<int>());
 
-        REQUIRE( cend(vec) == last );
+        REQUIRE( last == cend(vec) );
     }
 
     SECTION( "returns last iterator where range is not min heap" ) {
@@ -103,8 +103,8 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
 
         const auto last = is_heap_until(cbegin(vec), cend(vec), greater<int>());
 
-        REQUIRE( cbegin(vec) + 1 == last );
-        REQUIRE( 1 == *last );
+        REQUIRE( last == next(cbegin(vec)) );
+        REQUIRE( *last == 1);
 
     }
 
@@ -113,7 +113,7 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
 
         const auto last = is_heap_until(cbegin(vec), cend(vec), greater<int>());
 
-        REQUIRE( cend(vec) == last );
+        REQUIRE( last == cend(vec) );
     }
 
     SECTION( "returns last iterator of the partial min heap" ) {
@@ -121,10 +121,10 @@ TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
 
         const auto last = is_heap_until(cbegin(vec), cend(vec), greater<int>());
 
-        REQUIRE( cend(vec) != last );
+        REQUIRE( last != cend(vec) );
 
         const auto last_pos = distance(cbegin(vec), last);
-        REQUIRE( 3 == last_pos );
+        REQUIRE( last_pos == 3 );
    }
 
 }
@@ -157,21 +157,21 @@ TEST_CASE( "push_heap", "[std] [algorithm] [heap]" ) {
         vec.push_back(4);
         push_heap(begin(vec), end(vec));
 
-        REQUIRE ( 4 == vec.front() );
+        REQUIRE ( vec.front() == 4 );
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
 
 
         vec.push_back(1);
         push_heap(begin(vec), end(vec));
 
-        REQUIRE ( 4 == vec.front() );
+        REQUIRE ( vec.front() == 4 );
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
 
 
         vec.push_back(7);
         push_heap(begin(vec), end(vec));
 
-        REQUIRE ( 7 == vec.front() );
+        REQUIRE ( vec.front() == 7 );
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
     }
 
@@ -184,7 +184,7 @@ TEST_CASE( "pop_heap", "[std] [algorithm] [heap]" ) {
         vector<int> vec{9, 7, 5, 1};
 
         pop_heap(begin(vec), end(vec));
-        REQUIRE( 9 == vec.back() ); 
+        REQUIRE( vec.back() == 9 ); 
 
         vec.pop_back();
         REQUIRE( is_heap(cbegin(vec), cend(vec)) );
@@ -200,7 +200,7 @@ TEST_CASE( "pop_heap", "[std] [algorithm] [heap]" ) {
         auto e = end(vec);
         while (b < e) pop_heap(b, e--);
 
-        REQUIRE( sorted == vec );
+        REQUIRE( vec == sorted );
     }
 
     SECTION( "move smallest element to the back of the vector "
@@ -210,7 +210,7 @@ TEST_CASE( "pop_heap", "[std] [algorithm] [heap]" ) {
         make_heap(begin(vec), end(vec), greater<int>());
         
         pop_heap(begin(vec), end(vec), greater<int>());
-        REQUIRE( 1 == vec.back() ); 
+        REQUIRE( vec.back() == 1 ); 
 
         vec.pop_back();
         REQUIRE( is_heap(cbegin(vec), cend(vec), greater<int>()) );
@@ -227,7 +227,7 @@ TEST_CASE( "sort_heap", "[std] [algorithm] [heap]" ) {
         make_heap(begin(vec), end(vec));
         sort_heap(begin(vec), end(vec));
 
-        REQUIRE( sorted == vec );
+        REQUIRE( vec == sorted );
     }
 
     SECTION( "convert the min heap into a sorted range in descending order" ) {
@@ -237,7 +237,7 @@ TEST_CASE( "sort_heap", "[std] [algorithm] [heap]" ) {
         make_heap(begin(vec), end(vec), greater<int>());
         sort_heap(begin(vec), end(vec), greater<int>());
 
-        REQUIRE( sorted == vec );
+        REQUIRE( vec == sorted );
     }
 
 }
