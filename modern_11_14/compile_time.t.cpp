@@ -41,7 +41,7 @@ TEST_CASE( "constexpr", "[std] [modern] [compile-time]" ) {
         // run-time
         int x = 10;
         int y = functions::sqr(10); 
-        REQUIRE( 100 == y );
+        REQUIRE( y == 100 );
     }
 
     SECTION( "use numeric limits as template arguments" ) {

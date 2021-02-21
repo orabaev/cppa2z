@@ -19,8 +19,8 @@ TEST_CASE( "for (auto v : r)", "[std] [modern] [range loop]" ) {
             to.push_back(v);
         }
 
-        REQUIRE( expected_vec == vec );
-        REQUIRE( expected_to  == to );
+        REQUIRE( vec == expected_vec );
+        REQUIRE( to == expected_to );
     }
 
 }
@@ -36,7 +36,7 @@ TEST_CASE( "(const auto& v : r)", "[std] [modern] [range loop]" ) {
             to.push_back(v);
         }
 
-        REQUIRE( expected_to  == to );
+        REQUIRE( to == expected_to );
     }
 
 }
@@ -51,7 +51,7 @@ TEST_CASE( "(auto& v : r)", "[std] [modern] [range loop]" ) {
             v *= 2; 
         }
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }

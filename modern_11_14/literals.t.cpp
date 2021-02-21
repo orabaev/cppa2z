@@ -36,12 +36,11 @@ long double operator "" _square(long double value) {
 TEST_CASE( "user-defined", "[std] [modern] [literals]" ) {
     
     SECTION( "use user defined literals to perform declarative auto conversions" ) {
-        REQUIRE(  1 == 1_square );
-        REQUIRE(  4 == 2_square );
-        REQUIRE(  9 == 3_square );
-
+        REQUIRE( 1_square == 1 );
+        REQUIRE( 2_square == 4 );
+        REQUIRE( 3_square == 9 );
         
-        REQUIRE( Approx(5.29) == 2.3_square );
+        REQUIRE( 2.3_square == Approx(5.29) );
     }
 
 }
@@ -59,11 +58,11 @@ TEST_CASE( "std-user-defined", "[std] [modern] [literals]" ) {
         auto day_in_microseconds    = 86400000000us;
         auto day_in_nanoseconds     = 86400000000000ns;
 
-        REQUIRE( day_in_hours == day_in_minutes );
-        REQUIRE( day_in_hours == day_in_seconds );
-        REQUIRE( day_in_hours == day_in_milliseconds );
-        REQUIRE( day_in_hours == day_in_microseconds );
-        REQUIRE( day_in_hours == day_in_nanoseconds );
+        REQUIRE( day_in_minutes      == day_in_hours );
+        REQUIRE( day_in_seconds      == day_in_hours );
+        REQUIRE( day_in_milliseconds == day_in_hours );
+        REQUIRE( day_in_microseconds == day_in_hours );
+        REQUIRE( day_in_nanoseconds  == day_in_hours );
     }
 
 }
@@ -79,13 +78,13 @@ TEST_CASE( "digit separators", "[std] [modern] [literals]" ) {
 
     SECTION( "binary/octal/hex" ) {
         const int binary_thousand = 0b0011'1110'1000;
-        REQUIRE( 1'000 == binary_thousand);
+        REQUIRE( binary_thousand == 1'000 );
 
         const int octal_thousand = 0001'750;
-        REQUIRE( 1'000 == octal_thousand );
+        REQUIRE( octal_thousand == 1'000 );
 
         const int hex_thousand = 0x03'E8;
-        REQUIRE( 1'000 == hex_thousand );
+        REQUIRE( hex_thousand == 1'000 );
     }
 
 }

@@ -12,7 +12,7 @@ TEST_CASE( "[]", "[std] [modern] [lambda]" ) {
     SECTION( "default, capture nothing, minimal lambda called directly" ) {
         [] { static_i = 1; } ();
 
-        REQUIRE( 1 == static_i);
+        REQUIRE( static_i == 1);
     }
 
     SECTION( "lambda called through assigned variable" ) {
@@ -20,7 +20,7 @@ TEST_CASE( "[]", "[std] [modern] [lambda]" ) {
 
         func();
 
-        REQUIRE( 2 == static_i);
+        REQUIRE( static_i == 2 );
     }
 
 }
@@ -46,7 +46,7 @@ TEST_CASE( "[=]", "[std] [modern] [lambda]" ) {
 
         const int ret = add_x_y();
 
-        REQUIRE( 7 == ret );
+        REQUIRE( ret == 7 );
     }
 
 }
@@ -60,8 +60,8 @@ TEST_CASE( "lambda.mutable", "[std] [modern] [lambda]" ) {
 
         const int ret = set_x();
 
-        REQUIRE(  0 == x );
-        REQUIRE( 10 == ret );
+        REQUIRE( x   == 0);
+        REQUIRE( ret == 10);
     }
 
 }
@@ -76,8 +76,8 @@ TEST_CASE( "[&]", "[std] [modern] [lambda]" ) {
 
         reset();
 
-        REQUIRE( 0 == x );
-        REQUIRE( 0 == y );
+        REQUIRE( x == 0 );
+        REQUIRE( y == 0 );
     }
 
 }
@@ -92,7 +92,7 @@ TEST_CASE( "[&x, y]", "[std] [modern] [lambda]" ) {
 
         x_assign_y();
 
-        REQUIRE( 7 == x );
+        REQUIRE( x == 7 );
     }
 
 }
@@ -104,7 +104,7 @@ TEST_CASE( "-> type", "[std] [modern] [lambda]" ) {
 
         const auto value = sqr(4);
 
-        REQUIRE( 16.0 == value );
+        REQUIRE( value == 16.0 );
     }
 
 }
@@ -120,7 +120,7 @@ TEST_CASE( "[=, &x]", "[std] [modern] [lambda]" ) {
 
         x_assign_y_plus_z();
 
-        REQUIRE( 3 == x );
+        REQUIRE( x == 3 );
     }
 
 }
@@ -136,8 +136,8 @@ TEST_CASE( "[&, x]", "[std] [modern] [lambda]" ) {
 
         change_y_z();
 
-        REQUIRE( 4 == y );
-        REQUIRE( 8 == z );
+        REQUIRE( y == 4 );
+        REQUIRE( z == 8 );
     }
 
 }
@@ -163,10 +163,10 @@ TEST_CASE( "capture this pointer.[this]", "[std] [modern] [lambda]" ) {
 
     SECTION( "use lambda from member function, the lambda has write access to the object state" ) {
         A a{10};
-        REQUIRE( 10 == a.get_x() );
+        REQUIRE( a.get_x() == 10 );
 
         a.reset_x_using_lambda();
-        REQUIRE( 0 == a.get_x() );
+        REQUIRE( a.get_x() == 0);
     }
 
 }
@@ -183,14 +183,14 @@ TEST_CASE( "generic lambda.(auto x)", "[std] [modern] [lambda] [C++14]" ) {
         const vector<int> expected_vec{0, 2, 3, 0, 4, 0, 0};
         
         replace_in_collection(vec, 1, 0);
-        REQUIRE( expected_vec == vec );
+        REQUIRE( vec == expected_vec );
 
 
               list<int>          lst{1, 2, 3, 1, 4, 1, 1};
         const list<int> expected_lst{0, 2, 3, 0, 4, 0, 0};
         
         replace_in_collection(lst, 1, 0);
-        REQUIRE( expected_lst == lst );
+        REQUIRE( lst == expected_lst );
 
     }
 
@@ -208,9 +208,9 @@ TEST_CASE( "lambda capture initializer.(x = value)", "[std] [modern] [lambda] [C
             return x; 
         };
  
-        REQUIRE(  4 == increment_by() );
-        REQUIRE(  7 == increment_by() );
-        REQUIRE( 10 == increment_by() );
+        REQUIRE( increment_by() == 4 );
+        REQUIRE( increment_by() == 7 );
+        REQUIRE( increment_by() == 10 );
     }
 
     SECTION( "vector state in lambda" ) {
@@ -222,11 +222,11 @@ TEST_CASE( "lambda capture initializer.(x = value)", "[std] [modern] [lambda] [C
         };
  
         vector<int>& vec_ref = push_value_and_return(3);
-        REQUIRE(  1 == vec_ref[0] );
-        REQUIRE(  2 == vec_ref[1] );
-        REQUIRE(  3 == vec_ref[2] );
+        REQUIRE( vec_ref[0] == 1);
+        REQUIRE( vec_ref[1] == 2);
+        REQUIRE( vec_ref[2] == 3);
 
-        REQUIRE(  10 == push_value_and_return(10)[3] );
+        REQUIRE( push_value_and_return(10)[3] == 10 );
     }
 
 }
@@ -255,12 +255,12 @@ TEST_CASE( "callback", "[std] [modern] [lambda]" ) {
         auto x_times_x = [](int x) { return x * x; };
         obj.set_callback(x_times_x);
 
-        REQUIRE( 4 == obj.execute(2) );
+        REQUIRE( obj.execute(2) == 4 );
 
         auto x_times_x_times_x = [](int x) { return x * x * x; };
         obj.set_callback(x_times_x_times_x);
 
-        REQUIRE( 27 == obj.execute(3) );
+        REQUIRE( obj.execute(3) == 27 );
     }
 
 }
