@@ -27,7 +27,7 @@ TEST_CASE( "back_inserter", "[std] [iterator] [adaptor]" ) {
         *output_it = 2;
         *output_it = 3;
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "insert values at the end of the vector using copy algorithm" ) {
@@ -39,7 +39,7 @@ TEST_CASE( "back_inserter", "[std] [iterator] [adaptor]" ) {
 
         copy(cbegin(from), cend(from), output_it);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -56,7 +56,7 @@ TEST_CASE( "front_inserter", "[std] [iterator] [adaptor]" ) {
         *output_it = 2;
         *output_it = 3;
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "copy values from vector to list in reverse order" ) {
@@ -68,7 +68,7 @@ TEST_CASE( "front_inserter", "[std] [iterator] [adaptor]" ) {
 
         copy(cbegin(from), cend(from), output_it);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
     
 }
@@ -84,7 +84,7 @@ TEST_CASE( "inserter", "[std] [iterator] [adaptor]" ) {
 
         copy(cbegin(from), cend(from), output_it);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "insert values into the list using insert_iterator" ) {
@@ -96,7 +96,7 @@ TEST_CASE( "inserter", "[std] [iterator] [adaptor]" ) {
 
         copy(cbegin(from), cend(from), output_it);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "insert values into the middle of list using insert_iterator" ) {
@@ -109,7 +109,7 @@ TEST_CASE( "inserter", "[std] [iterator] [adaptor]" ) {
 
         copy(cbegin(from), cend(from), output_it);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -127,8 +127,8 @@ TEST_CASE( "make_move_iterator", "[std] ] [iterator] [adaptor]") {
            , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
-        REQUIRE( from.size() == 3);
+        REQUIRE( to == expected );
+        REQUIRE( 3 == from.size() );
     } 
 
 }
@@ -140,13 +140,13 @@ TEST_CASE( "make_reverse_iterator", "[std] ] [iterator] [adaptor]" ) {
         
         auto reverse_it = make_reverse_iterator(end(vec));
 
-        REQUIRE( *reverse_it == 3 );
+        REQUIRE( 3 == *reverse_it );
 
         ++reverse_it;
-        REQUIRE( *reverse_it == 2 );
+        REQUIRE( 2 == *reverse_it );
 
         ++reverse_it;
-        REQUIRE( *reverse_it == 1 );
+        REQUIRE( 1 == *reverse_it );
     } 
 
 }

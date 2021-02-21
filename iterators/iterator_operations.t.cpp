@@ -17,7 +17,7 @@ TEST_CASE( "advance", "[std] [iterator] [operations]" ) {
         auto it = cbegin(vec); 
 
         advance(it, 3);
-        REQUIRE( 3 == *it );
+        REQUIRE( *it == 3 );
     }
 
     SECTION( "advance backward" ) {
@@ -26,7 +26,7 @@ TEST_CASE( "advance", "[std] [iterator] [operations]" ) {
         auto it = cend(vec); 
 
         advance(it, -6);
-        REQUIRE( 0 == *it );
+        REQUIRE( *it == 0 );
     }
 
 }
@@ -38,7 +38,7 @@ TEST_CASE( "distance", "[std] [iterator] [operations]" ) {
 
         const auto val = distance(cbegin(vec), cend(vec));
 
-        REQUIRE( vec.size() == val );
+        REQUIRE( val == vec.size() );
     }
 
     SECTION( "distance from end to beggining" ) {
@@ -46,7 +46,7 @@ TEST_CASE( "distance", "[std] [iterator] [operations]" ) {
 
         const auto val = distance(cend(vec), cbegin(vec));
 
-        REQUIRE( -vec.size() == val );
+        REQUIRE( val == -vec.size() );
     }
 
     SECTION( "distance between elements" ) {
@@ -57,7 +57,7 @@ TEST_CASE( "distance", "[std] [iterator] [operations]" ) {
 
         const auto val = distance(it_first, it_last);
 
-        REQUIRE( 3 == val );
+        REQUIRE( val == 3 );
     }
 
 }
@@ -69,7 +69,7 @@ TEST_CASE( "next", "[std] [iterator] [operations]" ) {
 
         const auto it = next(cbegin(vec), 1);
 
-        REQUIRE( 1 == *it );
+        REQUIRE( *it == 1 );
     }
 
     SECTION( "next n steps" ) {
@@ -77,7 +77,7 @@ TEST_CASE( "next", "[std] [iterator] [operations]" ) {
 
         const auto it = next(cbegin(vec), 3);
 
-        REQUIRE( 3 == *it );
+        REQUIRE( *it == 3 );
     }
 
     SECTION( "next backwards" ) {
@@ -85,7 +85,7 @@ TEST_CASE( "next", "[std] [iterator] [operations]" ) {
 
         const auto it = next(cend(vec), -1);
 
-        REQUIRE( 5 == *it );
+        REQUIRE( *it == 5 );
     }
 
 }
@@ -97,7 +97,7 @@ TEST_CASE( "prev", "[std] [iterator] [operations]" ) {
 
         const auto it = prev(cend(vec), 1);
 
-        REQUIRE( 5 == *it );
+        REQUIRE( *it == 5 );
     }
 
     SECTION( "prev n steps" ) {
@@ -105,7 +105,7 @@ TEST_CASE( "prev", "[std] [iterator] [operations]" ) {
 
         const auto it = prev(cend(vec), 4);
 
-        REQUIRE( 2 == *it );
+        REQUIRE( *it == 2);
     }
 
     SECTION( "prev backwards" ) {
@@ -113,7 +113,7 @@ TEST_CASE( "prev", "[std] [iterator] [operations]" ) {
 
         const auto it = prev(cbegin(vec), -1);
 
-        REQUIRE( 1 == *it );
+        REQUIRE( *it == 1 );
     }
 
 }

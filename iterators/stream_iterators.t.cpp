@@ -24,7 +24,7 @@ TEST_CASE( "istream_iterator", "[std] [iterator] [stream]" ) {
                             , 0
                         );  
 
-        REQUIRE( expected == sum );
+        REQUIRE( sum == expected );
     } 
 
     SECTION( "copy characters from istringstream skipping white spaces" ) {
@@ -38,7 +38,7 @@ TEST_CASE( "istream_iterator", "[std] [iterator] [stream]" ) {
             , back_inserter(str)
         );
 
-        REQUIRE( expected == str );
+        REQUIRE( str == expected );
     } 
    
 }
@@ -56,7 +56,7 @@ TEST_CASE( "istreambuf_iterator", "[std] [iterator] [stream]" ) {
             , back_inserter(str)
         );
 
-        REQUIRE( expected == str );
+        REQUIRE( str == expected );
     }
 
 }
@@ -74,7 +74,7 @@ TEST_CASE( "ostream_iterator", "[std] [iterator] [stream]" ) {
         
         copy(cbegin(vec), cend(vec), output_it);
 
-        REQUIRE( expected == sout.str() );
+        REQUIRE( sout.str() == expected );
     } 
    
 }
@@ -87,7 +87,7 @@ TEST_CASE( "ostreambuf_iterator", "[std] [iterator] [stream]" ) {
         ostringstream sout; 
         copy(cbegin(str), cend(str), ostreambuf_iterator<char>(sout));
 
-        REQUIRE( str == sout.str() );
+        REQUIRE( sout.str() == str );
 
     }
 
@@ -97,16 +97,16 @@ TEST_CASE( "ostreambuf_iterator", "[std] [iterator] [stream]" ) {
         auto output_it2 = ostreambuf_iterator<char>(sout);
         
         *output_it1 = 'a';
-        REQUIRE( "a" == sout.str() );
+        REQUIRE( sout.str() == "a" );
 
         *output_it2 = 'b';
-        REQUIRE( "ab" == sout.str() );
+        REQUIRE( sout.str() == "ab" );
 
         *output_it1 = 'c';
-        REQUIRE( "abc" == sout.str() );
+        REQUIRE( sout.str() == "abc" );
 
         *output_it2 = 'd';
-        REQUIRE( "abcd" == sout.str() );
+        REQUIRE( sout.str() == "abcd" );
     } 
  
 }
