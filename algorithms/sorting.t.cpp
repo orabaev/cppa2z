@@ -35,8 +35,8 @@ TEST_CASE( "is_sorted_until", "[std] [algorithm] [sorting]" ) {
         const auto last_it = is_sorted_until(cbegin(vec), cend(vec));
         
         auto last_pos = distance(cbegin(vec), last_it);
-        REQUIRE( 3 == last_pos );
-        REQUIRE( 2 == *last_it );
+        REQUIRE( last_pos == 3 );
+        REQUIRE( *last_it == 2);
     } 
 
     SECTION( "the range is fully sorted" ) {
@@ -44,7 +44,7 @@ TEST_CASE( "is_sorted_until", "[std] [algorithm] [sorting]" ) {
 
         const auto last_it = is_sorted_until(cbegin(vec), cend(vec));
         
-        REQUIRE( cend(vec) == last_it );
+        REQUIRE( last_it == cend(vec) );
     }
 
     SECTION( "the range is not sorted until" ) {
@@ -52,7 +52,7 @@ TEST_CASE( "is_sorted_until", "[std] [algorithm] [sorting]" ) {
 
         const auto last_it = is_sorted_until(cbegin(vec), cend(vec));
         
-        CHECK ( ++cbegin(vec) == last_it );
+        CHECK ( last_it == next(cbegin(vec)) );
     } 
 
     SECTION( "the range is sorted until in descending order" ) {
@@ -61,8 +61,8 @@ TEST_CASE( "is_sorted_until", "[std] [algorithm] [sorting]" ) {
         const auto last_it = is_sorted_until(cbegin(vec), cend(vec), greater<int>());
 
         auto last_pos = distance(cbegin(vec), last_it);
-        REQUIRE( 4 == last_pos );
-        REQUIRE( 10 == *last_it );
+        REQUIRE( last_pos == 4 );
+        REQUIRE( *last_it == 10 );
     }
 
 }
@@ -74,11 +74,11 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
         vector<int> vec{4, 2,   5,   3, 1, 0, 2};
         
         auto nth = begin(vec) + 2;
-        REQUIRE ( 5 == *nth );
+        REQUIRE ( *nth == 5 );
 
         nth_element(begin(vec), nth, end(vec));
 
-        REQUIRE ( 2 == *nth );
+        REQUIRE ( *nth == 2 );
         
         auto less_than_nth = [&nth](int x) { return x < *nth; };
         
@@ -91,11 +91,11 @@ TEST_CASE( "nth_element", "[std] [algorithm] [sorting]" ) {
         vector<int> vec{3, 2,   5,   4, 1, 0, 2};
         
         auto nth = begin(vec) + 2;
-        REQUIRE ( 5 == *nth );
+        REQUIRE ( *nth == 5 );
 
         nth_element(begin(vec), nth, end(vec), greater<int>());
 
-        REQUIRE ( 3 == *nth );
+        REQUIRE ( *nth == 3 );
         
         auto greater_than_nth = [&nth](int x) { return x > *nth; };
         
@@ -145,7 +145,7 @@ TEST_CASE( "partial_sort_copy", "[std] [algorithm] [sorting]" ) {
             , end(to)
         );
 
-        REQUIRE( expected == to );    
+        REQUIRE( to == expected );    
     } 
 
     SECTION( "copy and partialy sort in descending order from the range which does not provide random access iterator" ) {
@@ -161,7 +161,7 @@ TEST_CASE( "partial_sort_copy", "[std] [algorithm] [sorting]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == to );    
+        REQUIRE( to == expected );    
     }
 
 }
@@ -174,7 +174,7 @@ TEST_CASE( "sort", "[std] [algorithm] [sorting]" ) {
         
         sort(begin(vec), end(vec));
 
-        REQUIRE( expected == vec );    
+        REQUIRE( vec == expected );    
     } 
 
     SECTION( "sort the range in descending order" ) {
@@ -183,7 +183,7 @@ TEST_CASE( "sort", "[std] [algorithm] [sorting]" ) {
         
         sort(begin(vec), end(vec), greater<int>());
 
-        REQUIRE( expected == vec );    
+        REQUIRE( vec == expected );    
     } 
 
 }
@@ -219,7 +219,7 @@ TEST_CASE( "stable_sort", "[std] [algorithm] [sorting]" ) {
         
         stable_sort(begin(vec), end(vec), sort_by_age_asc);
 
-        REQUIRE( expected == vec ); 
+        REQUIRE( vec == expected ); 
     } 
 
     SECTION( "sort the range in descennding order by age preserving original order of the elements" ) {
@@ -241,7 +241,7 @@ TEST_CASE( "stable_sort", "[std] [algorithm] [sorting]" ) {
 
         stable_sort(begin(vec), end(vec), sort_by_age_desc);
 
-        REQUIRE( expected == vec ); 
+        REQUIRE( vec == expected ); 
     }
 
 }

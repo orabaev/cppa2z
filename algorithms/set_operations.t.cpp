@@ -49,7 +49,7 @@ TEST_CASE( "inplace_merge", "[std] [algorithm] [set operations]" ) {
 
         inplace_merge(begin(vec), middle, end(vec));
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     } 
 
     SECTION( "merge inplace two descending sorted ranges within vec" ) {
@@ -67,7 +67,7 @@ TEST_CASE( "inplace_merge", "[std] [algorithm] [set operations]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -88,7 +88,7 @@ TEST_CASE( "merge", "[std] [algorithm] [set operations]" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "merge two descending sorted ranges into another desending sorted range" ) {
@@ -106,7 +106,7 @@ TEST_CASE( "merge", "[std] [algorithm] [set operations]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
 }
@@ -127,7 +127,7 @@ TEST_CASE( "set_difference", "[std] [algorithm] [set operations]" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "copy elements from descending sorted vec1 not found in "
@@ -146,7 +146,7 @@ TEST_CASE( "set_difference", "[std] [algorithm] [set operations]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
 }
@@ -167,7 +167,7 @@ TEST_CASE( "set_intersecion", "[std] [algorithm] [set operations]" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "copy elements from descending sorted vec1 found in "
@@ -186,7 +186,7 @@ TEST_CASE( "set_intersecion", "[std] [algorithm] [set operations]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
 }
@@ -208,7 +208,7 @@ TEST_CASE( "set_symmetric_difference", "[std] [algorithm] [set operations]" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "copy elements from descending sorted vec1 and descending sorted vec2 "
@@ -227,7 +227,7 @@ TEST_CASE( "set_symmetric_difference", "[std] [algorithm] [set operations]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
 }
@@ -249,7 +249,7 @@ TEST_CASE( "set_union", "[std] [algorithm] [set operations]" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "create a union from ranges with some duplicate elements"
@@ -268,7 +268,7 @@ TEST_CASE( "set_union", "[std] [algorithm] [set operations]" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "create a union by copying elements from descending sorted vec1 "
@@ -287,7 +287,7 @@ TEST_CASE( "set_union", "[std] [algorithm] [set operations]" ) {
             , greater<int>()
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
 }

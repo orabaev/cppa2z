@@ -16,7 +16,7 @@ TEST_CASE( "accumulate", "[std] [algorithm] [numeric operations]" ) {
 
         const int sum = accumulate(cbegin(vec), cend(vec), initial_value);    
                   
-        REQUIRE( expected == sum  ); 
+        REQUIRE( sum == expected ); 
     } 
 
     SECTION( "compute product of all elements in the range" ) {
@@ -34,7 +34,7 @@ TEST_CASE( "accumulate", "[std] [algorithm] [numeric operations]" ) {
                                 , multiply
                             );    
                   
-        REQUIRE( expected == product  ); 
+        REQUIRE( product == expected ); 
     } 
 
 }
@@ -48,7 +48,7 @@ TEST_CASE( "adjacent_difference", "[std] [algorithm] [numeric operations]" ) {
 
         adjacent_difference(cbegin(vec), cend(vec), back_inserter(result));    
                   
-        REQUIRE( expected == result ); 
+        REQUIRE( result == expected ); 
     } 
 
     SECTION( "compute absolute dfference between next element and its previous element writing the result to the different range" ) {
@@ -61,7 +61,7 @@ TEST_CASE( "adjacent_difference", "[std] [algorithm] [numeric operations]" ) {
 
         adjacent_difference(cbegin(vec), cend(vec), back_inserter(result), diff);    
                   
-        REQUIRE( expected == result ); 
+        REQUIRE( result == expected ); 
     } 
 
 }
@@ -82,7 +82,7 @@ TEST_CASE( "inner_product", "[std] [algorithm] [numeric operations]" ) {
                                , initial_value
                            ); 
                   
-        REQUIRE( expected == result ); 
+        REQUIRE( result == expected ); 
     } 
 
     SECTION( "compute products(*) of sum(+)" ) {
@@ -104,7 +104,7 @@ TEST_CASE( "inner_product", "[std] [algorithm] [numeric operations]" ) {
                                , op2
                            ); 
                   
-        REQUIRE( expected == result ); 
+        REQUIRE( result == expected ); 
     }
 
 }
@@ -119,7 +119,7 @@ TEST_CASE( "iota", "[std] [algorithm] [numeric operations]" ) {
         
         iota(begin(vec), end(vec), start_value);
                   
-        REQUIRE( expected == vec ); 
+        REQUIRE( vec == expected ); 
     } 
 
 }
@@ -133,7 +133,7 @@ TEST_CASE( "partial_sum", "[std] [algorithm] [numeric operations]" ) {
         
         partial_sum(cbegin(vec), cend(vec), back_inserter(result));
                   
-        REQUIRE( expected == result ); 
+        REQUIRE( result == expected ); 
     } 
 
     SECTION( "compute partial product(*) of elements in the range and write results to another range" ) {
@@ -145,7 +145,7 @@ TEST_CASE( "partial_sum", "[std] [algorithm] [numeric operations]" ) {
         
         partial_sum(cbegin(vec), cend(vec), back_inserter(result), multiply);
                   
-        REQUIRE( expected == result ); 
+        REQUIRE( result == expected ); 
     } 
 
 }
