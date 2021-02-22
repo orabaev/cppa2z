@@ -11,13 +11,13 @@ TEST_CASE( "tellg", "[std] [istream] [misc]" ) {
     SECTION( "input position indicator when nothing was read of the istream" ) {
         istringstream sin{"0123"};
         
-        REQUIRE( 0 == sin.tellg() );
+        REQUIRE( sin.tellg() == 0 );
     }
 
     SECTION( "input position indicator when istream is empty" ) {
         istringstream sin;
         
-        REQUIRE( 0 == sin.tellg() );
+        REQUIRE( sin.tellg() == 0 );
     }
 
     SECTION( "input position indicator after read input" ) {
@@ -25,10 +25,10 @@ TEST_CASE( "tellg", "[std] [istream] [misc]" ) {
         string str; 
 
         sin >> str;
-        REQUIRE( 5 == sin.tellg() );
+        REQUIRE( sin.tellg() == 5 );
 
         sin >> str;
-        REQUIRE( 9 == sin.tellg() );
+        REQUIRE( sin.tellg() == 9 );
     }
 
     SECTION( "input position indicator after read input" ) {
@@ -36,7 +36,7 @@ TEST_CASE( "tellg", "[std] [istream] [misc]" ) {
         string str; 
 
         sin >> str;
-        REQUIRE( -1 == sin.tellg() );
+        REQUIRE( sin.tellg() == -1 );
     }
 
 }
@@ -48,8 +48,8 @@ TEST_CASE( "seekg", "[std] [istream] [misc]" ) {
         
         REQUIRE( sin.seekg(1) );
 
-        REQUIRE( 1 == sin.tellg() );
-        REQUIRE( 'B' == sin.get() );
+        REQUIRE( sin.tellg() == 1 );
+        REQUIRE( sin.get() == 'B' );
     }
 
     SECTION( "set input position indicator one character beyond" ) {
@@ -57,9 +57,9 @@ TEST_CASE( "seekg", "[std] [istream] [misc]" ) {
         
         REQUIRE( sin.seekg(4) );
 
-        REQUIRE( 4 == sin.tellg() );
-        REQUIRE( EOF == sin.get() );
-        REQUIRE( -1 == sin.tellg() );
+        REQUIRE( sin.tellg() == 4 );
+        REQUIRE( sin.get() == EOF );
+        REQUIRE( sin.tellg() == -1 );
     }
 
     SECTION( "try to set input position indicator more than one character beyond" ) {
@@ -67,40 +67,40 @@ TEST_CASE( "seekg", "[std] [istream] [misc]" ) {
         
         REQUIRE_FALSE( sin.seekg(5) );
 
-        REQUIRE( -1 == sin.tellg() );
+        REQUIRE( sin.tellg() == -1 );
     }
 
     SECTION( "set input position indicator using offset from the beginning" ) {
         istringstream sin{"0123"};
         
         REQUIRE( sin.seekg(1, ios_base::beg) );
-        REQUIRE( 1 == sin.tellg() );
+        REQUIRE( sin.tellg() == 1 );
 
         REQUIRE_FALSE( sin.seekg(-7, ios_base::beg) );
-        REQUIRE( -1 == sin.tellg() );
+        REQUIRE( sin.tellg() == -1 );
     }
 
     SECTION( "set input position indicator using offset from the end" ) {
         istringstream sin{"0123"};
         
         REQUIRE( sin.seekg(-1, ios_base::end) );
-        REQUIRE( 3 == sin.tellg() );
+        REQUIRE( sin.tellg() == 3 );
 
         REQUIRE_FALSE( sin.seekg(7, ios_base::end) );
-        REQUIRE( -1 == sin.tellg() );
+        REQUIRE( sin.tellg() == -1 );
     }
 
     SECTION( "set input position indicator using offset from the current position" ) {
         istringstream sin{"0123"};
         
         REQUIRE( sin.seekg(2, ios_base::cur) );
-        REQUIRE( 2 == sin.tellg() );
+        REQUIRE( sin.tellg() == 2 );
 
         REQUIRE( sin.seekg(-1, ios_base::cur) );
-        REQUIRE( 1 == sin.tellg() );
+        REQUIRE( sin.tellg() == 1 );
 
         REQUIRE( sin.seekg(3, ios_base::cur) );
-        REQUIRE( 4 == sin.tellg() );
+        REQUIRE( sin.tellg() == 4 );
 
         REQUIRE_FALSE( sin.seekg(1, ios_base::cur) );
     }
@@ -131,8 +131,8 @@ TEST_CASE( "sentry", "[std] [istream] [misc]" ) {
         Person person{"NA", 0}; 
         REQUIRE( sin >> person );
         
-        REQUIRE( "Bill" == person.Name );
-        REQUIRE(     70 == person.Age  );
+        REQUIRE(  person.Name == "Bill" );
+        REQUIRE(  person.Age == 70 );
     }
 
 } 
@@ -151,21 +151,21 @@ TEST_CASE( "sync", "[std] [istream] [misc]" ) {
         ifstream fin("sync.tmp"); 
         REQUIRE( fin );
 
-        REQUIRE( 'a' == fin.get() );
+        REQUIRE( fin.get() == 'a' );
 
         fout.open("sync.tmp");
         fout << "ABC"; 
         fout.close();
 
         // sync ------
-        REQUIRE ( 0 == fin.sync() );
+        REQUIRE ( fin.sync() == 0 );
         // ------ sync
 
-        REQUIRE( 'B' == fin.get() );
-        REQUIRE( 'C' == fin.get() );
+        REQUIRE( fin.get() == 'B' );
+        REQUIRE( fin.get() == 'C' );
     }
 
-    REQUIRE( 0 == remove("sync.tmp") );
+    REQUIRE( remove("sync.tmp") == 0 );
 
 }
 #endif
