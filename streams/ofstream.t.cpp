@@ -90,7 +90,7 @@ TEST_CASE( "ofstream.ctor", "[std] [streams] [ofstream]" ) {
     SECTION( "default ctor" ) {
         ofstream fout;
 
-        REQUIRE( -1 == fout.tellp() );
+        REQUIRE( fout.tellp() == -1 );
     }
 
     SECTION( "ctor filename as string" ) {
@@ -104,7 +104,7 @@ TEST_CASE( "ofstream.ctor", "[std] [streams] [ofstream]" ) {
         ofstream fout1("ofstream.tmp");
         ofstream fout2(move(fout1));
 
-        REQUIRE( 0 == fout2.tellp() );
+        REQUIRE( fout2.tellp() == 0 );
     }
 
     remove("ofstream.tmp");
@@ -121,10 +121,10 @@ TEST_CASE( "ofstream.operator=", "[std] [streams] [ofstream]" ) {
 
         fout2 = move(fout1);
 
-        REQUIRE( 0 == fout2.tellp() );
+        REQUIRE( fout2.tellp() == 0 );
     }
 
-    REQUIRE( 0 == remove("ofstream.tmp") );
+    REQUIRE( remove("ofstream.tmp") == 0 );
 } 
 
 TEST_CASE( "ofstream.swap", "[std] [streams] [ofstream]" ) {
@@ -133,29 +133,29 @@ TEST_CASE( "ofstream.swap", "[std] [streams] [ofstream]" ) {
         ofstream  fout1("ofstream.tmp");
         ofstream  fout2;
 
-        REQUIRE(  0 == fout1.tellp() );
-        REQUIRE( -1 == fout2.tellp() );
+        REQUIRE( fout1.tellp() == 0 );
+        REQUIRE( fout2.tellp() == -1 );
 
         fout1.swap(fout2);
 
-        REQUIRE( -1 == fout1.tellp() );
-        REQUIRE(  0 == fout2.tellp() );
+        REQUIRE( fout1.tellp() == -1 );
+        REQUIRE( fout2.tellp() == 0 );
     }
 
     SECTION( "std::swap" ) {
         ofstream  fout1("ofstream.tmp");
         ofstream  fout2;
 
-        REQUIRE(  0 == fout1.tellp() );
-        REQUIRE( -1 == fout2.tellp() );
+        REQUIRE( fout1.tellp() == 0 );
+        REQUIRE( fout2.tellp() == -1 );
 
         std::swap(fout1, fout2);
 
-        REQUIRE( -1 == fout1.tellp() );
-        REQUIRE(  0 == fout2.tellp() );
+        REQUIRE( fout1.tellp() == -1 );
+        REQUIRE( fout2.tellp() == 0 );
     }
 
-    REQUIRE( 0 == remove("ofstream.tmp") );
+    REQUIRE( remove("ofstream.tmp") == 0 );
 }
 
 TEST_CASE( "ofstream.rdbuf", "[std] [streams] [ofstream]" ) {
@@ -163,7 +163,7 @@ TEST_CASE( "ofstream.rdbuf", "[std] [streams] [ofstream]" ) {
     SECTION( "rdbuf" ) {
         ofstream  fout;
 
-        REQUIRE ( nullptr != fout.rdbuf() );
+        REQUIRE ( fout.rdbuf() != nullptr );
     }
 
 }

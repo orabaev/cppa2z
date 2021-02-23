@@ -12,9 +12,9 @@ TEST_CASE( "skipws", "[std] [streams] [manipulators]" ) {
 
         sin >> skipws >> a >> b >> c;
 
-        REQUIRE( 'A' == a);
-        REQUIRE( 'B' == b );
-        REQUIRE( 'C' == c );
+        REQUIRE( a == 'A' );
+        REQUIRE( b == 'B' );
+        REQUIRE( c == 'C' );
     }
 
 }
@@ -28,9 +28,9 @@ TEST_CASE( "noskipws", "[std] [streams] [manipulators]" ) {
 
         sin >> noskipws >> a >> b >> c;
 
-        REQUIRE( 'A' == a);
-        REQUIRE( ' ' == b );
-        REQUIRE( 'B' == c );
+        REQUIRE( a == 'A' );
+        REQUIRE( b == ' ' );
+        REQUIRE( c == 'B' );
     }
 
 }
@@ -42,14 +42,14 @@ TEST_CASE( "ws", "[std] [streams] [manipulators]" ) {
         string str;
 
         getline(sin >> ws, str);  
-        REQUIRE( "Hello C++" == str );
+        REQUIRE( str == "Hello C++" );
 
         getline(sin, str);  
-        REQUIRE( "   ws not discarded" == str );
+        REQUIRE( str == "   ws not discarded" );
 
 
         getline(sin >> ws, str);  
-        REQUIRE( "ws discarded" == str );
+        REQUIRE( str == "ws discarded" );
     }
 
 }

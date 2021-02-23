@@ -11,7 +11,7 @@ TEST_CASE( "ostringstream.ctor", "[std] [streams] [ostringstream]" ) {
         REQUIRE( 0 == sout.tellp() );
 
         sout << "ABC";
-        REQUIRE( "ABC" == sout.str() );
+        REQUIRE( sout.str() == "ABC" );
     }
 
     SECTION( "ctor ios_base::out mode" ) {
@@ -20,40 +20,40 @@ TEST_CASE( "ostringstream.ctor", "[std] [streams] [ostringstream]" ) {
         REQUIRE( 0 == sout.tellp() );
 
         sout << "ABC";
-        REQUIRE( "ABC" == sout.str() );
+        REQUIRE( sout.str() == "ABC" );
     }
 
     SECTION( "ctor with string" ) {
         ostringstream sout("ABC");
 
-        REQUIRE( "ABC" == sout.str() );
+        REQUIRE( sout.str() == "ABC" );
 
-        REQUIRE( 0 == sout.tellp() );
+        REQUIRE( sout.tellp() == 0 );
 
         sout << 'D';
-        REQUIRE( "DBC" == sout.str() );
+        REQUIRE( sout.str() == "DBC" );
     }
 
     SECTION( "ctor with string and ios_base::out mode" ) {
         ostringstream sout("ABC", ios_base::out);
 
-        REQUIRE( "ABC" == sout.str() );
+        REQUIRE( sout.str() == "ABC" );
 
-        REQUIRE( 0 == sout.tellp() );
+        REQUIRE( sout.tellp() == 0 );
 
         sout << 'D';
-        REQUIRE( "DBC" == sout.str() );
+        REQUIRE( sout.str() == "DBC" );
     }
 
     SECTION( "ctor with string ios_base::app mode" ) {
         ostringstream sout("ABC", ios_base::app);
 
-        REQUIRE( "ABC" == sout.str() );
+        REQUIRE( sout.str() == "ABC" );
 
-        REQUIRE( 3 == sout.tellp() );
+        REQUIRE( sout.tellp() == 3 );
 
         sout << 'D';
-        REQUIRE( "ABCD" == sout.str() );
+        REQUIRE( sout.str() == "ABCD" );
     }
 
 }
@@ -66,7 +66,7 @@ TEST_CASE( "ostringstream.opearator=", "[std] [streams] [ostringstream]" ) {
 
         lout = move(rout);
 
-        REQUIRE ( "Moved from" == lout.str() );
+        REQUIRE ( lout.str() == "Moved from" );
     }
 
 }
@@ -79,8 +79,8 @@ TEST_CASE( "ostringstream.swap", "[std] [streams] [ostringstream]" ) {
 
         sout1.swap(sout2);
 
-        REQUIRE ( "sout2" == sout1.str() );
-        REQUIRE ( "sout1" == sout2.str() );
+        REQUIRE ( sout1.str() == "sout2" );
+        REQUIRE ( sout2.str() == "sout1" );
     }
 
     SECTION( "std::swap" ) {
@@ -89,8 +89,8 @@ TEST_CASE( "ostringstream.swap", "[std] [streams] [ostringstream]" ) {
 
         swap(sout1, sout2);
 
-        REQUIRE ( "sout2" == sout1.str() );
-        REQUIRE ( "sout1" == sout2.str() );
+        REQUIRE ( sout1.str() == "sout2" );
+        REQUIRE ( sout2.str() == "sout1" );
     }
 
 }
@@ -100,7 +100,7 @@ TEST_CASE( "ostringstream.rdbuf", "[std] [streams] [ostringstream]" ) {
     SECTION( "rdbuf" ) {
         ostringstream sout{"sout"};
 
-        REQUIRE ( nullptr != sout.rdbuf() );
+        REQUIRE ( sout.rdbuf() != nullptr );
     }
 
 }
@@ -110,31 +110,31 @@ TEST_CASE( "ostringstream.str", "[std] [streams] [ostringstream]" ) {
     SECTION( "get/set str" ) {
         ostringstream sout{"ABC"};
 
-        REQUIRE ( "ABC" == sout.str() );
-        REQUIRE ( 0 == sout.tellp() );
+        REQUIRE ( sout.str() == "ABC" );
+        REQUIRE ( sout.tellp() == 0 );
 
         sout.str("123");
 
-        REQUIRE ( "123" == sout.str() );
-        REQUIRE ( 0 == sout.tellp() );
+        REQUIRE ( sout.str() == "123" );
+        REQUIRE ( sout.tellp() == 0 );
     }
 
     SECTION( "set str after writing " ) {
         ostringstream sout{"ABC"};
 
-        REQUIRE ( 0 == sout.tellp() );
+        REQUIRE ( sout.tellp() == 0 );
         sout << "DEF";
 
-        REQUIRE ( "DEF" == sout.str() );
-        REQUIRE ( 3 == sout.tellp() );
+        REQUIRE ( sout.str() == "DEF" );
+        REQUIRE ( sout.tellp() == 3 );
 
         sout.str("ABC");
 
-        REQUIRE ( "ABC" == sout.str() );
-        REQUIRE ( 0 == sout.tellp() );
+        REQUIRE ( sout.str() == "ABC" );
+        REQUIRE ( sout.tellp() == 0 );
 
         sout << "123";
-        REQUIRE ( "123" == sout.str() );
+        REQUIRE ( sout.str() == "123" );
     }
     
 }

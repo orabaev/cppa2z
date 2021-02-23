@@ -10,7 +10,7 @@ TEST_CASE( "boolalpha", "[std] [streams] [manipulators]" ) {
 
         sout << boolalpha << true << ' ' << false;
 
-        REQUIRE( "true false" == sout.str() );
+        REQUIRE( sout.str() == "true false" );
     }
 
     SECTION( ">> boolalpha" ) {
@@ -19,10 +19,10 @@ TEST_CASE( "boolalpha", "[std] [streams] [manipulators]" ) {
         bool value = false;
 
         sin >> boolalpha >> value ;
-        REQUIRE( true ==  value);
+        REQUIRE( value );
 
         sin >> value ;
-        REQUIRE( false ==  value);
+        REQUIRE_FALSE( value );
     }
 
     SECTION( "invalid >> boolalpha" ) {
@@ -41,9 +41,9 @@ TEST_CASE( "noboolalpha", "[std] [streams] [manipulators]" ) {
     SECTION( "<< noboolalpha" ) {
         ostringstream sout;
 
-        sout << noboolalpha << true << ' ' << false;
+        sout << noboolalpha << true << "  " << false;
 
-        REQUIRE( "1 0" == sout.str() );
+        REQUIRE( sout.str() == "1  0" );
     }
 
     SECTION( ">> noboolalpha" ) {
@@ -52,10 +52,10 @@ TEST_CASE( "noboolalpha", "[std] [streams] [manipulators]" ) {
         bool value = false;
 
         sin >> noboolalpha >> value ;
-        REQUIRE( true ==  value);
+        REQUIRE( value );
 
         sin >> value ;
-        REQUIRE( false ==  value);
+        REQUIRE_FALSE( value );
     }
 
     SECTION( "invalid >> noboolalpha" ) {
@@ -76,7 +76,7 @@ TEST_CASE( "showbase", "[std] [streams] [manipulators]" ) {
 
         sout << showbase << hex << 255;
 
-        REQUIRE( "0xff" == sout.str() );
+        REQUIRE( sout.str() == "0xff" );
     }
 
     SECTION( "<< showbase << oct" ) {
@@ -84,7 +84,7 @@ TEST_CASE( "showbase", "[std] [streams] [manipulators]" ) {
 
         sout << showbase << oct << 511;
 
-        REQUIRE( "0777" == sout.str() );
+        REQUIRE(  sout.str() == "0777" );
     }
 
     SECTION( "<< showbase << put_money" ) {
@@ -94,7 +94,7 @@ TEST_CASE( "showbase", "[std] [streams] [manipulators]" ) {
         int cents = 199;
         sout << showbase << put_money(cents);
 
-        REQUIRE( "$1.99" == sout.str() );
+        REQUIRE( sout.str() == "$1.99" );
     }
 
     SECTION( ">> showbase >> get_money" ) {
@@ -104,7 +104,7 @@ TEST_CASE( "showbase", "[std] [streams] [manipulators]" ) {
         long double cents = 0;
         sin >> showbase >> get_money(cents);
 
-        REQUIRE( 199.0 == cents );
+        REQUIRE(  cents == 199.0 );
     }
 
     SECTION( "invalid >> showbase >> get_money" ) {
@@ -126,7 +126,7 @@ TEST_CASE( "noshowbase", "[std] [streams] [manipulators]" ) {
 
         sout << noshowbase << hex << 255;
 
-        REQUIRE( "ff" == sout.str() );
+        REQUIRE( sout.str() == "ff" );
     }
 
     SECTION( "<< noshowbase << oct" ) {
@@ -134,7 +134,7 @@ TEST_CASE( "noshowbase", "[std] [streams] [manipulators]" ) {
 
         sout << noshowbase << oct << 511;
 
-        REQUIRE( "777" == sout.str() );
+        REQUIRE( sout.str() == "777" );
     }
 
     SECTION( "<< noshowbase << put_money" ) {
@@ -144,7 +144,7 @@ TEST_CASE( "noshowbase", "[std] [streams] [manipulators]" ) {
         int cents = 199;
         sout << noshowbase << put_money(cents);
 
-        REQUIRE( "1.99" == sout.str() );
+        REQUIRE( sout.str() == "1.99" );
     }
 
     SECTION( ">> noshowbase >> get_money" ) {
@@ -154,7 +154,7 @@ TEST_CASE( "noshowbase", "[std] [streams] [manipulators]" ) {
         long double cents = 0;
         sin >> noshowbase >> get_money(cents);
 
-        REQUIRE( 199.0 == cents );
+        REQUIRE( cents == 199.0 );
     }
 
     SECTION( "has base >> noshowbase >> get_money" ) {
@@ -164,7 +164,7 @@ TEST_CASE( "noshowbase", "[std] [streams] [manipulators]" ) {
         long double cents = 0;
         sin >> noshowbase >> get_money(cents);
         
-        REQUIRE( 199.0 == cents );
+        REQUIRE( cents == 199.0 );
     }
 
 }
@@ -176,7 +176,7 @@ TEST_CASE( "showpos", "[std] [streams] [manipulators]" ) {
 
         sout << showpos << 27 ;
 
-        REQUIRE( "+27" == sout.str() );
+        REQUIRE( sout.str() == "+27" );
     }
 
     SECTION( "<< showpos << floating-point" ) {
@@ -184,7 +184,7 @@ TEST_CASE( "showpos", "[std] [streams] [manipulators]" ) {
 
         sout << showpos << 27.123 ;
 
-        REQUIRE( "+27.123" == sout.str() );
+        REQUIRE( sout.str() == "+27.123" );
     }
 
 }
@@ -196,7 +196,7 @@ TEST_CASE( "noshowpos", "[std] [streams] [manipulators]" ) {
 
         sout << noshowpos << 27 ;
 
-        REQUIRE( "27" == sout.str() );
+        REQUIRE( sout.str() == "27" );
     }
 
     SECTION( "<< noshowpos << floating-point" ) {
@@ -204,7 +204,7 @@ TEST_CASE( "noshowpos", "[std] [streams] [manipulators]" ) {
 
         sout << noshowpos << 27.123 ;
 
-        REQUIRE( "27.123" == sout.str() );
+        REQUIRE( sout.str() == "27.123" );
     }
 
 }
@@ -216,7 +216,7 @@ TEST_CASE( "uppercase", "[std] [streams] [manipulators]" ) {
         
         sout << uppercase << hex << 255;
 
-        REQUIRE( "FF" == sout.str() );
+        REQUIRE( sout.str() == "FF" );
     }
 
     SECTION( "<< uppercase << hex << floating-point" ) {
@@ -224,7 +224,7 @@ TEST_CASE( "uppercase", "[std] [streams] [manipulators]" ) {
         
         sout << uppercase << hex << 1e-35;
 
-        REQUIRE( "1E-35" == sout.str() );
+        REQUIRE( sout.str() == "1E-35" );
     }
 
 }
@@ -236,7 +236,7 @@ TEST_CASE( "nouppercase", "[std] [streams] [manipulators]" ) {
         
         sout << nouppercase << hex << 255;
 
-        REQUIRE( "ff" == sout.str() );
+        REQUIRE( sout.str() == "ff" );
     }
 
     SECTION( "<< uppercase << hex << floating-point" ) {
@@ -244,7 +244,7 @@ TEST_CASE( "nouppercase", "[std] [streams] [manipulators]" ) {
         
         sout << nouppercase << hex << 1e-35;
 
-        REQUIRE( "1e-35" == sout.str() );
+        REQUIRE( sout.str() == "1e-35" );
     }
 
 }
@@ -256,7 +256,7 @@ TEST_CASE( "hex", "[std] [streams] [manipulators]" ) {
 
         sout << hex << 15 << ' ' << 0xFF << ' ' << 0777;
         
-        REQUIRE( "f ff 1ff" == sout.str() ); 
+        REQUIRE( sout.str() == "f ff 1ff" ); 
     }
 
     SECTION( "output number in hexadecimal format with uppercase base prefix" ) {
@@ -264,7 +264,7 @@ TEST_CASE( "hex", "[std] [streams] [manipulators]" ) {
 
         sout << hex << showbase << uppercase << 15 << ' ' << 0xFF << ' ' << 0777;
         
-        REQUIRE( "0XF 0XFF 0X1FF" == sout.str() ); 
+        REQUIRE( sout.str() == "0XF 0XFF 0X1FF" ); 
     }
 
     SECTION( "parse number from input in hex format" ) {
@@ -273,10 +273,10 @@ TEST_CASE( "hex", "[std] [streams] [manipulators]" ) {
         int i{};
 
         sin >> i;
-        REQUIRE( 10 == i ); 
+        REQUIRE( i == 10 ); 
 
         sin >> hex >> i;
-        REQUIRE( 16 == i ); 
+        REQUIRE( i == 16 ); 
     }
 
 }
@@ -288,7 +288,7 @@ TEST_CASE( "oct", "[std] [streams] [manipulators]" ) {
 
         sout << oct << 15 << ' ' << 0xFF << ' ' << 0777;
         
-        REQUIRE( "17 377 777" == sout.str() ); 
+        REQUIRE( sout.str() == "17 377 777" ); 
     }
 
     SECTION( "output number in octal format with base prefix" ) {
@@ -296,7 +296,7 @@ TEST_CASE( "oct", "[std] [streams] [manipulators]" ) {
 
         sout << oct << showbase << 15 << ' ' << 0xFF << ' ' << 0777;
         
-        REQUIRE( "017 0377 0777" == sout.str() ); 
+        REQUIRE( sout.str() == "017 0377 0777" ); 
     }
 
     SECTION( "parse number from input in octal format" ) {
@@ -305,10 +305,10 @@ TEST_CASE( "oct", "[std] [streams] [manipulators]" ) {
         int i{};
 
         sin >> i;
-        REQUIRE( 10 == i ); 
+        REQUIRE( i == 10 ); 
 
         sin >> oct >> i;
-        REQUIRE( 8 == i ); 
+        REQUIRE( i == 8 ); 
     }
 
 }
@@ -320,7 +320,7 @@ TEST_CASE( "dec", "[std] [streams] [manipulators]" ) {
 
         sout << dec << 15 << ' ' << 0xFF << ' ' << 0777;
         
-        REQUIRE( "15 255 511" == sout.str() ); 
+        REQUIRE( sout.str() == "15 255 511" ); 
     }
 
     SECTION( "by default output number in decimal format" ) {
@@ -328,7 +328,7 @@ TEST_CASE( "dec", "[std] [streams] [manipulators]" ) {
 
         sout << 15 << ' ' << 0xFF << ' ' << 0777;
         
-        REQUIRE( "15 255 511" == sout.str() ); 
+        REQUIRE( sout.str() == "15 255 511" ); 
     }
 
 }
@@ -348,7 +348,7 @@ TEST_CASE( "setbase", "[std] [streams] [manipulators]" ) {
              << ' '
              << setbase(invalid_base_will_default_to_base_10)  << 16;
         
-        REQUIRE( "20 16 10 16" == sout.str() ); 
+        REQUIRE( sout.str() == "20 16 10 16" ); 
     }
 
     SECTION( ">> set numeric base" ) {
@@ -358,16 +358,16 @@ TEST_CASE( "setbase", "[std] [streams] [manipulators]" ) {
         int i{}; 
 
         sin >> setbase(8) >> i;
-        REQUIRE( 16 == i );
+        REQUIRE( i == 16 );
 
         sin >> setbase(10) >> i;
-        REQUIRE( 16 == i );
+        REQUIRE( i == 16 );
 
         sin >> setbase(16) >> i;
-        REQUIRE( 16 == i );
+        REQUIRE( i == 16 );
 
         sin >> setbase(invalid_base_will_default_to_base_10) >> i;
-        REQUIRE( 16 == i );
+        REQUIRE( i == 16 );
     }
 
 }

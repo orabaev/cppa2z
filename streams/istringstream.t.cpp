@@ -7,13 +7,13 @@ TEST_CASE( "istringstream.ctor", "[std] [istringstream]" ) {
 
     SECTION( "istringstream is always opened in ios_base::in mode" ) {
         istringstream sin1;
-        REQUIRE( 0 == sin1.tellg() );
+        REQUIRE( sin1.tellg() == 0 );
 
         istringstream sin2{"Hello C++", ios_base::in};
-        REQUIRE( 0 == sin2.tellg() );
+        REQUIRE( sin2.tellg() == 0 );
 
         istringstream sin3{"Hello C++", ios_base::in | ios_base::ate};
-        REQUIRE( 0 == sin3.tellg() );
+        REQUIRE( sin3.tellg() == 0 );
     }
  
 }
@@ -26,7 +26,7 @@ TEST_CASE( "istringstream.opearator=", "[std] [istringstream]" ) {
 
         lin = move(rin);
 
-        REQUIRE ( "Moved from" == lin.str() );
+        REQUIRE ( lin.str() == "Moved from" );
     }
 
 }
@@ -39,8 +39,8 @@ TEST_CASE( "istringstream.swap", "[std] [istringstream]" ) {
 
         sin1.swap(sin2);
 
-        REQUIRE ( "sin2" == sin1.str() );
-        REQUIRE ( "sin1" == sin2.str() );
+        REQUIRE ( sin1.str() == "sin2" );
+        REQUIRE ( sin2.str() == "sin1" );
     }
 
     SECTION( "std::swap" ) {
@@ -49,8 +49,8 @@ TEST_CASE( "istringstream.swap", "[std] [istringstream]" ) {
 
         swap(sin1, sin2);
 
-        REQUIRE ( "sin2" == sin1.str() );
-        REQUIRE ( "sin1" == sin2.str() );
+        REQUIRE ( sin1.str() == "sin2" );
+        REQUIRE ( sin2.str() == "sin1" );
     }
 
 }
@@ -60,7 +60,7 @@ TEST_CASE( "istringstream.rdbuf", "[std] [istringstream]" ) {
     SECTION( "rdbuf" ) {
         istringstream sin{"sin1"};
 
-        REQUIRE ( nullptr != sin.rdbuf() );
+        REQUIRE ( sin.rdbuf() != nullptr );
     }
 
 }
@@ -69,10 +69,10 @@ TEST_CASE( "istringstream.str", "[std] [istringstream]" ) {
 
     SECTION( "get/set str" ) {
         istringstream sin{"Hello C++"};
-        REQUIRE ( "Hello C++" == sin.str() );
+        REQUIRE ( sin.str() == "Hello C++" );
 
         sin.str("Hello Again");
-        REQUIRE ( "Hello Again" == sin.str() );
+        REQUIRE ( sin.str() == "Hello Again" );
     }
 
     SECTION( "set str after reading " ) {
@@ -81,13 +81,13 @@ TEST_CASE( "istringstream.str", "[std] [istringstream]" ) {
         string s;
         sin >> s;
 
-        REQUIRE ( "ABC" == s );
+        REQUIRE ( s == "ABC" );
 
 
         sin.str("EFG");
         sin >> s;
 
-        REQUIRE ( "EFG" == s );
+        REQUIRE ( s == "EFG" );
     }
     
 }
