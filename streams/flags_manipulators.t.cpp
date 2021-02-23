@@ -14,7 +14,7 @@ TEST_CASE( "resetiosflags", "[std] [streams] [manipulators]" ) {
              << ' '
              << 255;
         
-        REQUIRE( "0XFF 255" == sout.str() ); 
+        REQUIRE( sout.str() == "0XFF 255" ); 
     }
 
 }
@@ -30,7 +30,7 @@ TEST_CASE( "setiosflags", "[std] [streams] [manipulators]" ) {
              << setiosflags(ios::hex | ios::showbase | ios::uppercase)
              << 255;
         
-        REQUIRE( "255 0XFF" == sout.str() ); 
+        REQUIRE( sout.str() == "255 0XFF" ); 
     }
 
 }

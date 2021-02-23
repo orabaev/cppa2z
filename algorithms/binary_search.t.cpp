@@ -18,7 +18,7 @@ TEST_CASE( "binary_search", "[std] [algorithm] [sorting] [binary search]" ) {
     SECTION( "find element in the partially sorted range" ) {
         const vector<int> vec{0, 1, 2, 3, 4,   6, 5};
 
-        REQUIRE( binary_search(cbegin(vec), cend(vec), 4) );
+        REQUIRE( binary_search(cbegin(vec), cend(vec)+4, 3) );
     }
 
     SECTION( "element not found in the sorted range" ) {
@@ -40,12 +40,13 @@ TEST_CASE( "binary_search", "[std] [algorithm] [sorting] [binary search]" ) {
 TEST_CASE( "equal_range", "[std] [algorithm] [sorting] [binary search]" ) {
     
     SECTION( "find all elements equel to 2 in the sorted range" ) {
-        const vector<int> vec{0, 1,   2, 2,   4, 5, 6};
+        const vector<int> vec{0, 1,   2,2,2,2,2,2,   4, 5, 6};
 
         const auto pr = equal_range(cbegin(vec), cend(vec), 2);
 
-        REQUIRE( 2 == *pr.first);
-        REQUIRE( 4 == *pr.second);
+        REQUIRE( *pr.first  == 2);
+        REQUIRE( *pr.second == 4);
+        REQUIRE( distance(pr.second, pr.first) == -6);
     } 
 
     SECTION( "elements equel to 2 not found in the sorted range" ) {
@@ -58,7 +59,7 @@ TEST_CASE( "equal_range", "[std] [algorithm] [sorting] [binary search]" ) {
     } 
 
     SECTION( "find all elements equel to 2 in the descending order sorted range" ) {
-        const vector<int> vec{6, 5, 4,   2, 2,   1, 0};
+        const vector<int> vec{6, 5, 4,   2,2,2,   1, 0};
 
         const auto pr = equal_range(
                               cbegin(vec)
@@ -67,8 +68,9 @@ TEST_CASE( "equal_range", "[std] [algorithm] [sorting] [binary search]" ) {
                             , greater<int>()
                         );
 
-        REQUIRE( 2 == *pr.first);
-        REQUIRE( 1 == *pr.second);
+        REQUIRE( *pr.first  == 2);
+        REQUIRE( *pr.second == 1);
+        REQUIRE( distance(pr.second, pr.first) == -3);
     } 
 
 }
@@ -80,8 +82,8 @@ TEST_CASE( "lower_bound", "[std] [algorithm] [sorting] [binary search]" ) {
 
         auto it = lower_bound(cbegin(vec), cend(vec), 2);
 
-        REQUIRE( 2 == *it);
-        REQUIRE( 1 == *--it);
+        REQUIRE( *it == 2);
+        REQUIRE( *prev(it) == 1);
     } 
 
     SECTION( "elements equel to 2 is not found in the sorted range" ) {
@@ -89,7 +91,7 @@ TEST_CASE( "lower_bound", "[std] [algorithm] [sorting] [binary search]" ) {
 
         const auto it = lower_bound(cbegin(vec), cend(vec), 2);
 
-        REQUIRE( 3 == *it );
+        REQUIRE( *it == 3 );
     }
 
     SECTION( "find first elements equel to 2 in the descending order sorted range" ) {
@@ -102,8 +104,8 @@ TEST_CASE( "lower_bound", "[std] [algorithm] [sorting] [binary search]" ) {
                       , greater<int>()
                   );
 
-        REQUIRE( 2 == *it);
-        REQUIRE( 4 == *--it);
+        REQUIRE( *it == 2);
+        REQUIRE( *prev(it) == 4 );
     } 
 
 }
@@ -115,8 +117,8 @@ TEST_CASE( "upper_bound", "[std] [algorithm] [sorting] [binary search]" ) {
 
         auto it = upper_bound(cbegin(vec), cend(vec), 2);
 
-        REQUIRE( 4 == *it);
-        REQUIRE( 2 == *--it);
+        REQUIRE( *it == 4);
+        REQUIRE( *prev(it) == 2);
     } 
 
     SECTION( "no elements greater than 2 found in the sorted range" ) {
@@ -137,8 +139,8 @@ TEST_CASE( "upper_bound", "[std] [algorithm] [sorting] [binary search]" ) {
                       , greater<int>()
                   );
 
-        REQUIRE( 1 == *it);
-        REQUIRE( 2 == *--it);
+        REQUIRE( *it == 1);
+        REQUIRE( *prev(it) == 2);
     } 
 
 }

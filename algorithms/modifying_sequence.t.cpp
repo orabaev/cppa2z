@@ -24,7 +24,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
 
         copy(cbegin(vec), cbegin(vec) + 3, begin(vec) + 3);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
     SECTION( "copy all elements to non empty vector overriding existing elements" ) {
@@ -44,7 +44,7 @@ TEST_CASE( "copy", "[std] [algorithm] [modifying]" ) {
         auto reverse_iterator = rbegin(to);
         copy(cbegin(from), cend(from), reverse_iterator);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "copy 2 elements from/to position 3 to non empty vector" ) {
@@ -82,7 +82,7 @@ TEST_CASE( "copy_if", "[std] [algorithm] [modifying]" ) {
 
         copy_if(cbegin(from), cend(from), back_inserter(to), is_even);
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
 }
@@ -108,7 +108,7 @@ TEST_CASE( "fill", "[std] [algorithm] [modifying]" ) {
 
         fill(begin(vec), end(vec), 1);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -123,7 +123,7 @@ TEST_CASE( "fill_n", "[std] [algorithm] [modifying]" ) {
 
         REQUIRE( expected == vec );
 
-        REQUIRE( 4 == *it );
+        REQUIRE( *it == 4 );
     }
 
 }
@@ -139,7 +139,7 @@ TEST_CASE( "generate", "[std] [algorithm] [modifying]" ) {
 
         generate(begin(vec), end(vec), increment);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -155,7 +155,7 @@ TEST_CASE( "generate_n", "[std] [algorithm] [modifying]" ) {
 
         generate_n(back_inserter(vec), 4, increment);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -168,7 +168,7 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
 
         iter_swap(begin(vec), rbegin(vec));
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
     SECTION( "reverse string" ) {
@@ -179,7 +179,7 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
         auto right = --end(str);
         while (left < right) iter_swap(left++, right--);
 
-        REQUIRE( expected == str );
+        REQUIRE( str == expected );
     }
 
 }
@@ -193,7 +193,7 @@ TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
 
         move(begin(from), end(from), begin(to));
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
         // DO NOT RELY ON VALUES OF SOURCE RANGE
         // AFTER THEY HAVE BEEN MOVED FROM
     }
@@ -210,7 +210,7 @@ TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
         move_backward(begin(vec), --end(vec), end(vec));
         vec.front() = "Hi";        
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -224,7 +224,7 @@ TEST_CASE( "remove", "[std] [algorithm] [modifying]" ) {
         auto erase_it = remove(begin(vec), end(vec), 1); 
         vec.erase(erase_it, vec.end());
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -240,7 +240,7 @@ TEST_CASE( "remove_if", "[std] [algorithm] [modifying]" ) {
         auto erase_it = remove_if(begin(vec), end(vec), is_even); 
         vec.erase(erase_it, vec.end());
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -254,7 +254,7 @@ TEST_CASE( "remove_copy", "[std] [algorithm] [modifying]" ) {
 
         remove_copy(cbegin(from), cend(from), begin(to), ' '); 
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -270,7 +270,7 @@ TEST_CASE( "remove_copy_if", "[std] [algorithm] [modifying]" ) {
 
         remove_copy_if(cbegin(from), cend(from), back_inserter(to), is_even); 
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -283,7 +283,7 @@ TEST_CASE( "replace", "[std] [algorithm] [modifying]" ) {
 
         replace(begin(vec), end(vec), 1, 0); 
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -299,7 +299,7 @@ TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
 
         replace_if(begin(vec), end(vec), is_even, replace_to); 
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -322,7 +322,7 @@ TEST_CASE( "replace_copy", "[std] [algorithm] [modifying]" ) {
             , replace_to
         ); 
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -345,7 +345,7 @@ TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
             , replace_to
         ); 
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -358,7 +358,7 @@ TEST_CASE( "reverse", "[std] [algorithm] [modifying]" ) {
 
         reverse(begin(vec), end(vec));
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
 }
@@ -372,7 +372,7 @@ TEST_CASE( "reverse_copy", "[std] [algorithm] [modifying]" ) {
 
         reverse_copy(cbegin(from), cend(from), back_inserter(to));
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -389,7 +389,7 @@ TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
 
         const auto it = rotate(first, middle, last);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
     SECTION( "rotate last 2 elements to the front" ) {
@@ -402,7 +402,7 @@ TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
 
         const auto it = rotate(first, middle, last);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
     SECTION( "rotate 2nd and 3rd elements with 4th and 5th elements" ) {
@@ -415,7 +415,7 @@ TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
 
         const auto it = rotate(first, middle, last);
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 }
 
@@ -454,7 +454,7 @@ TEST_CASE( "swap", "[std] [algorithm] [modifying]" ) {
     
         swap(vec,  empty_vector);
         
-        REQUIRE (vec.empty() ); 
+        REQUIRE( vec.empty() ); 
 
     }
 
@@ -471,8 +471,8 @@ TEST_CASE( "swap_ranges", "[std] [algorithm] [modifying]" ) {
 
         swap_ranges(begin(vec), end(vec), begin(lst));
 
-        REQUIRE( expected_vec == vec );
-        REQUIRE( expected_lst == lst );
+        REQUIRE( vec == expected_vec );
+        REQUIRE( lst == expected_lst );
     }
 
 }
@@ -492,8 +492,8 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
                            , to_upper
                         );
 
-        REQUIRE( expected == str );
-        REQUIRE( cend(str) == it );
+        REQUIRE( str == expected );
+        REQUIRE( it == cend(str) );
     }
 
     SECTION( "sum each element from different containers and store results in another container" ) {
@@ -512,8 +512,8 @@ TEST_CASE( "transform", "[std] [algorithm] [modifying]" ) {
                            , sum 
                         );
 
-        REQUIRE( expected == result );
-        REQUIRE( cend(result) == it );
+        REQUIRE( result == expected );
+        REQUIRE( it == cend(result) );
     }
 
 }
@@ -528,7 +528,7 @@ TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
 
         vec.erase(it, end(vec));
 
-        REQUIRE( expected == vec );
+        REQUIRE( vec == expected );
     }
 
     SECTION( "remove consecutive spaces" ) {
@@ -541,7 +541,7 @@ TEST_CASE( "unique", "[std] [algorithm] [modifying]" ) {
 
         str.erase(it, end(str));
 
-        REQUIRE( expected == str );
+        REQUIRE( str == expected );
     }
 
 }
@@ -555,7 +555,7 @@ TEST_CASE( "unique_copy", "[std] [algorithm] [modifying]" ) {
 
         unique_copy(cbegin(from) , cend(from) , back_inserter(to));
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "copy string while removing consecutive spaces" ) {
@@ -572,8 +572,7 @@ TEST_CASE( "unique_copy", "[std] [algorithm] [modifying]" ) {
             , both_spaces
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
-

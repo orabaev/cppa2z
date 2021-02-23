@@ -68,7 +68,7 @@ TEST_CASE( "variadic templates", "[std] [modern] [compile-time]" ) {
     
     SECTION( "use sum" ) {
         const int i = sum(1, 4, 5, 10);
-        REQUIRE( 20 == i );
+        REQUIRE( i == 20 );
     }
 
     SECTION( "use print" ) {
@@ -76,7 +76,7 @@ TEST_CASE( "variadic templates", "[std] [modern] [compile-time]" ) {
 
         print(sout, "hello", 1, 'A');
 
-        REQUIRE( "hello 1 A" == sout.str() );
+        REQUIRE( sout.str() == "hello 1 A" );
     }
 
 }

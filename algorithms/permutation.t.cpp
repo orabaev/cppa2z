@@ -206,22 +206,22 @@ TEST_CASE( "prev_permutation", "[std] [algorithm] [permutation]" ) {
         const vector<int> perm6{0, 1, 2};
 
         REQUIRE_FALSE( prev_permutation(begin(vec), end(vec)) );
-        REQUIRE( perm1 == vec );
+        REQUIRE( vec == perm1 );
 
         REQUIRE( prev_permutation(begin(vec), end(vec)) );
-        REQUIRE( perm2 == vec );
+        REQUIRE( vec == perm2 );
 
         REQUIRE( prev_permutation(begin(vec), end(vec)) );
-        REQUIRE( perm3 == vec );
+        REQUIRE( vec == perm3 );
 
         REQUIRE( prev_permutation(begin(vec), end(vec)) );
-        REQUIRE( perm4 == vec );
+        REQUIRE( vec == perm4 );
 
         REQUIRE( prev_permutation(begin(vec), end(vec)) );
-        REQUIRE( perm5 == vec );
+        REQUIRE( vec == perm5 );
 
         REQUIRE( prev_permutation(begin(vec), end(vec)) );
-        REQUIRE( perm6 == vec );
+        REQUIRE( vec == perm6 );
     } 
 
     SECTION( "generates previous lexicographicaly ordered permutation using case insensitive compare" ) {
@@ -236,22 +236,22 @@ TEST_CASE( "prev_permutation", "[std] [algorithm] [permutation]" ) {
         auto case_insensitive_compare = [](char x, char y) { return toupper(x) < toupper(y); };
 
         REQUIRE_FALSE( prev_permutation(begin(str), end(str), case_insensitive_compare) );
-        REQUIRE( perm1 == str );
+        REQUIRE( str == perm1 );
 
         REQUIRE( prev_permutation(begin(str), end(str), case_insensitive_compare) );
-        REQUIRE( perm2 == str );
+        REQUIRE( str == perm2 );
 
         REQUIRE( prev_permutation(begin(str), end(str), case_insensitive_compare) );
-        REQUIRE( perm3 == str );
+        REQUIRE( str == perm3 );
 
         REQUIRE( prev_permutation(begin(str), end(str), case_insensitive_compare) );
-        REQUIRE( perm4 == str );
+        REQUIRE( str == perm4 );
 
         REQUIRE( prev_permutation(begin(str), end(str), case_insensitive_compare) );
-        REQUIRE( perm5 == str );
+        REQUIRE( str == perm5 );
 
         REQUIRE( prev_permutation(begin(str), end(str), case_insensitive_compare) );
-        REQUIRE( perm6 == str );
+        REQUIRE( str == perm6 );
     }
 
 }

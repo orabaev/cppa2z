@@ -12,21 +12,21 @@ TEST_CASE( "ifstream.ctor", "[std] [ifstream]" ) {
         ifstream  fin;
 
         REQUIRE( fin );
-        REQUIRE( -1 == fin.tellg() );
+        REQUIRE( fin.tellg() == -1 );
     }
 
     SECTION( "open existing empty file" ) {
         ifstream  fin("ifstream.tmp");
 
         REQUIRE( fin );
-        REQUIRE( 0 == fin.tellg() );
+        REQUIRE( fin.tellg() == 0);
     }
 
     SECTION( "ifstream is opened in ios_base::in mode" ) {
         ifstream  fin("ifstream.tmp", ios_base::in);
 
         REQUIRE( fin );
-        REQUIRE( 0 == fin.tellg() );
+        REQUIRE( fin.tellg() == 0 );
     }
 
     SECTION( "ifstream is opened in ios_base::ate mode" ) {
@@ -35,7 +35,7 @@ TEST_CASE( "ifstream.ctor", "[std] [ifstream]" ) {
         ifstream  fin("ifstream.tmp", ios_base::ate);
 
         REQUIRE( fin );
-        REQUIRE( 3 == fin.tellg() );
+        REQUIRE( fin.tellg() == 3 );
     }
 
     SECTION( "ifstream(const string& filename, ios_base::openmode mode = ios_base::in)" ) {
@@ -44,7 +44,7 @@ TEST_CASE( "ifstream.ctor", "[std] [ifstream]" ) {
         ifstream  fin(file_name);
 
         REQUIRE( fin );
-        REQUIRE( 0 == fin.tellg() );
+        REQUIRE( fin.tellg() == 0 );
     }
 
     SECTION( "move ctor" ) {
@@ -55,11 +55,11 @@ TEST_CASE( "ifstream.ctor", "[std] [ifstream]" ) {
         ifstream  fin2(move(fin1));
 
         REQUIRE( fin2 );
-        REQUIRE( 'A' == fin2.get() );
+        REQUIRE( fin2.get() == 'A' );
     }
 
     fout.close();
-    REQUIRE( 0 == remove("ifstream.tmp") );
+    REQUIRE( remove("ifstream.tmp") == 0 );
  
 }
 
@@ -69,17 +69,17 @@ TEST_CASE( "ifstream.operator=", "[std] [ifstream]" ) {
 
     SECTION( "operator=" ) {
         ifstream  fin2;
-        REQUIRE( -1 == fin2.tellg() ); 
+        REQUIRE( fin2.tellg() == -1 ); 
 
         ifstream  fin1("ifstream.tmp");
 
         fin2 = move(fin1);
 
-        REQUIRE( 0 == fin2.tellg() );
+        REQUIRE( fin2.tellg() == 0 );
     }
 
     fout.close();
-    REQUIRE( 0 == remove("ifstream.tmp") );
+    REQUIRE( remove("ifstream.tmp") == 0 );
 } 
 
 TEST_CASE( "ifstream.swap", "[std] [ifstream]" ) {
@@ -90,32 +90,31 @@ TEST_CASE( "ifstream.swap", "[std] [ifstream]" ) {
         ifstream  fin1("ifstream.tmp");
         ifstream  fin2;
 
-        REQUIRE(  0 == fin1.tellg() );
-        REQUIRE( -1 == fin2.tellg() );
+        REQUIRE( fin1.tellg() == 0 );
+        REQUIRE( fin2.tellg() == -1 );
 
         fin1.swap(fin2);
 
-        REQUIRE( -1 == fin1.tellg() );
-        REQUIRE(  0 == fin2.tellg() );
+        REQUIRE( fin1.tellg() == -1 );
+        REQUIRE( fin2.tellg() == 0 );
     }
 
     SECTION( "std::swap" ) {
         ifstream  fin1("ifstream.tmp");
         ifstream  fin2;
 
-        REQUIRE(  0 == fin1.tellg() );
-        REQUIRE( -1 == fin2.tellg() );
+        REQUIRE( fin1.tellg() == 0 );
+        REQUIRE( fin2.tellg() == -1 );
 
         std::swap(fin1, fin2);
 
-        REQUIRE( -1 == fin1.tellg() );
-        REQUIRE(  0 == fin2.tellg() );
+        REQUIRE( fin1.tellg() == -1 );
+        REQUIRE( fin2.tellg() == 0 );
     }
-
-
 
     fout.close();
     REQUIRE( 0 == remove("ifstream.tmp") );
+
 }
 
 TEST_CASE( "ifstream.rdbuf", "[std] [ifstream]" ) {
@@ -123,7 +122,7 @@ TEST_CASE( "ifstream.rdbuf", "[std] [ifstream]" ) {
     SECTION( "rdbuf" ) {
         ifstream  fin;
 
-        REQUIRE ( nullptr != fin.rdbuf() );
+        REQUIRE ( fin.rdbuf() != nullptr );
     }
 
 }

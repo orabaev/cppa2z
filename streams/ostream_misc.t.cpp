@@ -9,17 +9,17 @@ TEST_CASE( "tellp", "[std] [ostream] [misc]" ) {
     SECTION( "ouput position indicator when nothing was inserted into the stream" ) {
         ostringstream sout;
         
-        REQUIRE( 0 == sout.tellp() );
+        REQUIRE( sout.tellp() == 0 );
     }
 
     SECTION( "ouput position indicator when characters were inserted into the stream" ) {
         ostringstream sout;
 
         sout  << 'A';
-        REQUIRE( 1 == sout.tellp() );
+        REQUIRE( sout.tellp() == 1 );
 
         sout  << "BCD";
-        REQUIRE( 4 == sout.tellp() );
+        REQUIRE( sout.tellp() == 4 );
     }
 
 }
@@ -30,12 +30,12 @@ TEST_CASE( "seekp", "[std] [ostream] [misc]" ) {
         ostringstream sout;
 
         sout << "ABCD";
-        REQUIRE( "ABCD" == sout.str() ); 
+        REQUIRE( sout.str() == "ABCD" ); 
 
         REQUIRE( sout.seekp(2) );
 
         sout << "FG";
-        REQUIRE( "ABFG" == sout.str() ); 
+        REQUIRE( sout.str() == "ABFG" ); 
     }
 
     SECTION( "try to set ouput position one character beyond" ) {
@@ -50,33 +50,33 @@ TEST_CASE( "seekp", "[std] [ostream] [misc]" ) {
         ostringstream sout{"0123"};
         
         REQUIRE( sout.seekp(1, ios_base::beg) );
-        REQUIRE( 1 == sout.tellp() );
+        REQUIRE( sout.tellp() == 1 );
 
         REQUIRE_FALSE( sout.seekp(-7, ios_base::beg) );
-        REQUIRE( -1 == sout.tellp() );
+        REQUIRE( sout.tellp() == -1 );
     }
 
     SECTION( "set output  position indicator using offset from the end" ) {
         ostringstream sout{"0123"};
         
         REQUIRE( sout.seekp(-1, ios_base::end) );
-        REQUIRE( 3 == sout.tellp() );
+        REQUIRE( sout.tellp() == 3 );
 
         REQUIRE_FALSE( sout.seekp(7, ios_base::end) );
-        REQUIRE( -1 == sout.tellp() );
+        REQUIRE( sout.tellp() == -1 );
     }
 
     SECTION( "set input position indicator using offset from the current position" ) {
         ostringstream sout{"0123"};
         
         REQUIRE( sout.seekp(2, ios_base::cur) );
-        REQUIRE( 2 == sout.tellp() );
+        REQUIRE( sout.tellp() == 2 );
 
         REQUIRE( sout.seekp(-1, ios_base::cur) );
-        REQUIRE( 1 == sout.tellp() );
+        REQUIRE( sout.tellp() == 1 );
 
         REQUIRE( sout.seekp(3, ios_base::cur) );
-        REQUIRE( 4 == sout.tellp() );
+        REQUIRE( sout.tellp() == 4 );
 
         REQUIRE_FALSE( sout.seekp(1, ios_base::cur) );
     }
@@ -108,7 +108,7 @@ TEST_CASE( " sentry", "[std] [ostream] [misc]" ) {
 
         REQUIRE( sout << person );
 
-        REQUIRE( "Bill 70"  ==  sout.str() );
+        REQUIRE( sout.str() == "Bill 70" );
     }
 
 } 
@@ -133,7 +133,7 @@ TEST_CASE( "flush", "[std] [ostream] [misc]" ) {
         fin.open("flush.tmp");
         REQUIRE( fin >> str );
 
-        REQUIRE( "abc" == str );
+        REQUIRE( str == "abc" );
     }
 
     remove("flush.tmp");

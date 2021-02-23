@@ -18,11 +18,11 @@ TEST_CASE( "find_delimiters" ) {
                             , '|' 
                         );
         
-        REQUIRE( cend(str) != pr.first );
-        REQUIRE( '|' == *pr.first );
+        REQUIRE( pr.first != cend(str) );
+        REQUIRE( *pr.first == '|' );
         
-        REQUIRE( cend(str) != pr.second );
-        REQUIRE( '|' == *pr.second );
+        REQUIRE( pr.second != cend(str) );
+        REQUIRE( *pr.second == '|' );
     } 
 
     SECTION( "different delimiters" ) {
@@ -35,11 +35,11 @@ TEST_CASE( "find_delimiters" ) {
                             , ']' 
                         );
         
-        REQUIRE( cend(str) != pr.first );
-        REQUIRE( '[' == *pr.first );
+        REQUIRE( pr.first != cend(str) );
+        REQUIRE( *pr.first == '[' );
         
-        REQUIRE( cend(str) != pr.second );
-        REQUIRE( ']' == *pr.second );
+        REQUIRE( pr.second != cend(str) );
+        REQUIRE( *pr.second == ']' );
     }
 
     SECTION( "only first delimiter found" ) {
@@ -52,10 +52,10 @@ TEST_CASE( "find_delimiters" ) {
                             , ']' 
                         );
         
-        REQUIRE( cend(str) != pr.first );
-        REQUIRE( '[' == *pr.first );
+        REQUIRE( pr.first != cend(str));
+        REQUIRE( *pr.first == '[' );
 
-        REQUIRE( cend(str) == pr.second );
+        REQUIRE( pr.second == cend(str) );
     }
 
     SECTION( "no delimiters found" ) {
@@ -68,8 +68,8 @@ TEST_CASE( "find_delimiters" ) {
                             , ']' 
                         );
         
-        REQUIRE( cend(str) == pr.first );
-        REQUIRE( cend(str) == pr.second );
+        REQUIRE( pr.first == cend(str) );
+        REQUIRE( pr.second == cend(str) );
     }
 
     SECTION( "there is only second delimiter and it is ignored" ) {
@@ -82,8 +82,9 @@ TEST_CASE( "find_delimiters" ) {
                             , ']' 
                         );
         
-        REQUIRE( cend(str) == pr.first );
-        REQUIRE( cend(str) == pr.second );
+
+        REQUIRE( pr.first == cend(str) );
+        REQUIRE( pr.second == cend(str) );
     }
 
     SECTION( "delimiters are in the middle of the string" ) {
@@ -96,11 +97,11 @@ TEST_CASE( "find_delimiters" ) {
                             , '"' 
                         );
         
-        REQUIRE( cend(str) != pr.first );
-        REQUIRE( '"' == *pr.first );
+        REQUIRE( pr.first != cend(str) );
+        REQUIRE( *pr.first == '"' );
 
-        REQUIRE( cend(str) != pr.second );
-        REQUIRE( '"' == *pr.second );
+        REQUIRE( pr.second != cend(str) );
+        REQUIRE( *pr.second == '"' );
     }
 
     SECTION( "delimiters are found next to each other" ) {
@@ -112,12 +113,13 @@ TEST_CASE( "find_delimiters" ) {
                             , '[' 
                             , ']' 
                         );
-        
-        REQUIRE( cend(str) != pr.first );
-        REQUIRE( '[' == *pr.first );
 
-        REQUIRE( cend(str) != pr.second );
-        REQUIRE( ']' == *pr.second );
+
+        REQUIRE( pr.first != cend(str) );
+        REQUIRE( *pr.first == '[' );
+
+        REQUIRE( pr.second != cend(str) );
+        REQUIRE( *pr.second == ']' );
     }
 }
 
@@ -135,7 +137,7 @@ TEST_CASE( "copy_all_or_after" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "copy when delimiter was not found" ) {
@@ -150,7 +152,7 @@ TEST_CASE( "copy_all_or_after" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
     SECTION( "empty string" ) {
@@ -165,7 +167,7 @@ TEST_CASE( "copy_all_or_after" ) {
             , back_inserter(to)
         );
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -186,9 +188,9 @@ TEST_CASE( "copy_delimited" ) {
                         );
         
         REQUIRE( pr.first );
-        REQUIRE( 'd' == *pr.second );
+        REQUIRE( *pr.second == 'd' );
         
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     } 
 
     SECTION( "empty value copied" ) {
@@ -204,7 +206,7 @@ TEST_CASE( "copy_delimited" ) {
                         );
         
         REQUIRE( pr.first );
-        REQUIRE( 'd' == *pr.second );
+        REQUIRE( *pr.second == 'd' );
         
         REQUIRE( to.empty() );
     }
@@ -222,7 +224,7 @@ TEST_CASE( "copy_delimited" ) {
                         );
         
         REQUIRE_FALSE( pr.first );
-        REQUIRE( cend(from) == pr.second );
+        REQUIRE( pr.second == cend(from) );
         
         REQUIRE( to.empty() );
     }
@@ -240,7 +242,7 @@ TEST_CASE( "copy_delimited" ) {
                   );
     
         REQUIRE( pr.first );
-        REQUIRE( "HELLO " == to );
+        REQUIRE( to == "HELLO " );
 
         pr = copy_delimited(
                   cbegin(from)
@@ -252,7 +254,7 @@ TEST_CASE( "copy_delimited" ) {
        
           
         REQUIRE( pr.first );
-        REQUIRE( "HELLO WORLD" == to );
+        REQUIRE( to == "HELLO WORLD" );
          
     }
 
@@ -273,8 +275,8 @@ TEST_CASE( "extract_delimited" ) {
                    );
     
         REQUIRE( ret ); 
-        REQUIRE( 1 == vec.size() ); 
-        REQUIRE( "HELLO" == vec[0] ); 
+        REQUIRE( vec.size() == 1 ); 
+        REQUIRE( vec[0] == "HELLO" ); 
     } 
 
     SECTION( "single delimited element" ) {
@@ -290,10 +292,10 @@ TEST_CASE( "extract_delimited" ) {
                    );
     
         REQUIRE( ret ); 
-        REQUIRE( 3 == vec.size() ); 
-        REQUIRE( "HELLO" == vec[0] ); 
-        REQUIRE( "WORLD" == vec[1] ); 
-        REQUIRE( "C++"   == vec[2] ); 
+        REQUIRE( vec.size() == 3 ); 
+        REQUIRE( vec[0] == "HELLO" ); 
+        REQUIRE( vec[1] == "WORLD" ); 
+        REQUIRE( vec[2] == "C++"   ); 
     }
 
     SECTION( "no delimited element" ) {
@@ -355,7 +357,7 @@ TEST_CASE( "get_test_case_name" ) {
 
     auto test_case_name = get_test_case_name(line_of_code); 
 
-    REQUIRE( expected == test_case_name );
+    REQUIRE( test_case_name == expected );
 }
 
 TEST_CASE( "extract_test_case_lines" ) {
@@ -385,16 +387,16 @@ TEST_CASE( "extract_test_case_lines" ) {
 
     auto vec = extract_test_case_lines(sio);
     
-    REQUIRE ( 3 == vec.size() );
+    REQUIRE ( vec.size() == 3 );
 
-    REQUIRE ( 6 == vec[0].first );
-    REQUIRE ( "adjacent_find" == vec[0].second );
+    REQUIRE ( vec[0].first == 6 );
+    REQUIRE ( vec[0].second == "adjacent_find" );
 
-    REQUIRE ( 11 == vec[1].first );
-    REQUIRE ( "count" == vec[1].second );
+    REQUIRE ( vec[1].first == 11 );
+    REQUIRE ( vec[1].second == "count" );
 
-    REQUIRE ( 17 == vec[2].first );
-    REQUIRE ( "count_if" == vec[2].second );
+    REQUIRE ( vec[2].first == 17 );
+    REQUIRE ( vec[2].second == "count_if" );
 }
 
 } // namespace srcgen

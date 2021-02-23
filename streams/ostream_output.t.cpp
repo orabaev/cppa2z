@@ -12,7 +12,7 @@ TEST_CASE( "operator << ", "[std] [istream] [output]" ) {
         const bool value = true;
         sout << value;
         
-        REQUIRE( "1" == sout.str() ); 
+        REQUIRE( sout.str() == "1" ); 
     }
 
     SECTION( "output bool as string" ) {
@@ -20,7 +20,7 @@ TEST_CASE( "operator << ", "[std] [istream] [output]" ) {
         const bool value = true;
         sout << boolalpha << value;
         
-        REQUIRE( "true" == sout.str() ); 
+        REQUIRE( sout.str() == "true" ); 
     }
 
     SECTION( "output int" ) {
@@ -28,7 +28,7 @@ TEST_CASE( "operator << ", "[std] [istream] [output]" ) {
         const int value = 1234567;
         sout << value;
         
-        REQUIRE( "1234567" == sout.str() ); 
+        REQUIRE( sout.str() == "1234567" ); 
     }
 
     SECTION( "output double" ) {
@@ -36,7 +36,7 @@ TEST_CASE( "operator << ", "[std] [istream] [output]" ) {
         const double value = 123.4567;
         sout << fixed << value;
         
-        REQUIRE( "123.456700" == sout.str() ); 
+        REQUIRE( sout.str() == "123.456700" ); 
     }
 
     SECTION( "output pointer" ) {
@@ -44,7 +44,7 @@ TEST_CASE( "operator << ", "[std] [istream] [output]" ) {
         const int value = 123;
         sout <<  &value;
         
-        REQUIRE( "0x" == sout.str().substr(0, 2) ); 
+        REQUIRE(  sout.str().substr(0, 2) == "0x" ); 
     }
 
     SECTION( "output nullptr" ) {
@@ -67,7 +67,7 @@ TEST_CASE( "put", "[std] [istream] [output]" ) {
         ostringstream sout;
         sout.put('A').put('B').put('C');
         
-        REQUIRE( "ABC" == sout.str() ); 
+        REQUIRE( sout.str() == "ABC" ); 
     }
 
     SECTION( "insert null character" ) {
@@ -75,11 +75,11 @@ TEST_CASE( "put", "[std] [istream] [output]" ) {
         sout.put('A').put('\0').put('C');
         
         const auto str = sout.str();
-        REQUIRE( 3 == str.size() );
+        REQUIRE( str.size() == 3 );
 
-        REQUIRE( 'A'  == str[0] );
-        REQUIRE( '\0' == str[1] );
-        REQUIRE( 'C'  == str[2] );
+        REQUIRE( str[0] == 'A' );
+        REQUIRE( str[1] == '\0' );
+        REQUIRE( str[2] == 'C' );
     }
 
 }
@@ -93,7 +93,7 @@ TEST_CASE( "write", "[std] [istream] [output]" ) {
         const int size_without_null_char = sizeof(buffer) - 1;
         sout.write(buffer, size_without_null_char);
 
-        REQUIRE( "ABCDE" == sout.str() );  
+        REQUIRE( sout.str() == "ABCDE" );  
     }
 
     SECTION( "insert integer value as block of bytes" ) {
@@ -103,11 +103,11 @@ TEST_CASE( "write", "[std] [istream] [output]" ) {
         sout.write(reinterpret_cast<const char*>(&value), sizeof(value));
         
         auto str = sout.str();
-        REQUIRE( sizeof(value) == str.size() );
+        REQUIRE( str.size() == sizeof(value) );
 
         const int written_value = *(reinterpret_cast<const int*>(str.data()));
         
-        REQUIRE( value == written_value );
+        REQUIRE( written_value == value );
     }
 
 }

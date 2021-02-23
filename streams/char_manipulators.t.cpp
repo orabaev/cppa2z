@@ -12,7 +12,7 @@ TEST_CASE( "ends", "[std] [streams] [manipulators]" ) {
         sout << "0123456" << ends;
         const char* str = sout.str(); 
         
-        REQUIRE( '\0' == str[7] );
+        REQUIRE( str[7] == '\0' );
 
         sout.freeze(false);
     }
@@ -26,7 +26,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
 
         sout << quoted("Hello C++");
 
-        REQUIRE( "\"Hello C++\"" == sout.str() );
+        REQUIRE( sout.str() == "\"Hello C++\"" );
     }
 
     SECTION( "<< quoted custom delimiter" ) {
@@ -34,7 +34,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
 
         sout << quoted("Hello C++", '|');
 
-        REQUIRE( "|Hello C++|" == sout.str() );
+        REQUIRE( sout.str() == "|Hello C++|" );
     }
 
     SECTION( "<< quoted with default escape" ) {
@@ -42,7 +42,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
 
         sout << quoted("Hello \\ C++");
 
-        REQUIRE( "\"Hello \\\\ C++\"" == sout.str() );
+        REQUIRE( sout.str() == "\"Hello \\\\ C++\"" );
     }
 
     SECTION( "<< quoted with custom delimiter and escape" ) {
@@ -50,7 +50,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
 
         sout << quoted("Hello ? C++", '|', '?');
 
-        REQUIRE( "|Hello ?? C++|" == sout.str() );
+        REQUIRE( sout.str() == "|Hello ?? C++|" );
     }
 
     SECTION( ">> quoted" ) {
@@ -59,7 +59,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
             
         sin >> quoted(str);
 
-        REQUIRE( "Hello C++" == str );
+        REQUIRE( str == "Hello C++" );
     }
 
     SECTION( ">> quoted custom delimiter" ) {
@@ -68,7 +68,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
             
         sin >> quoted(str, '|');
 
-        REQUIRE( "Hello C++" == str );
+        REQUIRE( str == "Hello C++" );
     }
 
     SECTION( ">> quoted with default escape" ) {
@@ -77,7 +77,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
 
         sin >> quoted(str);
 
-        REQUIRE( "Hello \\ C++" == str );
+        REQUIRE( str == "Hello \\ C++" );
     }
 
     SECTION( ">> quoted with custom delimiter and escape" ) {
@@ -86,7 +86,7 @@ TEST_CASE( "quoted", "[std] [streams] [manipulators]" ) {
 
         sin >> quoted(str, '|', '?');
 
-        REQUIRE( "Hello ? C++" == str );
+        REQUIRE( str == "Hello ? C++" );
     }
 
 }

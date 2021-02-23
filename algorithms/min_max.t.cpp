@@ -13,7 +13,7 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
 
         const int max_value = max(x, y);
 
-        REQUIRE( 1 == max_value );
+        REQUIRE( max_value == 1);
     } 
 
     SECTION( "return max absolute value" ) {
@@ -21,13 +21,13 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
 
         const int abs_max_value = max(-10, 5, compare_abs);
 
-        REQUIRE( -10 == abs_max_value );
+        REQUIRE( abs_max_value == -10 );
     } 
 
     SECTION( "return max value as constexpr" ) {
         constexpr int max_value = max(0, 1);
 
-        static_assert(1 == max_value, "max_value should be 1");
+        static_assert(max_value == 1, "max_value should be 1");
     }
 
     SECTION( "return max value in the initializer list" ) {
@@ -35,7 +35,7 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
 
         const int max_value = max(init_list);
 
-        REQUIRE( 17 == max_value );
+        REQUIRE( max_value == 17 );
     }
 
     SECTION( "return max absolute value in the initializer list" ) {
@@ -45,20 +45,8 @@ TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
 
         const int abs_max_value = max(init_list, compare_abs);
 
-        REQUIRE( -100 == abs_max_value );
+        REQUIRE( abs_max_value == -100 );
     }
-
-// possible clang bug
-#ifndef __clang__
-    SECTION( "return max value in the initializer list as constexpr" ) {
-        constexpr auto init_list = {1, 9, 3,   17}; 
-
-        constexpr int max_value = max(init_list);
-
-        static_assert(17 == max_value, "max_value should be 17");
-    }
-#endif
-
 }
 
 TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
@@ -68,7 +56,7 @@ TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
 
         const auto max_it = max_element(cbegin(vec), cend(vec));
 
-        REQUIRE( 10 == *max_it );
+        REQUIRE( *max_it == 10 );
     } 
 
     SECTION( "return absolute max element in the range" ) {
@@ -78,7 +66,7 @@ TEST_CASE( "max_element", "[std] [algorithm] [min max]" ) {
 
         const auto abs_max_it = max_element(cbegin(vec), cend(vec), compare_abs);
 
-        REQUIRE( -15 == *abs_max_it );
+        REQUIRE( *abs_max_it == -15 );
     }
 
 }
@@ -91,7 +79,7 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
 
         const int min_value = min(x, y);
 
-        REQUIRE( 0 == min_value );
+        REQUIRE( min_value == 0 );
     } 
 
     SECTION( "return min absolute value" ) {
@@ -99,13 +87,13 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
 
         const int abs_min_value = min(-10, 5, compare_abs);
 
-        REQUIRE( 5 == abs_min_value );
+        REQUIRE( abs_min_value == 5 );
     } 
 
     SECTION( "return min value as constexpr" ) {
         constexpr int min_value = min(0, 1);
 
-        static_assert(0 == min_value, "min_value should be 1");
+        static_assert( min_value == 0, "min_value should be 1");
     }
 
     SECTION( "return min value in the initializer list" ) {
@@ -113,7 +101,7 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
 
         const int min_value = min(init_list);
 
-        REQUIRE( 1 == min_value );
+        REQUIRE( min_value == 1 );
     }
 
     SECTION( "return min absolute value in the initializer list" ) {
@@ -123,19 +111,8 @@ TEST_CASE( "min", "[std] [algorithm] [min max]" ) {
 
         const int abs_min_value = min(init_list, compare_abs);
 
-        REQUIRE( 1 == abs_min_value );
+        REQUIRE( abs_min_value == 1);
     }
-
-// possible clang bug
-#ifndef __clang__
-    SECTION( "return min value in the initializer list as constexpr" ) {
-        constexpr auto init_list = {1,   9, 3, 17}; 
-
-        constexpr int min_value = min(init_list);
-
-        static_assert(1 == min_value, "min_value should be 17");
-    }
-#endif
 
 }
 
@@ -146,7 +123,7 @@ TEST_CASE( "min_element", "[std] [algorithm] [min max]" ) {
 
         const auto min_it = min_element(cbegin(vec), cend(vec));
 
-        REQUIRE( 2 == *min_it );
+        REQUIRE( *min_it == 2 );
     } 
 
     SECTION( "return absolute min element in the range" ) {
@@ -156,7 +133,7 @@ TEST_CASE( "min_element", "[std] [algorithm] [min max]" ) {
 
         const auto abs_min_it = min_element(cbegin(vec), cend(vec), compare_abs);
 
-        REQUIRE( 1 == *abs_min_it );
+        REQUIRE( *abs_min_it == 1 );
     }
 
 }
@@ -169,8 +146,8 @@ TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
 
         const auto min_max = minmax(x, y);
 
-        REQUIRE( 0 == min_max.first );
-        REQUIRE( 1 == min_max.second );
+        REQUIRE( min_max.first  == 0 );
+        REQUIRE( min_max.second == 1);
     } 
 
     SECTION( "return minmax absolute values" ) {
@@ -178,15 +155,15 @@ TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
 
         const pair<int, int> abs_min_max = minmax(-10, 5, compare_abs);
 
-        CHECK(   5 == abs_min_max.first );
-        CHECK( -10 == abs_min_max.second );
+        CHECK( abs_min_max.first  == 5 );
+        CHECK( abs_min_max.second == -10 );
     }
 
     SECTION( "return minmax values as constexpr" ) {
         constexpr pair<int, int> min_max = minmax(0, 1);
         
-        static_assert(0 == min_max.first,  "min should be 0");
-        static_assert(1 == min_max.second, "max should be 1");
+        static_assert(min_max.first  == 0,  "min should be 0");
+        static_assert(min_max.second == 1, "max should be 1");
     }
 
     SECTION( "return min value in the initializer list" ) {
@@ -194,8 +171,8 @@ TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
 
         const auto min_max = minmax(init_list);
 
-        REQUIRE( 1 == min_max.first );
-        REQUIRE( 17 == min_max.second );
+        REQUIRE( min_max.first  == 1);
+        REQUIRE( min_max.second == 17);
     }
 
     SECTION( "return minmax absolute values in the initializer list" ) {
@@ -205,21 +182,9 @@ TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
 
         const auto abs_min_max = minmax(init_list, compare_abs);
 
-        REQUIRE(    1 == abs_min_max.first );
-        REQUIRE( -100 == abs_min_max.second );
+        REQUIRE( abs_min_max.first  == 1 );
+        REQUIRE( abs_min_max.second == -100 );
     }
-
-// possible clang bug
-#ifndef __clang__
-    SECTION( "return minmax value in the initializer list as constexpr" ) {
-        constexpr auto init_list = {1, 9, 3, 17}; 
-
-        constexpr pair<int, int> min_max = minmax(init_list);
-
-        static_assert( 1 == min_max.first,  "min value should be 1");
-        static_assert(17 == min_max.second, "max value should be 17");
-    }
-#endif
 
 }
 
@@ -230,8 +195,8 @@ TEST_CASE( "minmax_element", "[std] [algorithm] [min max]" ) {
 
         const auto min_max_it = minmax_element(cbegin(vec), cend(vec));
 
-        REQUIRE(  2 == *min_max_it.first );
-        REQUIRE( 10 == *min_max_it.second );
+        REQUIRE( *min_max_it.first  == 2 );
+        REQUIRE( *min_max_it.second == 10);
     } 
 
     SECTION( "return absolute min element in the range" ) {
@@ -241,8 +206,8 @@ TEST_CASE( "minmax_element", "[std] [algorithm] [min max]" ) {
 
         const auto abs_min_max_it = minmax_element(cbegin(vec), cend(vec), compare_abs);
 
-        REQUIRE(   1 == *abs_min_max_it.first );
-        REQUIRE( -15 == *abs_min_max_it.second );
+        REQUIRE( *abs_min_max_it.first  == 1 );
+        REQUIRE( *abs_min_max_it.second == -15 );
     }
 
 }

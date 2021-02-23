@@ -59,15 +59,15 @@ TEST_CASE( "std.move", "[std] [modern] [move symantics]" ) {
 
     SECTION( "move always returns unnamed rvalue reference" ) {
         int lvalue = 0;
-        static_assert( is_same<int&&, decltype(move(lvalue))>::value, "expected int&&" );
+        static_assert( is_same<decltype(move(lvalue)), int&&>::value, "expected int&&" );
 
         int& lvalue_ref = lvalue;
-        static_assert( is_same<int&&, decltype(move(lvalue_ref ))>::value, "expected int&&" );
+        static_assert( is_same<decltype(move(lvalue_ref )), int&&>::value, "expected int&&" );
 
         int&& rvalue_ref = 0;
-        static_assert( is_same<int&&, decltype(move(rvalue_ref))>::value, "expected int&&" );
+        static_assert( is_same<decltype(move(rvalue_ref)), int&&>::value, "expected int&&" );
 
-        static_assert( is_same<int&&, decltype(move(move(rvalue_ref)))>::value, "expected int&&" );
+        static_assert( is_same<decltype(move(move(rvalue_ref))), int&&>::value, "expected int&&" );
     }
 
     SECTION( "move vector of strings" ) {
@@ -77,7 +77,7 @@ TEST_CASE( "std.move", "[std] [modern] [move symantics]" ) {
         
         to = move(from); 
 
-        REQUIRE( expected == to );
+        REQUIRE( to == expected );
     }
 
 }
@@ -110,12 +110,12 @@ TEST_CASE( "std.forward", "[std] [modern] [move symantics]" ) {
     SECTION( "move always returns unnamed rvalue reference" ) {
         int lvalue = 0;
 
-        REQUIRE( "int&&" == forward_example::perfect_forwarding_wrapper(move(lvalue)) );
+        REQUIRE( forward_example::perfect_forwarding_wrapper(move(lvalue)) == "int&&" );
 
-        REQUIRE( "int&" == forward_example::perfect_forwarding_wrapper(lvalue) );
+        REQUIRE( forward_example::perfect_forwarding_wrapper(lvalue) == "int&" );
 
         const int& const_ref = lvalue;
-        REQUIRE( "const int&" == forward_example::perfect_forwarding_wrapper(const_ref) );
+        REQUIRE( forward_example::perfect_forwarding_wrapper(const_ref) == "const int&" );
     }
 
 }
@@ -180,16 +180,16 @@ TEST_CASE( "special member functions", "[std] [modern] [move symantics]" ) {
         special_member_functions from("special");
         
         special_member_functions copy_to(from);
-        REQUIRE( "copy constructor" == copy_to.which_function_was_called() );
-        REQUIRE( "special" == copy_to.str() );
+        REQUIRE(  copy_to.which_function_was_called() == "copy constructor" );
+        REQUIRE(  copy_to.str() == "special" );
     }
 
     SECTION( "move constructor" ) {
         special_member_functions from("class");
         
         special_member_functions move_to( move(from) );
-        REQUIRE( "move constructor" == move_to.which_function_was_called() );
-        REQUIRE( "class" == move_to.str() );
+        REQUIRE( move_to.which_function_was_called() == "move constructor" );
+        REQUIRE( move_to.str() == "class" );
     }
 
     SECTION( "copy assignment operator" ) {
@@ -198,8 +198,8 @@ TEST_CASE( "special member functions", "[std] [modern] [move symantics]" ) {
         special_member_functions copy_assign_to("");
         copy_assign_to = from; 
 
-        REQUIRE( "copy assignment operator" == copy_assign_to.which_function_was_called() );
-        REQUIRE( "memeber" == copy_assign_to.str() );
+        REQUIRE( copy_assign_to.which_function_was_called() == "copy assignment operator" );
+        REQUIRE( copy_assign_to.str() == "memeber" );
     }
 
     SECTION( "move assignment operator" ) {
@@ -208,8 +208,8 @@ TEST_CASE( "special member functions", "[std] [modern] [move symantics]" ) {
         special_member_functions move_assign_to("");
         move_assign_to = move(from); 
 
-        REQUIRE( "move assignment operator" == move_assign_to.which_function_was_called() );
-        REQUIRE( "functions" == move_assign_to.str() );
+        REQUIRE( move_assign_to.which_function_was_called() == "move assignment operator" );
+        REQUIRE( move_assign_to.str() == "functions" );
     }
 
 }

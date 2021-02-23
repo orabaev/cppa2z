@@ -26,23 +26,23 @@ TEST_CASE( "delegating constructors", "[std] [modern] [class members]" ) {
 
         three_members ctor1(1, 2, 3);
 
-        REQUIRE( 1 == ctor1.m_x );
-        REQUIRE( 2 == ctor1.m_y );
-        REQUIRE( 3 == ctor1.m_z );
+        REQUIRE( ctor1.m_x == 1);
+        REQUIRE( ctor1.m_y == 2);
+        REQUIRE( ctor1.m_z == 3);
 
 
         three_members ctor2(1, 2);
 
-        REQUIRE( 1 == ctor2.m_x );
-        REQUIRE( 2 == ctor2.m_y );
-        REQUIRE( 0 == ctor2.m_z );
+        REQUIRE( ctor2.m_x == 1);
+        REQUIRE( ctor2.m_y == 2);
+        REQUIRE( ctor2.m_z == 0);
 
 
         three_members ctor3(1);
 
-        REQUIRE( 1 == ctor3.m_x );
-        REQUIRE( 0 == ctor3.m_y );
-        REQUIRE( 0 == ctor3.m_z );
+        REQUIRE( ctor3.m_x == 1);
+        REQUIRE( ctor3.m_y == 0);
+        REQUIRE( ctor3.m_z == 0);
     }
 
 }

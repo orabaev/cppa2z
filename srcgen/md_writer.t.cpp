@@ -21,7 +21,7 @@ TEST_CASE( "md_writer.heading1" ) {
 
         writer.heading1("Heading1");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -30,7 +30,7 @@ TEST_CASE( "md_writer.heading1" ) {
         writer.heading1("Heading1")
               .heading1("Other");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -43,7 +43,7 @@ TEST_CASE( "md_writer.heading2" ) {
 
         writer.heading2("Heading2");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -52,7 +52,7 @@ TEST_CASE( "md_writer.heading2" ) {
         writer.heading2("Heading2")
               .heading1("Other");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -65,7 +65,7 @@ TEST_CASE( "md_writer.heading3" ) {
 
         writer.heading3("Heading3");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -74,7 +74,7 @@ TEST_CASE( "md_writer.heading3" ) {
         writer.heading3("Heading3")
               .heading1("Other");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -87,7 +87,7 @@ TEST_CASE( "md_writer.write" ) {
 
         writer.write("value");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -96,7 +96,7 @@ TEST_CASE( "md_writer.write" ) {
         writer.write("Hello")
               .write("World");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -109,7 +109,7 @@ TEST_CASE( "md_writer.bold" ) {
 
         writer.bold("bold");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -118,7 +118,7 @@ TEST_CASE( "md_writer.bold" ) {
         writer.bold("Hello")
               .bold("World");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -131,7 +131,7 @@ TEST_CASE( "md_writer.newline" ) {
 
         writer.newline();
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -141,7 +141,7 @@ TEST_CASE( "md_writer.newline" ) {
               .newline()
               .write("World");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -154,7 +154,7 @@ TEST_CASE( "md_writer.html_space" ) {
 
         writer.html_space();
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -162,7 +162,7 @@ TEST_CASE( "md_writer.html_space" ) {
 
         writer.html_space().html_space();
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 
@@ -179,7 +179,7 @@ TEST_CASE( "md_writer.link_to_repo_file" ) {
             , 15
         );
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 
     SECTION("chain") {
@@ -191,7 +191,7 @@ TEST_CASE( "md_writer.link_to_repo_file" ) {
                 , 15)
               .write("hello");
 
-        REQUIRE( expected == out.str() );
+        REQUIRE( out.str() == expected );
     }
 }
 

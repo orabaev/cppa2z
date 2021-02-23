@@ -14,7 +14,7 @@ TEST_CASE( "showpoint", "[std] [streams] [manipulators]" ) {
 
         sout << showpoint << 27.0 ;
 
-        REQUIRE( "27.0000" == sout.str() );
+        REQUIRE( sout.str() == "27.0000" );
     }
 
     SECTION( "<< showpoint << floating-point with no zeroes after decimal point" ) {
@@ -22,7 +22,7 @@ TEST_CASE( "showpoint", "[std] [streams] [manipulators]" ) {
 
         sout << showpoint << 27.12 ;
 
-        REQUIRE( "27.1200" == sout.str() );
+        REQUIRE( sout.str() == "27.1200" );
     }
 
 }
@@ -34,7 +34,7 @@ TEST_CASE( "noshowpoint", "[std] [streams] [manipulators]" ) {
 
         sout << noshowpoint << 27.0 ;
 
-        REQUIRE( "27" == sout.str() );
+        REQUIRE( sout.str() == "27" );
     }
 
     SECTION( "<< noshowpoint << floating-point with non zeroes after decimal point" ) {
@@ -42,7 +42,7 @@ TEST_CASE( "noshowpoint", "[std] [streams] [manipulators]" ) {
 
         sout << noshowpoint << 27.12 ;
 
-        REQUIRE( "27.12" == sout.str() );
+        REQUIRE( sout.str() == "27.12" );
     }
 
 }
@@ -54,7 +54,7 @@ TEST_CASE( "fixed", "[std] [streams] [manipulators]" ) {
         
         sout << fixed << 0.1 << ' ' << 2.0011 << ' ' << 2.123456789;
         
-        REQUIRE( "0.100000 2.001100 2.123457" == sout.str() ); 
+        REQUIRE( sout.str() == "0.100000 2.001100 2.123457" ); 
     }
 
 }
@@ -66,7 +66,7 @@ TEST_CASE( "scientific", "[std] [streams] [manipulators]" ) {
         
         sout << scientific << 0.1 << ' ' << 0.0011 << ' ' << 1234.0001;
 
-        REQUIRE( "1.000000e-01 1.100000e-03 1.234000e+03" == sout.str() ); 
+        REQUIRE( sout.str() == "1.000000e-01 1.100000e-03 1.234000e+03" ); 
     }
 
 }
@@ -78,7 +78,7 @@ TEST_CASE( "hexfloat", "[std] [streams] [manipulators]" ) {
         
         sout << hexfloat << 0.1 << ' ' << 0.0011 << ' ' << 1234.0001;
 
-        REQUIRE( "0x1.999999999999ap-4 0x1.205bc01a36e2fp-10 0x1.348001a36e2ebp+10" == sout.str() ); 
+        REQUIRE( sout.str() == "0x1.999999999999ap-4 0x1.205bc01a36e2fp-10 0x1.348001a36e2ebp+10" ); 
     }
 
 }
@@ -90,7 +90,7 @@ TEST_CASE( "defaultfloat", "[std] [streams] [manipulators]" ) {
         
         sout << defaultfloat << 0.1 << ' ' << 2.0011 << ' ' << 2.123456789;
         
-        REQUIRE( "0.1 2.0011 2.12346" == sout.str() ); 
+        REQUIRE( sout.str() == "0.1 2.0011 2.12346" ); 
     }
 
 }
@@ -107,7 +107,7 @@ TEST_CASE( "setprecision", "[std] [streams] [manipulators]" ) {
              << ' '
              << setprecision(15) << pi;
 
-        REQUIRE( "3.14159 3.141592654 3.14159265358979" == sout.str() );
+        REQUIRE( sout.str() == "3.14159 3.141592654 3.14159265358979" );
     }
 
 }

@@ -14,7 +14,7 @@ TEST_CASE( "operator >>", "[std] [istream] [input]" ) {
         int counter = 0;
         while (sin >> x) ++counter;
 
-        REQUIRE( 6 == counter );
+        REQUIRE( counter == 6 );
         REQUIRE( sin.eof() );
         REQUIRE( sin.fail() );
         REQUIRE_FALSE( sin.bad() );
@@ -26,10 +26,10 @@ TEST_CASE( "operator >>", "[std] [istream] [input]" ) {
         int x = 0;
 
         REQUIRE( sin >> x );
-        REQUIRE( 1 == x );
+        REQUIRE( x == 1 );
 
         REQUIRE( sin >> x );
-        REQUIRE( 2 == x );
+        REQUIRE( x == 2 );
 
         REQUIRE_FALSE ( sin >> x );
         REQUIRE( sin.eof() );
@@ -50,7 +50,7 @@ TEST_CASE( "operator >>", "[std] [istream] [input]" ) {
         sin.ignore(1);
 
         REQUIRE( sin >> x );
-        REQUIRE( 2 == x );
+        REQUIRE( x == 2 );
 
         REQUIRE_FALSE( sin >> x );
         REQUIRE( sin.eof() );
@@ -70,7 +70,7 @@ TEST_CASE( "gcount", "[std] [istream] [input]" ) {
 
         auto characters_extracted = sin.gcount();
 
-        REQUIRE( 5 == characters_extracted );
+        REQUIRE( characters_extracted == 5 );
     }
 
     SECTION( "number of characters extracted after calling getline" ) {
@@ -83,13 +83,13 @@ TEST_CASE( "gcount", "[std] [istream] [input]" ) {
         auto characters_extracted = sin.gcount();
         const streamsize expected_extracted_5_plus_new_line = 6; 
 
-        REQUIRE( expected_extracted_5_plus_new_line == characters_extracted );
+        REQUIRE( characters_extracted == expected_extracted_5_plus_new_line );
 
         sin.getline(buffer, max_characters_to_extract);
 
         characters_extracted = sin.gcount();
 
-        REQUIRE( 7 == characters_extracted );
+        REQUIRE( characters_extracted  == 7 );
     }
 
     SECTION( "number of characters extracted after calling ignore with count" ) {
@@ -100,7 +100,7 @@ TEST_CASE( "gcount", "[std] [istream] [input]" ) {
 
         auto characters_extracted = sin.gcount();
 
-        REQUIRE( ignore_count == characters_extracted );
+        REQUIRE( characters_extracted == ignore_count );
     }
 
     SECTION( "number of characters extracted after calling ignore with delimiter" ) {
@@ -112,7 +112,7 @@ TEST_CASE( "gcount", "[std] [istream] [input]" ) {
         auto characters_extracted = sin.gcount();
 
         const streamsize ignored_including_delimiter = 6; 
-        REQUIRE( ignored_including_delimiter == characters_extracted );
+        REQUIRE( characters_extracted == ignored_including_delimiter );
     }
 
     SECTION( "number of characters extracted after calling operator >>" ) {
@@ -121,11 +121,11 @@ TEST_CASE( "gcount", "[std] [istream] [input]" ) {
 
         sin >> x;
 
-        REQUIRE( 1 == x );
+        REQUIRE( x == 1 );
 
         auto characters_extracted = sin.gcount();
 
-        REQUIRE( 0 == characters_extracted );
+        REQUIRE( characters_extracted == 0 );
     }
 
 }
@@ -137,7 +137,7 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         
         auto ch = sin.get();
 
-        REQUIRE( 'A' == ch );
+        REQUIRE( ch == 'A' );
     }
 
     SECTION( "get() new line single character" ) {
@@ -145,7 +145,7 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         
         auto ch = sin.get();
 
-        REQUIRE( '\n' == ch );
+        REQUIRE( ch == '\n' );
     }
 
     SECTION( "get() eof" ) {
@@ -153,7 +153,7 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         
         auto ch = sin.get();
 
-        REQUIRE( EOF  == ch );
+        REQUIRE( ch == EOF );
     }
 
     SECTION( "get(char_type& ch) single character" ) {
@@ -162,7 +162,7 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
 
         REQUIRE( sin.get(ch) );
 
-        REQUIRE( 'A' == ch );
+        REQUIRE( ch == 'A' );
     }
 
     SECTION( "get(char_type* buffer, streamsize count)  3 characters" ) {
@@ -175,8 +175,8 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         REQUIRE( sin.get(buffer, count_including_null) );
 
         const string expected = "123"; 
-        REQUIRE( expected == buffer );
-        REQUIRE( 3 == sin.gcount() );
+        REQUIRE( buffer == expected );
+        REQUIRE( sin.gcount() == 3 );
     }
 
     SECTION( "get(char_type* buffer, streamsize count)  eof" ) {
@@ -188,7 +188,7 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
 
         REQUIRE_FALSE( sin.get(buffer, count_including_null) );
         // TODO check why behaviour is inconsistent for get(char_type&) returning eof
-        REQUIRE( 0 == buffer[0] );
+        REQUIRE( buffer[0] == 0 );
     }
 
     SECTION( "get(char_type* buffer, streamsize count)  up to new line" ) {
@@ -200,9 +200,9 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         REQUIRE( sin.get(buffer, count_including_null) );
 
         const string expected = "123"; 
-        REQUIRE( expected == buffer );
+        REQUIRE( buffer == expected );
         // after calling getline gcount would return 4
-        REQUIRE( 3 == sin.gcount() );
+        REQUIRE( sin.gcount() == 3 );
     }
 
     SECTION( "get(char_type* buffer, streamsize count, char_type delim)  up to new line" ) {
@@ -215,9 +215,9 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         REQUIRE( sin.get(buffer, count_including_null, delim) );
 
         const string expected = "123"; 
-        REQUIRE( expected == buffer );
+        REQUIRE( buffer == expected );
         // after calling getline gcount would return 4
-        REQUIRE( 3 == sin.gcount() );
+        REQUIRE( sin.gcount() == 3 );
     }
 
     SECTION( "get(basic_streambuf& streambuf)" ) {
@@ -238,7 +238,7 @@ TEST_CASE( "get", "[std] [istream] [input]" ) {
         const char delim = 'A';
         sin.get(*sout.rdbuf(), delim);
 
-        REQUIRE( expected == sout.str() );
+        REQUIRE( sout.str() == expected  );
     }
 
 }
@@ -255,8 +255,8 @@ TEST_CASE( "getline", "[std] [istream] [input]" ) {
         REQUIRE_FALSE( sin.getline(buffer, count_including_null) );
 
         const string expected = "123"; 
-        REQUIRE( expected == buffer );
-        REQUIRE( 3 == sin.gcount() );
+        REQUIRE( buffer == expected );
+        REQUIRE( sin.gcount() == 3 );
     }
 
     SECTION( "getline(char_type* buffer, streamsize count)  eof" ) {
@@ -267,7 +267,7 @@ TEST_CASE( "getline", "[std] [istream] [input]" ) {
         buffer[0] = 'Z';
 
         REQUIRE_FALSE( sin.getline(buffer, count_including_null) );
-        REQUIRE( 0 == buffer[0] );
+        REQUIRE( buffer[0] == 0 );
     }
 
     SECTION( "get(char_type* buffer, streamsize count)  up to new line" ) {
@@ -279,9 +279,9 @@ TEST_CASE( "getline", "[std] [istream] [input]" ) {
         REQUIRE( sin.getline(buffer, count_including_null) );
 
         const string expected = "123"; 
-        REQUIRE( expected == buffer );
+        REQUIRE( buffer == expected );
         // after calling get gcount would return 3
-        REQUIRE( 4 == sin.gcount() );
+        REQUIRE( sin.gcount() == 4 );
     }
 
     SECTION( "get(char_type* buffer, streamsize count, char_type delim)  up to new line" ) {
@@ -294,9 +294,9 @@ TEST_CASE( "getline", "[std] [istream] [input]" ) {
         REQUIRE( sin.getline(buffer, count_including_null, delim) );
 
         const string expected = "123"; 
-        REQUIRE( expected == buffer );
+        REQUIRE( buffer == expected );
         // after calling get gcount would return 3
-        REQUIRE( 4 == sin.gcount() );
+        REQUIRE( sin.gcount() == 4 );
     }
    
 }
@@ -310,7 +310,7 @@ TEST_CASE( "std::getline", "[std] [istream] [input]" ) {
 
         REQUIRE( getline(sin, str) );
 
-        REQUIRE( expected == str );
+        REQUIRE( str == expected );
     }
 
     SECTION( "eof" ) {
@@ -325,14 +325,14 @@ TEST_CASE( "std::getline", "[std] [istream] [input]" ) {
         string        str;
 
         REQUIRE( getline(sin, str) );
-        REQUIRE( "123" == str );
+        REQUIRE( str == "123" );
 
         REQUIRE( getline(sin, str) );
-        REQUIRE( "456" == str );
+        REQUIRE( str == "456" );
 
         const string before_fail = str;
         REQUIRE_FALSE( getline(sin, str) );
-        REQUIRE( before_fail == str );
+        REQUIRE( str == before_fail );
 
     }
 
@@ -343,14 +343,14 @@ TEST_CASE( "std::getline", "[std] [istream] [input]" ) {
         const char delim = '|';
         
         REQUIRE( getline(sin, str, delim) );
-        REQUIRE( "ABC" == str );
+        REQUIRE( str == "ABC" );
 
         REQUIRE( getline(sin, str, delim) );
-        REQUIRE( "DEF" == str );
+        REQUIRE( str == "DEF" );
 
         const string before_fail = str;
         REQUIRE_FALSE( getline(sin, str, delim) );
-        REQUIRE( before_fail == str );
+        REQUIRE( str == before_fail );
     }
    
 }
@@ -362,7 +362,7 @@ TEST_CASE( "ignore", "[std] [istream] [input]" ) {
 
         REQUIRE( sin.ignore(1) ); 
 
-        REQUIRE( '2' == sin.get() );
+        REQUIRE( sin.get() == '2' );
     }
 
     SECTION( "ignore three character" ) {
@@ -370,7 +370,7 @@ TEST_CASE( "ignore", "[std] [istream] [input]" ) {
 
         REQUIRE( sin.ignore(3) ); 
 
-        REQUIRE( '4' == sin.get() );
+        REQUIRE( sin.get() == '4' );
     }
 
     SECTION( "ignore three character" ) {
@@ -378,7 +378,7 @@ TEST_CASE( "ignore", "[std] [istream] [input]" ) {
 
         REQUIRE( sin.ignore(3) ); 
 
-        REQUIRE( '4' == sin.get() );
+        REQUIRE( sin.get() == '4' );
     }
 
     SECTION( "ignore all character" ) {
@@ -386,7 +386,7 @@ TEST_CASE( "ignore", "[std] [istream] [input]" ) {
 
         REQUIRE( sin.ignore(numeric_limits<int>::max()) ); 
 
-        REQUIRE( EOF == sin.get() );
+        REQUIRE( sin.get() == EOF );
 
         REQUIRE_FALSE ( sin.ignore(1) );
     }
@@ -398,19 +398,19 @@ TEST_CASE( "peek", "[std] [istream] [input]" ) {
      SECTION( "peek one character" ) {
         istringstream sin{"ABCDEFG"};
 
-        REQUIRE( 'A' == sin.peek() ); 
+        REQUIRE( sin.peek() == 'A' ); 
     }
 
     SECTION( "peek when next character is new line" ) {
         istringstream sin{"\nABCDEFG"};
 
-        REQUIRE( '\n' == sin.peek() ); 
+        REQUIRE( sin.peek() == '\n' ); 
     }
 
     SECTION( "peek when next character is eof" ) {
         istringstream sin;
 
-        REQUIRE( EOF == sin.peek() ); 
+        REQUIRE( sin.peek() == EOF ); 
     }
     
 }
@@ -428,9 +428,9 @@ TEST_CASE( "putback", "[std] [istream] [input]" ) {
     SECTION( "succeedes for input only stream when put back character is not different from character extracted" ) {
         istringstream sin{"ABCDEFG"};
 
-        REQUIRE( 'A' == sin.get() );
+        REQUIRE( sin.get() == 'A' );
         REQUIRE( sin.putback('A') );
-        REQUIRE( 'A' == sin.get() );
+        REQUIRE( sin.get() == 'A' );
     }
 
     SECTION( "replace first character in the stream" ) {
@@ -439,8 +439,8 @@ TEST_CASE( "putback", "[std] [istream] [input]" ) {
         sin.get();
 
         REQUIRE( sin.putback('a') );
-        REQUIRE( 'a' == sin.get() );
-        REQUIRE( 'B' == sin.get() );
+        REQUIRE( sin.get() == 'a' );
+        REQUIRE( sin.get() == 'B' );
     }
 
     SECTION( "fails if no character was retrieved prior" ) {
@@ -474,10 +474,10 @@ TEST_CASE( "read", "[std] [istream] [input]" ) {
         REQUIRE( sin.read(buffer, count) );
 
         REQUIRE( count == sin.gcount() );
-        REQUIRE( non_null_char == buffer[count] );
+        REQUIRE( buffer[count] == non_null_char );
 
         buffer[count] = '\0';
-        REQUIRE( string{"12345"} == buffer );
+        REQUIRE( buffer == string{"12345"} );
     }
 
     SECTION( "try to read more than in the stream" ) {
@@ -488,10 +488,10 @@ TEST_CASE( "read", "[std] [istream] [input]" ) {
 
         REQUIRE_FALSE( sin.read(buffer, count) );
 
-        REQUIRE( 5 == sin.gcount() );
+        REQUIRE( sin.gcount() == 5 );
 
         buffer[5] = '\0';
-        REQUIRE( string{"12345"} == buffer );
+        REQUIRE( buffer == string{"12345"} );
     }
 
     SECTION( "try to read from empty stream" ) {
@@ -501,7 +501,7 @@ TEST_CASE( "read", "[std] [istream] [input]" ) {
 
         REQUIRE_FALSE( sin.read(buffer, 1) );
 
-        REQUIRE( 0 == sin.gcount() );
+        REQUIRE( sin.gcount() == 0 );
     }
 
 }
@@ -514,7 +514,7 @@ TEST_CASE( "readsome", "[std] [istream] [input]" ) {
         
         char ch = '\0';
 
-        REQUIRE( 1 == sin.readsome(&ch, 1) );
+        REQUIRE( sin.readsome(&ch, 1) == 1 );
 
         REQUIRE( ch == 'A' );
     }
@@ -526,11 +526,11 @@ TEST_CASE( "readsome", "[std] [istream] [input]" ) {
         const int count = 10;
         char buffer[count];
 
-        REQUIRE( 3 == sin.readsome(buffer, count) );
+        REQUIRE( sin.readsome(buffer, count) == 3 );
 
         buffer[3] = '\0';
 
-        REQUIRE( string{"ABC"} == buffer );
+        REQUIRE( buffer == string{"ABC"} );
     }
 
     SECTION( "try to readsome from empty stream" ) {
@@ -540,10 +540,10 @@ TEST_CASE( "readsome", "[std] [istream] [input]" ) {
         const int count = 10;
         char buffer[count];
 
-        REQUIRE( 0 == sin.readsome(buffer, count) );
+        REQUIRE( sin.readsome(buffer, count) == 0 );
         REQUIRE( sin );
 
-        REQUIRE( 0 == sin.readsome(buffer, count) );
+        REQUIRE( sin.readsome(buffer, count) == 0 );
         REQUIRE( sin );
     }
 
@@ -554,28 +554,28 @@ TEST_CASE( "unget", "[std] [istream] [input]" ) {
     SECTION( "unget read character" ) {
         istringstream sin{"ABCDEFG"};
 
-        REQUIRE( 'A' == sin.get() );
+        REQUIRE( sin.get() == 'A' );
         REQUIRE( sin.unget() );
-        REQUIRE( 'A' == sin.get() );
+        REQUIRE( sin.get() == 'A' );
     }
 
     SECTION( "unget fails after eof" ) {
         istringstream sin{"A"};
 
-        REQUIRE( 'A' == sin.get() );
-        REQUIRE( EOF == sin.get() );
+        REQUIRE( sin.get() == 'A' );
+        REQUIRE( sin.get() == EOF );
         REQUIRE_FALSE( sin.unget() );
     }
 
     SECTION( "unget last character" ) {
         istringstream sin{"ABC"};
 
-        REQUIRE( 'A' == sin.get() );
-        REQUIRE( 'B' == sin.get() );
+        REQUIRE( sin.get() == 'A' );
+        REQUIRE( sin.get() == 'B' );
 
-        REQUIRE( 'C' == sin.get() );
+        REQUIRE( sin.get() == 'C' );
         REQUIRE( sin.unget() );
-        REQUIRE( 'C' == sin.get() );
+        REQUIRE( sin.get() == 'C' );
     }
 
 }

@@ -14,7 +14,7 @@ TEST_CASE( "unitbuf", "[std] [streams] [manipulators]" ) {
         string str;
         fin >> str; 
 
-        REQUIRE( "flushed" == str );
+        REQUIRE( str == "flushed" );
         
         fout.close();
         fin.close();
@@ -60,7 +60,7 @@ TEST_CASE( "manipulator.flush", "[std] [streams] [manipulators]" ) {
         fin.open("flush.tmp");
         REQUIRE( fin >> str );
 
-        REQUIRE( "abc" == str );
+        REQUIRE( str == "abc" );
     }
 
     remove("flush.tmp");
@@ -85,10 +85,10 @@ TEST_CASE( "endl", "[std] [ostream] [misc]" ) {
         fin.open("endl.tmp");
 
         getline(fin, str);
-        REQUIRE( "abc" == str );
+        REQUIRE( str == "abc" );
 
         getline(fin, str);
-        REQUIRE( "def" == str );
+        REQUIRE( str == "def" );
     }
 
     remove("endl.tmp");

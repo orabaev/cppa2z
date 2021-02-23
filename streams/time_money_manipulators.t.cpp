@@ -12,11 +12,11 @@ TEST_CASE( "put_money", "[std] [streams] [manipulators]" ) {
         int cents = 100099;
 
         sout << put_money(cents);
-        REQUIRE( "1,000.99" == sout.str() );
+        REQUIRE( sout.str() == "1,000.99" );
 
         sout.str(string{});
         sout << showbase << put_money(cents);
-        REQUIRE( "$1,000.99" == sout.str() );
+        REQUIRE( sout.str() == "$1,000.99" );
     }
 
 #ifndef __linux__
@@ -30,7 +30,7 @@ TEST_CASE( "put_money", "[std] [streams] [manipulators]" ) {
 
         sout.str(string{});
         sout << showbase << put_money(kopecs);
-        REQUIRE( "1 000,99 руб." == sout.str() );
+        REQUIRE( sout.str() == "1 000,99 руб." );
     }
 #endif
 
@@ -45,7 +45,7 @@ TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
         long double cents{};
 
         sin >> get_money(cents);
-        REQUIRE( 100099.0 == cents );
+        REQUIRE( cents == 100099.0 );
     }
 
 #ifndef __linux__
@@ -56,7 +56,7 @@ TEST_CASE( "get_money", "[std] [streams] [manipulators]" ) {
         long double kopecs{};
 
         sin >> get_money(kopecs);
-        REQUIRE( 100099.0 == kopecs );
+        REQUIRE( kopecs == 100099.0 );
     }
 #endif
 
@@ -81,7 +81,7 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         
         sout << put_time(&date_time, "%Y/%m/%d %H:%M:%S");
         
-        REQUIRE( "2016/12/18 09:03:07" == sout.str() ); 
+        REQUIRE( sout.str() == "2016/12/18 09:03:07" ); 
     }
 
     SECTION( "format as Sunday, December 18, 2016" ) {
@@ -90,7 +90,7 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         
         sout << put_time(&date_time, "%A, %B %d, %Y");
         
-        REQUIRE( "Sunday, December 18, 2016" == sout.str() ); 
+        REQUIRE( sout.str() == "Sunday, December 18, 2016" ); 
     }
 
     SECTION( "format as Sun, Dec 18" ) {
@@ -99,7 +99,7 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         
         sout << put_time(&date_time, "%a, %b %d");
         
-        REQUIRE( "Sun, Dec 18" == sout.str() ); 
+        REQUIRE( sout.str() == "Sun, Dec 18" ); 
     }
 
 #ifndef __linux__
@@ -109,7 +109,7 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
 
         sout << put_time(&date_time, "%c");
 
-        REQUIRE( "Sun Dec 18 09:03:07 2016" == sout.str() );
+        REQUIRE( sout.str() == "Sun Dec 18 09:03:07 2016" );
     }
 #endif
 
@@ -119,7 +119,7 @@ TEST_CASE( "put_time", "[std] [streams] [manipulators]" ) {
         
         sout << put_time(&date_time, "%D");
 
-        REQUIRE( "12/18/16" == sout.str() ); 
+        REQUIRE( sout.str() == "12/18/16" ); 
     }
 
 }
@@ -133,25 +133,25 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         tm date_time{};
         sin >> get_time(&date_time, "%Y/%m/%d %H:%M:%S");
         
-        REQUIRE( 116 == date_time.tm_year ); 
-        REQUIRE( 11  == date_time.tm_mon ); 
-        REQUIRE( 18  == date_time.tm_mday ); 
-        REQUIRE( 9   == date_time.tm_hour ); 
-        REQUIRE( 3   == date_time.tm_min ); 
-        REQUIRE( 7   == date_time.tm_sec ); 
+        REQUIRE( date_time.tm_year == 116 ); 
+        REQUIRE( date_time.tm_mon  ==  11 ); 
+        REQUIRE( date_time.tm_mday ==  18 ); 
+        REQUIRE( date_time.tm_hour ==   9 ); 
+        REQUIRE( date_time.tm_min  ==   3 ); 
+        REQUIRE( date_time.tm_sec  ==   7 ); 
     }
 
-    SECTION( "parse as Sunday, December 18, 2016" ) {
-        istringstream sin{"Sunday, December 18, 2016"};
+    SECTION( "parse as Monday, January 18, 2016" ) {
+        istringstream sin{"Monday, January 18, 2016"};
         sin.imbue(locale("en_US"));
         
         tm date_time{};
         sin >> get_time(&date_time, "%A, %B %d, %Y");
         
-        REQUIRE( 116 == date_time.tm_year ); 
-        REQUIRE( 11  == date_time.tm_mon ); 
-        REQUIRE( 18  == date_time.tm_mday ); 
-        REQUIRE( 0   == date_time.tm_wday ); 
+        REQUIRE( date_time.tm_year == 116 ); 
+        REQUIRE( date_time.tm_mon  ==   0 ); 
+        REQUIRE( date_time.tm_mday ==  18 ); 
+        REQUIRE( date_time.tm_wday ==   1 ); 
     }
 
     SECTION( "parse as Sun, Dec 18" ) {
@@ -161,9 +161,9 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         tm date_time{};
         sin >> get_time(&date_time, "%a, %b %d");
         
-        REQUIRE( 11  == date_time.tm_mon ); 
-        REQUIRE( 18  == date_time.tm_mday ); 
-        REQUIRE( 0   == date_time.tm_wday ); 
+        REQUIRE( date_time.tm_mon  == 11 ); 
+        REQUIRE( date_time.tm_mday == 18 ); 
+        REQUIRE( date_time.tm_wday ==  0 ); 
     }
 
 #ifndef __linux__ 
@@ -174,13 +174,13 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         tm date_time{};
         sin >> get_time(&date_time, "%c");
         
-        REQUIRE( 116 == date_time.tm_year ); 
-        REQUIRE( 11  == date_time.tm_mon ); 
-        REQUIRE( 18  == date_time.tm_mday ); 
-        REQUIRE( 9   == date_time.tm_hour ); 
-        REQUIRE( 3   == date_time.tm_min ); 
-        REQUIRE( 7   == date_time.tm_sec ); 
-        REQUIRE( 0   == date_time.tm_wday ); 
+        REQUIRE( date_time.tm_year == 116 ); 
+        REQUIRE( date_time.tm_mon  ==  11 ); 
+        REQUIRE( date_time.tm_mday ==  18 ); 
+        REQUIRE( date_time.tm_hour ==   9 ); 
+        REQUIRE( date_time.tm_min  ==   3 ); 
+        REQUIRE( date_time.tm_sec  ==   7 ); 
+        REQUIRE( date_time.tm_wday ==   0 ); 
     }
 #endif
 
@@ -192,13 +192,13 @@ TEST_CASE( "get_time", "[std] [streams] [manipulators]" ) {
         sin >> get_time(&date_time, "%D");
        
 #ifdef __linux__ 
-        REQUIRE( 16 == date_time.tm_year );
-        REQUIRE( 11  == date_time.tm_mon );
-        REQUIRE( 18  == date_time.tm_mday );
+        REQUIRE( date_time.tm_year == 16 );
+        REQUIRE( date_time.tm_mon  == 11 );
+        REQUIRE( date_time.tm_mday == 18 );
 #else
-        REQUIRE( 116 == date_time.tm_year );
-        REQUIRE( 11  == date_time.tm_mon );
-        REQUIRE( 18  == date_time.tm_mday );
+        REQUIRE( date_time.tm_year == 116 );
+        REQUIRE( date_time.tm_mon  ==  11 );
+        REQUIRE( date_time.tm_mday ==  18 );
 #endif
     }
 

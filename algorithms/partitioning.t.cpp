@@ -77,10 +77,10 @@ TEST_CASE( "partition_copy", "[std] [algorithm] [partitioning] [copy]" ) {
             , less_than_3
         );
 
-        REQUIRE ( 4 == first.size() );
+        REQUIRE ( first.size() == 4 );
         REQUIRE ( all_of(cbegin(first), cend(first), less_than_3) );
 
-        REQUIRE ( 3 == second.size() );
+        REQUIRE ( second.size() == 3 );
         REQUIRE ( none_of(cbegin(second), cend(second), less_than_3) );
     } 
 
@@ -95,10 +95,10 @@ TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
 
         const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
 
-        REQUIRE ( cend(vec) != it );
+        REQUIRE ( it != cend(vec) );
 
         const auto partition_pos = distance(cbegin(vec), it);        
-        REQUIRE ( 3 == partition_pos ); 
+        REQUIRE ( partition_pos == 3 ); 
     } 
 
     SECTION( "all elements are less than 3" ) {
@@ -108,7 +108,7 @@ TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
         
         const auto it = partition_point(cbegin(vec), cend(vec), less_than_3);
 
-        REQUIRE ( cend(vec) == it );
+        REQUIRE ( it == cend(vec) );
     }
 
 }

@@ -10,7 +10,7 @@ TEST_CASE( "left", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << left << "ABCDE";
         
-        REQUIRE( "ABCDE     " == sout.str() ); 
+        REQUIRE( sout.str() == "ABCDE     " ); 
     }
 
     SECTION( "left adjust number" ) {
@@ -18,7 +18,7 @@ TEST_CASE( "left", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << left << 12345;
         
-        REQUIRE( "12345     " == sout.str() ); 
+        REQUIRE( sout.str() == "12345     " ); 
     }
 
     SECTION( "left adjust text with custom fill character" ) {
@@ -26,7 +26,7 @@ TEST_CASE( "left", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << left << setfill('@')  << "ABCDE";
         
-        REQUIRE( "ABCDE@@@@@" == sout.str() ); 
+        REQUIRE( sout.str() == "ABCDE@@@@@" ); 
     }
 
 }
@@ -38,7 +38,7 @@ TEST_CASE( "right", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << right << "ABCDE";
         
-        REQUIRE( "     ABCDE" == sout.str() ); 
+        REQUIRE( sout.str() == "     ABCDE" ); 
     }
 
     SECTION( "right adjust number" ) {
@@ -46,7 +46,7 @@ TEST_CASE( "right", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << right << 12345;
         
-        REQUIRE( "     12345" == sout.str() ); 
+        REQUIRE( sout.str() == "     12345" ); 
     }
 
     SECTION( "left adjust text with custom fill character" ) {
@@ -54,7 +54,7 @@ TEST_CASE( "right", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << right << setfill('@')  << "ABCDE";
         
-        REQUIRE( "@@@@@ABCDE" == sout.str() ); 
+        REQUIRE( sout.str() == "@@@@@ABCDE" ); 
     }
 
 }
@@ -66,7 +66,7 @@ TEST_CASE( "internal", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << internal << -1;
         
-        REQUIRE( "-        1" == sout.str() ); 
+        REQUIRE( sout.str() == "-        1" ); 
     }
 
     SECTION( "insert fill character at internal point for hex output" ) {
@@ -74,7 +74,7 @@ TEST_CASE( "internal", "[std] [streams] [manipulators]" ) {
 
         sout << setw(10) << internal << hex << showbase << 255;
         
-        REQUIRE( "0x      ff" == sout.str() ); 
+        REQUIRE( sout.str() == "0x      ff" ); 
     }
 
     SECTION( "insert fill character at internal point for money output" ) {
@@ -85,9 +85,9 @@ TEST_CASE( "internal", "[std] [streams] [manipulators]" ) {
         sout << setw(10) << internal << showbase << put_money(cents);
 
 #ifdef __linux__
-        REQUIRE( "$1.99     " == sout.str() );
+        REQUIRE( sout.str() == "$1.99     " );
 #else
-        REQUIRE( "$     1.99" == sout.str() );
+        REQUIRE( sout.str() == "$     1.99" );
 #endif
     }
 
@@ -99,11 +99,11 @@ TEST_CASE( "setfill", "[std] [streams] [manipulators]" ) {
         ostringstream sout;
 
         sout << setw(25) << left << setfill('*') <<  "ABCDE";
-        REQUIRE( "ABCDE********************" == sout.str() ); 
+        REQUIRE( sout.str() == "ABCDE********************" ); 
 
         sout.str(string{});
         sout << setw(25) << left << setfill(' ') <<  "ABCDE";
-        REQUIRE( "ABCDE                    " == sout.str() ); 
+        REQUIRE( sout.str() == "ABCDE                    " ); 
     }
 
 }
@@ -114,11 +114,11 @@ TEST_CASE( "setw", "[std] [streams] [manipulators]" ) {
         ostringstream sout;
         
         sout << setw(1) << "ABC";
-        REQUIRE( "ABC" == sout.str() );
+        REQUIRE( sout.str() == "ABC" );
 
         sout.str(string{});
         sout << setw(10) << "ABC";
-        REQUIRE( "       ABC" == sout.str() );
+        REQUIRE( sout.str() == "       ABC" );
     }
 
 }
