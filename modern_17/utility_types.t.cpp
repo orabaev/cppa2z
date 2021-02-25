@@ -361,13 +361,13 @@ TEST_CASE( "string_view", "[std] [modern] [string_view] [C++17]" ) {
         REQUIRE( str2 == "World" );
     }
 
-    SECTION( "swap" ) {
+    SECTION( "copy" ) {
         string str1{"ABCDE"};
         string_view sv1(str1);
 
-        char dest[5];
+        char dest[5] = {0};
         sv1.copy(dest, 3, 1);
-        REQUIRE( dest == string{"BCD"} );
+        REQUIRE( string{"BCD"} == dest );
     }
 
     SECTION( "find" ) {
