@@ -383,8 +383,6 @@ TEST_CASE( "string_view", "[std] [modern] [string_view] [C++17]" ) {
         REQUIRE( sv1.find("DE__BLA_BLA", pos, count) == 3 );
     }
 
-
-
     SECTION( "starts_with" ) {
         // TODO_SWITCH_TO_CPP_20;
     }
@@ -396,8 +394,4 @@ TEST_CASE( "string_view", "[std] [modern] [string_view] [C++17]" ) {
     SECTION( "contains" ) {
         // TODO_SWITCH_TO_CPP_20;
     }
-
-
-
-
 }
