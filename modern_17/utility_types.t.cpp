@@ -280,8 +280,8 @@ TEST_CASE( "string_view", "[std] [modern] [string_view] [C++17]" ) {
     }
 
     SECTION( "operator sv" ) {
-        string_view sv_proper_way_to_form_char_literal = "Hello C++"sv;
-        REQUIRE( sv_proper_way_to_form_char_literal == "Hello C++" );
+        string_view sv_proper_way_to_init_from_string_literal = "Hello C++"sv;
+        REQUIRE( sv_proper_way_to_init_from_string_literal == "Hello C++" );
     }
 
     SECTION( "basic string operations" ) {
