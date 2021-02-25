@@ -4,6 +4,7 @@
 #include <optional>
 #include <variant>
 #include <string>
+#include <string_view>
 
 using namespace std;
 
@@ -257,4 +258,146 @@ TEST_CASE( "tuple", "[std] [modern] [tuple] [C++17]" ) {
         REQUIRE( get<1>(tpl4) == "Hello" );
         REQUIRE( get<2>(tpl4) == 789     );
     }
+}
+
+TEST_CASE( "string_view", "[std] [modern] [string_view] [C++17]" ) {
+    SECTION( "initialize from string" ) {
+        string str{"Hello C++"};
+        string_view sv(str);
+        REQUIRE( sv == str );
+
+        bool same_pointer = &str[0] == sv.data();
+        REQUIRE( same_pointer );
+    }
+
+    SECTION( "initialize from char[]" ) {
+        char str[] = "Hello C++";
+        string_view sv(str);
+        REQUIRE( sv == str );
+
+        bool same_pointer = str == sv.data();
+        REQUIRE( same_pointer );
+    }
+
+    SECTION( "operator sv" ) {
+        string_view sv_proper_way_to_form_char_literal = "Hello C++"sv;
+        REQUIRE( sv_proper_way_to_form_char_literal == "Hello C++" );
+    }
+
+    SECTION( "basic string operations" ) {
+        string str{"Hello"};
+        string_view sv(str);
+
+        REQUIRE( *sv.begin()      == 'H' );
+        REQUIRE( *prev(sv.end())  == 'o' );
+        REQUIRE( *sv.rbegin()     == 'o' );
+        REQUIRE( *prev(sv.rend()) == 'H' );
+
+        REQUIRE( sv[0]      == 'H' );
+        REQUIRE( sv.at(0)   == 'H' );
+        REQUIRE( sv.front() == 'H' );
+        REQUIRE( sv.back()  == 'o' );
+        REQUIRE_THROWS_AS( sv.at(1000), out_of_range );
+
+        REQUIRE( sv.size() == str.size() );
+        REQUIRE( sv.size() == sv.length() );
+        REQUIRE_FALSE( sv.empty() );
+    }
+
+    SECTION( "substr" ) {
+        string str{"Hello C++"};
+        string_view sv1(str);
+
+        string_view sv2 = sv1.substr(0, 5);
+        REQUIRE( sv2 == "Hello" );
+        bool same_pointer  = sv1.data() == sv2.data();
+             same_pointer &= sv2.data() == &str[0];
+        REQUIRE( same_pointer );
+
+        sv2 = sv1.substr(6);
+        REQUIRE( sv2 == "C++" );
+             same_pointer  = &sv1[6] == sv2.data();
+             same_pointer &= sv2.data() == &str[6];
+        REQUIRE( same_pointer );
+
+    }
+
+    SECTION( "remove_prefix" ) {
+        string str{"...Hello"};
+        string_view sv(str);
+
+        REQUIRE( sv == "...Hello" );
+        sv.remove_prefix(3);
+        REQUIRE( sv == "Hello" );
+
+        bool same_pointer = &str[3] == sv.data();
+        REQUIRE( same_pointer );
+    }
+
+    SECTION( "remove_suffix" ) {
+        string str{"Hello...."};
+        string_view sv(str);
+
+        REQUIRE( sv == "Hello...." );
+        sv.remove_suffix(4);
+        REQUIRE( sv == "Hello" );
+
+        bool same_pointer = &str[0] == sv.data();
+        REQUIRE( same_pointer );
+    }
+
+    SECTION( "swap" ) {
+        string str1{"Hello"};
+        string_view sv1(str1);
+
+        string str2{"World"};
+        string_view sv2(str2);
+
+        swap(sv1, sv2);
+        REQUIRE( sv1 == "World" );
+        REQUIRE( sv2 == "Hello" );
+
+        REQUIRE( str1 == "Hello" );
+        REQUIRE( str2 == "World" );
+    }
+
+    SECTION( "swap" ) {
+        string str1{"ABCDE"};
+        string_view sv1(str1);
+
+        char dest[5];
+        sv1.copy(dest, 3, 1);
+        REQUIRE( dest == string{"BCD"} );
+    }
+
+    SECTION( "find" ) {
+        string str1{"ABCDE"};
+        string_view sv1(str1);
+
+        REQUIRE( sv1.find('C') == 2 );
+        REQUIRE( sv1.find('C', 3) == string_view::npos );
+        REQUIRE( sv1.find("DE") == 3 );
+
+        int pos = 0;
+        int count = 2;
+        REQUIRE( sv1.find("DE__BLA_BLA", pos, count) == 3 );
+    }
+
+
+
+    SECTION( "starts_with" ) {
+        // TODO_SWITCH_TO_CPP_20;
+    }
+
+    SECTION( "ends_with" ) {
+        // TODO_SWITCH_TO_CPP_20;
+    }
+
+    SECTION( "contains" ) {
+        // TODO_SWITCH_TO_CPP_20;
+    }
+
+
+
+
 }
