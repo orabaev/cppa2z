@@ -71,7 +71,7 @@ TEST_CASE( "copy_backward", "[std] [algorithm] [modifying]" ) {
 
 }
 
-TEST_CASE( "copy_if", "[std] [algorithm] [modifying]" ) {
+TEST_CASE( "copy_if(C++11)", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "using predicate; copy all even elements to empty vector using back inserter" ) {
         const vector<int>     from{1, 2, 3, 4, 5, 6, 7};
@@ -87,7 +87,7 @@ TEST_CASE( "copy_if", "[std] [algorithm] [modifying]" ) {
 
 }
 
-TEST_CASE( "copy_n", "[std] [algorithm] [modifying]" ) {
+TEST_CASE( "copy_n(C++11)", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "copy 2 elements from/to position 3 to non empty vector" ) {
         const vector<int> from{0, 1, 2,   3, 4,   5, 6};
@@ -184,7 +184,7 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
 
 }
 
-TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
+TEST_CASE( "move(C++11)", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "move strings from one vector to another" ) {
         const vector<string>     from{"hello", "C++"};
@@ -200,7 +200,7 @@ TEST_CASE( "move", "[std] [algorithm] [modifying]" ) {
 
 }
 
-TEST_CASE( "move_backward", "[std] [algorithm] [modifying]" ) {
+TEST_CASE( "move_backward(C++11)", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "shift and set; insert new string at the begining of the vector" ) {
               vector<string>      vec{"hello", "C++"};
@@ -419,7 +419,25 @@ TEST_CASE( "rotate", "[std] [algorithm] [modifying]" ) {
     }
 }
 
-TEST_CASE( "shuffle", "[std] [algorithm] [modifying]" ) {
+TEST_CASE( "sample(C++17)", "[std] [algorithm] [modifying]" ) {
+
+    SECTION( "select n elements from the sequence with equal probability" ) {
+        const vector<int> vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+              vector<int> dest;
+
+        auto engine = default_random_engine{};
+        sample(begin(vec), end(vec), back_inserter(dest), 3, engine);
+
+        REQUIRE( dest.size() == 3 );
+        for (auto value : dest)
+        {
+            REQUIRE ( find(begin(vec), end(vec), value) != end(vec) );
+        }
+    }
+
+}
+
+TEST_CASE( "shuffle(C++11)", "[std] [algorithm] [modifying]" ) {
     
     SECTION( "reorder elements in the container based on the provided random function generator" ) {
               vector<int>      vec{0, 1, 2, 3, 4, 5};

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE( "is_sorted", "[std] [algorithm] [sorting]" ) {
+TEST_CASE( "is_sorted(C++11)", "[std] [algorithm] [sorting]" ) {
     
     SECTION( "the range is sorted" ) {
         const vector<int> vec{0, 1, 2, 2, 3, 4, 4};
@@ -27,7 +27,7 @@ TEST_CASE( "is_sorted", "[std] [algorithm] [sorting]" ) {
 
 }
 
-TEST_CASE( "is_sorted_until", "[std] [algorithm] [sorting]" ) {
+TEST_CASE( "is_sorted_until(C++11)", "[std] [algorithm] [sorting]" ) {
     
     SECTION( "the range is sorted until 3rd element" ) {
         const vector<int> vec{5, 6, 7,   2,   3, 4, 4};

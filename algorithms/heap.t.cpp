@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE( "is_heap", "[std] [algorithm] [heap]" ) {
+TEST_CASE( "is_heap(C++11)", "[std] [algorithm] [heap]" ) {
     
     // max heap
 
@@ -49,7 +49,7 @@ TEST_CASE( "is_heap", "[std] [algorithm] [heap]" ) {
 
 }
 
-TEST_CASE( "is_heap_until", "[std] [algorithm] [heap]" ) {
+TEST_CASE( "is_heap_until(C++11)", "[std] [algorithm] [heap]" ) {
     
     // max heap
 

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-TEST_CASE( "is_partitioned", "[std] [algorithm] [partitioning]" ) {
+TEST_CASE( "is_partitioned(C++11)", "[std] [algorithm] [partitioning]" ) {
     
     SECTION( "the range is partitioned with first group less than 3" ) {
         const vector<int> vec{2, 0, 1,    3, 5, 4, 7};
@@ -60,8 +60,8 @@ TEST_CASE( "partition", "[std] [algorithm] [partitioning]" ) {
     }
 }
 
-TEST_CASE( "partition_copy", "[std] [algorithm] [partitioning] [copy]" ) {
-    
+TEST_CASE( "partition_copy(C++11)", "[std] [algorithm] [partitioning] [copy]" ) {
+
     SECTION( "copy the range partitioning elements into two groups" ) {
         const vector<int>    vec{4, 2, 5, 3, 1, 0, 2};
               vector<int>  first;
@@ -86,7 +86,7 @@ TEST_CASE( "partition_copy", "[std] [algorithm] [partitioning] [copy]" ) {
 
 }
 
-TEST_CASE( "partition_point", "[std] [algorithm] [partitioning]" ) {
+TEST_CASE( "partition_point(C++11)", "[std] [algorithm] [partitioning]" ) {
     
     SECTION( "partition point found" ) {
         const vector<int> vec{2, 0, 1,   3, 5, 4, 7};

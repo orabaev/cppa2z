@@ -5,6 +5,30 @@
 
 using namespace std;
 
+TEST_CASE( "clamp(C++17)", "[std] [algorithm] [min max]" ) {
+    
+    SECTION( "returns value, low or high depending on the comparison" ) {
+        const int low   = 1;
+        const int high  = 128;
+        bool undefined_behaviour = !(low < high);
+        REQUIRE_FALSE( undefined_behaviour ); 
+
+        int value_less_than_low = low - 1;
+        REQUIRE( clamp(value_less_than_low, low, high) == low );
+
+        int value_greter_than_high = high + 1;
+        REQUIRE( clamp(value_greter_than_high, low, high) == high );
+
+        int value = low;
+        REQUIRE( clamp(value, low, high) == value );
+        value = (low + high) / 2;
+        REQUIRE( clamp(value, low, high) == value );
+        value = high;
+        REQUIRE( clamp(value, low, high) == value );
+    } 
+
+}
+
 TEST_CASE( "max", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return max value" ) {
@@ -138,7 +162,7 @@ TEST_CASE( "min_element", "[std] [algorithm] [min max]" ) {
 
 }
 
-TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
+TEST_CASE( "minmax(C++11)", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return minmax values" ) {
         int x = 0;
@@ -188,7 +212,7 @@ TEST_CASE( "minmax", "[std] [algorithm] [min max]" ) {
 
 }
 
-TEST_CASE( "minmax_element", "[std] [algorithm] [min max]" ) {
+TEST_CASE( "minmax_element(C++11)", "[std] [algorithm] [min max]" ) {
     
     SECTION( "return minmax elements in the range" ) {
         const vector<int> vec{5, 9, 2, 10};
