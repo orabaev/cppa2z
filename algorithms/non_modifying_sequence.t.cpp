@@ -45,7 +45,7 @@ TEST_CASE( "adjacent_find", "[std] [algorithm] [non modifying]" ) {
 
 }
 
-TEST_CASE( "all_of", "[std] [algorithm] [non modifying]" ) {
+TEST_CASE( "all_of(C++11)", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "all elements in the range are even" ) {
         const vector<int> vec{2, 4, 6, 8, 10, 12, 14};
@@ -57,7 +57,7 @@ TEST_CASE( "all_of", "[std] [algorithm] [non modifying]" ) {
 
 }
 
-TEST_CASE( "any_of", "[std] [algorithm] [non modifying]" ) {
+TEST_CASE( "any_of(C++11)", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "some of the elements in the range are odd" ) {
         const vector<int> vec{1, 3,   16,   5, 7};
@@ -288,6 +288,31 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
         for_each(begin(str), end(str), change_to_upper);
 
         REQUIRE( str == "HELLO C++" );
+    }
+
+}
+
+TEST_CASE( "for_each_n(C++11)", "[std] [algorithm] [non modifying]" ) {
+
+    SECTION( "calculate total sum of first 3 elements" ) {
+        const vector<int> vec1{1, 2, 3, 4, 5, 6, 7};
+
+        int total = 0;
+        auto add_total = [&total](int x) { total += x; };
+        auto it_end = for_each_n(cbegin(vec1), 3, add_total);
+
+        REQUIRE( total == 6 );
+        REQUIRE( it_end == cbegin(vec1) + 3 );
+    }
+    
+    SECTION( "convert first 3 elements in the range to upper case" ) {
+        string str{"hello c++"};
+
+        auto change_to_upper = [](char& x) { x = toupper(x); };
+         
+        for_each_n(begin(str), 3, change_to_upper);
+
+        REQUIRE( str == "HELlo c++" );
     }
 
 }

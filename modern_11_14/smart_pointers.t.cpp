@@ -410,7 +410,6 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         ptr_derived2 = static_pointer_cast<derived2>(ptr_base);
         REQUIRE( ptr_derived2 );
     }
-
 }
 
 TEST_CASE( "weak_ptr", "[std] [modern] [smart pointers]" ) {
