@@ -292,7 +292,7 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
 
 }
 
-TEST_CASE( "for_each_n(C++11)", "[std] [algorithm] [non modifying]" ) {
+TEST_CASE( "for_each_n(C++17)", "[std] [algorithm] [non modifying]" ) {
 
     SECTION( "calculate total sum of first 3 elements" ) {
         const vector<int> vec1{1, 2, 3, 4, 5, 6, 7};
@@ -363,7 +363,7 @@ TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
 
 }
 
-TEST_CASE( "none_of", "[std] [algorithm] [non modifying]" ) {
+TEST_CASE( "none_of(C++11)", "[std] [algorithm] [non modifying]" ) {
     
     SECTION( "none of elements in the range match" ) {
         const vector<int> vec{1, 3, 5, 7, 9};
