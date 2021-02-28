@@ -292,6 +292,7 @@ TEST_CASE( "for_each", "[std] [algorithm] [non modifying]" ) {
 
 }
 
+#ifndef __linux__
 TEST_CASE( "for_each_n(C++17)", "[std] [algorithm] [non modifying]" ) {
 
     SECTION( "calculate total sum of first 3 elements" ) {
@@ -316,6 +317,7 @@ TEST_CASE( "for_each_n(C++17)", "[std] [algorithm] [non modifying]" ) {
     }
 
 }
+#endif
 
 TEST_CASE( "mismatch", "[std] [algorithm] [non modifying]" ) {
     
