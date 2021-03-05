@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE( "is_permutation", "[std] [algorithm] [permutation]" ) {
+TEST_CASE( "is_permutation(C++11)", "[std] [algorithm] [permutation]" ) {
     
     SECTION( "determine if one range is permutation of another" ) {
         const vector<int> vec1{0, 1, 2, 3};
