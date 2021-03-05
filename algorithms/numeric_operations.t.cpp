@@ -150,6 +150,8 @@ TEST_CASE( "partial_sum", "[std] [algorithm] [numeric operations]" ) {
 
 }
 
+
+#ifndef __linux__
 TEST_CASE( "reduce(C++17)", "[std] [algorithm] [numeric operations]" ) {
     
     SECTION( "out of order compute sum of all elements in the range plus the initial value" ) {
@@ -306,7 +308,6 @@ TEST_CASE( "transform_inclusive_scan(C++17)", "[std] [algorithm] [numeric operat
               vector<int>  expected{1, 3, 6};
               vector<int> generated{};
 
-
         auto transform = [](int x) { return x+1; };
 
         transform_inclusive_scan(
@@ -321,3 +322,4 @@ TEST_CASE( "transform_inclusive_scan(C++17)", "[std] [algorithm] [numeric operat
     } 
 
 }
+#endif
