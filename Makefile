@@ -77,6 +77,9 @@ templates.t.o: ./modern_11_14/templates.t.cpp
 utility_types.t.o: ./modern_17/utility_types.t.cpp
 	$(COMPILE) ./modern_17/utility_types.t.cpp
 
+structured_bindings.t.o: ./modern_17/structured_bindings.t.cpp
+	$(COMPILE) ./modern_17/structured_bindings.t.cpp
+
 #
 # algorithms
 #
