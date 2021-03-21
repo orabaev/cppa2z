@@ -154,6 +154,17 @@ TEST_CASE( "find", "[std] [algorithm] [non modifying]" ) {
         REQUIRE( found_at_pos  == 3 );
     }
 
+    SECTION( "(reverse find) element with value 10 found in the range at position 5" ) {
+        const vector<int> vec{0, 1, 2, 10, 4, 10, 5, 5, 5,  10,  6, 5, 7};
+
+        const auto rit = find(rbegin(vec), rend(vec), 10);
+        REQUIRE( *rit  == 10 );
+        const auto it = prev(rit.base());
+        REQUIRE( *it  == 10 );
+        const auto found_at_pos = distance(cbegin(vec), it);
+        REQUIRE( found_at_pos  == 9 );
+    }
+
 }
 
 TEST_CASE( "find_first_of", "[std] [algorithm] [non modifying]" ) {

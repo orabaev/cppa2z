@@ -146,4 +146,3 @@ TEST_CASE( "range loop ", "[std] [modern] [structrued bundings] [C++17]" ) {
         }
     }
 }
-
