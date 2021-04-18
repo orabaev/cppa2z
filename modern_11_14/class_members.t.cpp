@@ -196,11 +196,11 @@ TEST_CASE( "explicit virtual overrides", "[std] [modern] [class members]" ) {
              
         };
 
-        struct derived :public base {
-            virtual void func() override {} 
+        struct derived : public base {
+            void func() override {} 
 
             // COMPILE ERROR 
-            // virtual void was_not_defined_virtual_in_base_class() override {} 
+            // void was_not_defined_virtual_in_base_class() override {} 
         };
     }
 

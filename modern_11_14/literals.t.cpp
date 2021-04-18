@@ -47,16 +47,15 @@ TEST_CASE( "user-defined", "[std] [modern] [literals]" ) {
 
 TEST_CASE( "std-user-defined", "[std] [modern] [literals]" ) {
     
-
     SECTION( "chrono" ) {
         using namespace std::chrono_literals;
        
         auto day_in_hours           = 24h;
         auto day_in_minutes         = 1440min;
         auto day_in_seconds         = 86400s;
-        auto day_in_milliseconds    = 86400'000ms;
-        auto day_in_microseconds    = 86400000000us;
-        auto day_in_nanoseconds     = 86400000000000ns;
+        auto day_in_milliseconds    = 86'400'000ms;
+        auto day_in_microseconds    = 86'400'000'000us;
+        auto day_in_nanoseconds     = 86'400'000'000'000ns;
 
         REQUIRE( day_in_minutes      == day_in_hours );
         REQUIRE( day_in_seconds      == day_in_hours );
@@ -80,7 +79,7 @@ TEST_CASE( "digit separators", "[std] [modern] [literals]" ) {
         const int binary_thousand = 0b0011'1110'1000;
         REQUIRE( binary_thousand == 1'000 );
 
-        const int octal_thousand = 0001'750;
+        const int octal_thousand = 0'1'750;
         REQUIRE( octal_thousand == 1'000 );
 
         const int hex_thousand = 0x03'E8;

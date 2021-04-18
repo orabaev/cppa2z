@@ -76,6 +76,7 @@ TEST_CASE( "constexpr", "[std] [modern] [compile-time]" ) {
         // compile-time
         constexpr class_a a(10);
         static_assert(a.sqr_x() == 100, "expected to be evaluated at compile-time");
+        static_assert(class_a(10).sqr_x() == 100, "expected to be evaluated at compile-time");
 
         // run-time
         int i = 10;

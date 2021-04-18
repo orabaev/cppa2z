@@ -227,11 +227,29 @@ TEST_CASE( "lambda capture initializer.(x = value)", "[std] [modern] [lambda] [C
         REQUIRE( vec_ref[2] == 3);
 
         REQUIRE( push_value_and_return(10)[3] == 10 );
+        REQUIRE( push_value_and_return(7)[4] == 7 );
+
+        REQUIRE( vec_ref[0] == 1);
+        REQUIRE( vec_ref[1] == 2);
+        REQUIRE( vec_ref[2] == 3);
+        REQUIRE( vec_ref[3] == 10);
+        REQUIRE( vec_ref[4] == 7);
     }
 
 }
 
 TEST_CASE( "callback", "[std] [modern] [lambda]" ) {
+
+    SECTION( "function with lambda" ) {
+        function<int (int,int)> operation;
+
+        auto multiply = [] (int x, int y) -> int {
+            return x * y;
+        };
+
+        operation = multiply;
+        REQUIRE( operation(2,3) == 6 );
+    }
 
     SECTION( "class with callback" ) {
         class class_with_callback {
