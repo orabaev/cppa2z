@@ -169,10 +169,15 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         auto ptr1 = make_unique<int>(9);
         auto ptr2 = make_unique<int>(9);
 
-        REQUIRE_FALSE( ptr1 == ptr2);
+        REQUIRE( ptr1 != ptr2);
 
         ptr1.reset();
         REQUIRE( ptr1 == nullptr);
+
+        ptr2.reset();
+        REQUIRE( ptr2 == nullptr);
+
+        REQUIRE( ptr1 == ptr2);
     }
 
     SECTION( "custom deleter" ) {
@@ -182,7 +187,7 @@ TEST_CASE( "unique_ptr", "[std] [modern] [smart pointers]" ) {
         auto deleter = [&delete_count] (auto value) { delete value; ++delete_count; };
         
         {
-            unique_ptr_d ptr(new int(10), deleter);; 
+            unique_ptr_d ptr(new int(10), deleter); 
         }
 
         REQUIRE( delete_count == 1 );
@@ -239,6 +244,7 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
             REQUIRE( ptr1 );
             REQUIRE( ptr2 );
             REQUIRE( ptr2->i == 2 );
+            REQUIRE( ptr2.use_count() == 2);
 
             REQUIRE( resource::dtor_called == 0);
         }
@@ -256,6 +262,7 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
             REQUIRE( ptr1 );
             REQUIRE( ptr2 );
             REQUIRE( ptr2->i == 3 );
+            REQUIRE( ptr2.use_count() == 2);
 
             REQUIRE( resource::dtor_called == 0 );
         }
@@ -352,10 +359,7 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         auto ptr1 = make_shared<int>(9);
         auto ptr2 = make_shared<int>(9);
 
-        REQUIRE_FALSE( ptr1 == ptr2);
-
-        ptr1.reset();
-        REQUIRE( ptr1 == nullptr);
+        REQUIRE( ptr1 != ptr2);
 
         ptr1 = ptr2;
         REQUIRE( ptr1 == ptr2);
@@ -395,7 +399,7 @@ TEST_CASE( "shared_ptr", "[std] [modern] [smart pointers]" ) {
         ptr_base = const_pointer_cast<base>(const_ptr);
 
         // dynamic_pointer_cast safe and correct
-        auto ptr_derived1 = dynamic_pointer_cast<derived1>(ptr_base);
+        shared_ptr<derived1> ptr_derived1 = dynamic_pointer_cast<derived1>(ptr_base);
         REQUIRE( ptr_derived1 );
 
         // static_pointer_cast not safe and correct
