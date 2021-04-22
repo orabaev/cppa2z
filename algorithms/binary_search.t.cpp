@@ -87,7 +87,7 @@ TEST_CASE( "lower_bound", "[std] [algorithm] [sorting] [binary search]" ) {
     } 
 
     SECTION( "elements equel to 2 is not found in the sorted range" ) {
-        const vector<int> vec{0, 1, 1, 3, 4, 5, 6};
+        const vector<int> vec{0, 1, 1,  3,  4, 5, 6};
 
         const auto it = lower_bound(cbegin(vec), cend(vec), 2);
 
