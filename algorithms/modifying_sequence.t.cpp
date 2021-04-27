@@ -176,7 +176,7 @@ TEST_CASE( "iter_swap", "[std] [algorithm] [modifying]" ) {
         const string expected{"gfedcba"};
 
         auto left = begin(str);
-        auto right = --end(str);
+        auto right = prev(end(str));
         while (left < right) iter_swap(left++, right--);
 
         REQUIRE( str == expected );
@@ -207,7 +207,7 @@ TEST_CASE( "move_backward(C++11)", "[std] [algorithm] [modifying]" ) {
         const vector<string> expected{"Hi", "hello", "C++"};
 
         vec.resize(vec.size() + 1);
-        move_backward(begin(vec), --end(vec), end(vec));
+        move_backward(begin(vec), prev(end(vec)), end(vec));
         vec.front() = "Hi";        
 
         REQUIRE( vec == expected );
@@ -295,9 +295,9 @@ TEST_CASE( "replace_if", "[std] [algorithm] [modifying]" ) {
         const vector<int> expected{3,   1,   7,   1, 1, 1,   5};
 
         auto is_even = [](int x) { return x % 2 == 0; };
-        int replace_to = 1;
+        int replace_with = 1;
 
-        replace_if(begin(vec), end(vec), is_even, replace_to); 
+        replace_if(begin(vec), end(vec), is_even, replace_with); 
 
         REQUIRE( vec == expected );
     }
@@ -335,14 +335,14 @@ TEST_CASE( "replace_copy_if", "[std] [algorithm] [modifying]" ) {
         const vector<int>  expected{3,   1,   7,   1, 1, 1,   5};
 
         auto is_even = [](int x) { return x % 2 == 0; };
-        int replace_to  = 1;
+        int replace_with  = 1;
 
         replace_copy_if(
               cbegin(from)
             , cend(from)
             , back_inserter(to)
             , is_even
-            , replace_to
+            , replace_with
         ); 
 
         REQUIRE( to == expected );
@@ -462,8 +462,8 @@ TEST_CASE( "swap", "[std] [algorithm] [modifying]" ) {
 
         swap(x, y);
 
-        REQUIRE( 2 == x );
-        REQUIRE( 1 == y );
+        REQUIRE( x == 2 );
+        REQUIRE( y == 1 );
     }
 
     SECTION( "use swap to set the object to a default constructed state" ) {
