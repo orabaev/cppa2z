@@ -80,6 +80,9 @@ utility_types.t.o: ./modern_17/utility_types.t.cpp
 structured_bindings.t.o: ./modern_17/structured_bindings.t.cpp
 	$(COMPILE) ./modern_17/structured_bindings.t.cpp
 
+if_switch_init.t.o: ./modern_17/if_switch_init.t.cpp
+	$(COMPILE) ./modern_17/if_switch_init.t.cpp
+
 #
 # algorithms
 #

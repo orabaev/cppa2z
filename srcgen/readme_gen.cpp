@@ -73,6 +73,7 @@ void readme_gen::modern_17() {
     m_writer.heading2("C++17");
     section("utility types"         , "./modern_17/utility_types.t.cpp");
     section("structured bindings"   , "./modern_17/structured_bindings.t.cpp");
+    section("if/switch inintializer", "./modern_17/if_switch_init.t.cpp");
     m_writer.newline();
 }
 
