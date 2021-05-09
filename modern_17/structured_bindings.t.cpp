@@ -146,3 +146,21 @@ TEST_CASE( "range loop ", "[std] [modern] [structrued bundings] [C++17]" ) {
         }
     }
 }
+
+TEST_CASE( "tie", "[std] [modern] [structrued bundings] [C++17]" ) {
+    SECTION( "reassign" ) 
+    {
+        pair<string, int> person("Alice", 65);
+        auto [name, age] = person; 
+        REQUIRE( name == "Alice" );
+        REQUIRE( age == 65 ); 
+
+
+        pair<string, int> different_person("Bob", 66);
+        tie(name, age) = different_person; 
+
+        REQUIRE( name == "Bob" );
+        REQUIRE( age == 66 ); 
+    }
+}
+
