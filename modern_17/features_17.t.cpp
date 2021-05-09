@@ -52,3 +52,26 @@ TEST_CASE( "switch initializer", "[std] [modern] [if/switch initializers] [C++17
         REQUIRE( (mult == 4 || mult == 6 || mult == 1) );
     }
 }
+
+TEST_CASE( "lambda capture of *this", "[std] [modern] [lambda]" ) {
+    class A {
+    private:
+        int m_x;
+
+    public:
+        A(int x): m_x(x) {}
+
+        auto get_lambda_that_will_return_the_value_of_x() {
+            auto lambda = [*this] { return m_x; };
+            return lambda; 
+        }
+
+        int get_x() { return m_x; }
+
+    };
+
+    SECTION( "return lambda from member function that captures copy of A" ) {
+        auto lambda = A{10}.get_lambda_that_will_return_the_value_of_x();
+        REQUIRE( lambda() == 10 );
+    }
+}
