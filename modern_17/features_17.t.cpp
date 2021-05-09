@@ -53,11 +53,10 @@ TEST_CASE( "switch initializer", "[std] [modern] [if/switch initializers] [C++17
     }
 }
 
-TEST_CASE( "lambda capture of *this", "[std] [modern] [lambda]" ) {
+TEST_CASE( "lambda capture of *this", "[std] [modern] [lambda] [C++17]" ) {
     class A {
     private:
         int m_x;
-
     public:
         A(int x): m_x(x) {}
 
@@ -67,11 +66,22 @@ TEST_CASE( "lambda capture of *this", "[std] [modern] [lambda]" ) {
         }
 
         int get_x() { return m_x; }
-
     };
 
     SECTION( "return lambda from member function that captures copy of A" ) {
         auto lambda = A{10}.get_lambda_that_will_return_the_value_of_x();
         REQUIRE( lambda() == 10 );
+    }
+}
+
+TEST_CASE( "constexpr lambda", "[std] [modern] [lambda] [C++17]" ) {
+    SECTION( "explicit constexpr lambda" ) {
+        constexpr auto sqr = [] (int x) { return x * x; };
+        static_assert( sqr(3) == 9 );
+    }
+
+    SECTION( "implicit constexpr lambda" ) {
+        auto sqr = [] (int x) { return x * x; };
+        static_assert( sqr(3) == 9 );
     }
 }
