@@ -1,6 +1,8 @@
 #include <catch.hpp>
 #include <random>
 #include <unordered_map>
+#include <type_traits>
+#include <vector>
 
 using namespace std;
 
@@ -83,5 +85,28 @@ TEST_CASE( "constexpr lambda", "[std] [modern] [lambda] [C++17]" ) {
     SECTION( "implicit constexpr lambda" ) {
         auto sqr = [] (int x) { return x * x; };
         static_assert( sqr(3) == 9 );
+    }
+}
+
+TEST_CASE( "class template argument deduction", "[std] [modern] [temlates] [C++17]" ) {
+    SECTION("vector")
+    {   
+        vector v1{1,2,3,4,5};
+        vector<int> v2;
+        static_assert(is_same_v<decltype(v1), decltype(v2)>);
+    }
+
+    SECTION("set")
+    {   
+        set s1{"str1"s, "str2"s};
+        set<string> s2;
+        static_assert(is_same_v<decltype(s1), decltype(s2)>);
+    }
+
+    SECTION("pair")
+    {   
+        pair p1(1,3);
+        pair<int, int> p2;
+        static_assert(is_same_v<decltype(p1), decltype(p2)>);
     }
 }
