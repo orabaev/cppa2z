@@ -1,7 +1,5 @@
 #include <catch.hpp>
-#include <tuple>
-#include <string>
-#include <array>
+#include <random>
 #include <unordered_map>
 
 using namespace std;
@@ -33,17 +31,24 @@ TEST_CASE( "if", "[std] [modern] [if/switch initializers] [C++17]" ) {
 TEST_CASE( "switch", "[std] [modern] [if/switch initializers] [C++17]" ) {
     SECTION( "switch" ) 
     {
-        auto mult = [](int i) {
-            return i * 2;
+        auto rand_1_2_3 = []() {
+            random_device r;
+            default_random_engine e(r());
+            uniform_int_distribution<int> uniform_dist(1, 3);
+            return uniform_dist(e);
         };   
 
-        switch(int i = mult(3); i)
+        int mult = 2;
+        switch(int i = rand_1_2_3(); i)
         {
-            case 6:
-                REQUIRE( i == 6 );
+            case 1:
+                REQUIRE( i == 1 );
+                mult = i;
                 break;
             default:
-                REQUIRE( false );
+                mult *= i;
+                break;
         }
+        REQUIRE( (mult == 4 || mult == 6 || mult == 1) );
     }
 }
