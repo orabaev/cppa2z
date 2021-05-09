@@ -4,7 +4,7 @@
 
 using namespace std;
 
-TEST_CASE( "if", "[std] [modern] [if/switch initializers] [C++17]" ) {
+TEST_CASE( "if initializer", "[std] [modern] [if/switch initializers] [C++17]" ) {
     SECTION( "if" ) 
     {
         unordered_map<int, int> dic;
@@ -28,7 +28,7 @@ TEST_CASE( "if", "[std] [modern] [if/switch initializers] [C++17]" ) {
     }
 }
 
-TEST_CASE( "switch", "[std] [modern] [if/switch initializers] [C++17]" ) {
+TEST_CASE( "switch initializer", "[std] [modern] [if/switch initializers] [C++17]" ) {
     SECTION( "switch" ) 
     {
         auto rand_1_2_3 = []() {
