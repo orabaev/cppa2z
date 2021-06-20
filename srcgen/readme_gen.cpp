@@ -18,6 +18,7 @@ void readme_gen::generate() {
     caption();
     modern_11_14();
     modern_17();
+    concurrency();
     algorithms();
     iterators();
     streams();
