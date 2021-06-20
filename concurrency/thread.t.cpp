@@ -103,10 +103,68 @@ TEST_CASE( "detach", "[std] [modern] [concurrency]" ) {
             REQUIRE_FALSE( t.joinable() );
         }
 
+        using namespace chrono_literals;
+        this_thread::sleep_for(10ms);
         while ( i != 10)
         {
-            using namespace chrono_literals;
-            this_thread::sleep_for(10ms);
+            this_thread::yield();
         }
+    }
+}
+
+TEST_CASE( "get_id", "[std] [modern] [concurrency]" ) {
+    SECTION( "get_id" ) 
+    {
+        auto do_nothing = []{};
+        thread t(do_nothing);
+        thread::id thread_id = t.get_id();
+        thread::id not_a_thread; 
+        REQUIRE( thread_id != not_a_thread );
+        t.join();
+    }
+}
+
+TEST_CASE( "native_handle", "[std] [modern] [concurrency]" ) {
+    SECTION( "native_handle" ) 
+    {
+        auto do_nothing = []{};
+        thread t(do_nothing);
+        thread::native_handle_type handle = t.native_handle();
+        thread::native_handle_type not_a_handle;
+        REQUIRE( handle != not_a_handle );
+        t.join();
+    }
+}
+
+TEST_CASE( "this_thread", "[std] [modern] [concurrency]" ) {
+    SECTION( "get_id" ) 
+    {
+        thread::id current_thread_id = this_thread::get_id();
+        thread::id not_a_thread; 
+        REQUIRE( current_thread_id != not_a_thread );
+    }
+
+    SECTION( "sleep_for" ) 
+    {
+        using namespace chrono_literals;
+        this_thread::sleep_for(10us);
+    }
+
+    SECTION( "sleep_until" ) 
+    {
+        using namespace chrono_literals;
+        using namespace chrono;
+        auto start = steady_clock::now();
+        auto wake_up = start + 10us;
+
+        this_thread::sleep_until(wake_up);
+
+        duration<double, std::micro> elapsed = steady_clock::now() - start;
+        REQUIRE( elapsed.count() >= 10 );
+    }
+
+    SECTION( "yield" ) 
+    {
+        for (int i = 0; i < 1000; ++i) this_thread::yield();
     }
 }
