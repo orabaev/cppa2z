@@ -92,6 +92,9 @@ thread.t.o: ./concurrency/thread.t.cpp
 mutex.t.o: ./concurrency/mutex.t.cpp
 	$(COMPILE) ./concurrency/mutex.t.cpp
 
+conditional_variable.t.o: ./concurrency/conditional_variable.t.cpp
+	$(COMPILE) ./concurrency/conditional_variable.t.cpp
+
 
 #
 # algorithms
