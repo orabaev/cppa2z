@@ -1,5 +1,8 @@
 #include <catch.hpp>
 #include <thread>
+#include <type_traits>
+#include <atomic>
+#include <chrono>
 
 using namespace std;
 
@@ -52,5 +55,58 @@ TEST_CASE( "running", "[std] [modern] [concurrency]" ) {
         thread t(&A::func, std::ref(a));
         t.join();
         REQUIRE( a.i == 12 );
+    }
+}
+
+TEST_CASE( "traits", "[std] [modern] [concurrency]" ) {
+    SECTION( "traits" ) 
+    {
+        static_assert( is_copy_constructible_v<thread> == false );
+        static_assert( is_copy_assignable_v<thread>    == false );
+        static_assert( is_move_constructible_v<thread> == true  );
+        static_assert( is_move_assignable_v<thread>    == true  );
+    }
+}
+
+TEST_CASE( "join", "[std] [modern] [concurrency]" ) {
+    SECTION( "join" ) 
+    {
+        atomic<int> i = 0;
+        auto increment_i = [&] { ++i; };
+
+        vector<thread> threads;
+        for (int j = 0; j < 10; ++j) threads.push_back(thread(increment_i));
+
+        for (auto& t : threads)
+        {
+            REQUIRE( t.joinable() );
+            REQUIRE_NOTHROW( t.join() );
+        }
+
+        REQUIRE( i == 10 );
+    }
+}
+
+TEST_CASE( "detach", "[std] [modern] [concurrency]" ) {
+    SECTION( "detach" ) 
+    {
+        atomic<int> i = 0;
+        auto increment_i = [&] { ++i; };
+
+        vector<thread> threads;
+        for (int j = 0; j < 10; ++j) threads.push_back(thread(increment_i));
+
+        for (auto& t : threads)
+        {
+            REQUIRE( t.joinable() );
+            REQUIRE_NOTHROW( t.detach() );
+            REQUIRE_FALSE( t.joinable() );
+        }
+
+        while ( i != 10)
+        {
+            using namespace chrono_literals;
+            this_thread::sleep_for(10ms);
+        }
     }
 }
