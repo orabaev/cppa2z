@@ -52,7 +52,7 @@ TEST_CASE( "scoped_lock", "[std] [modern] [concurrency]" ) {
     }
 }
 
-TEST_CASE( "shared_lock", "[std] [modern] [concurrency]" ) {
+TEST_CASE( "shared_mutex-shared_lock-unique_lock", "[std] [modern] [concurrency]" ) {
     SECTION( "single writer multiple readers" ) 
     {
         shared_mutex mtx;
