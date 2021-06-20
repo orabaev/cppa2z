@@ -2,6 +2,7 @@
 #include <thread>
 #include <type_traits>
 #include <atomic>
+#include <future>
 #include <chrono>
 
 using namespace std;
@@ -65,6 +66,33 @@ TEST_CASE( "traits", "[std] [modern] [concurrency]" ) {
         static_assert( is_copy_assignable_v<thread>    == false );
         static_assert( is_move_constructible_v<thread> == true  );
         static_assert( is_move_assignable_v<thread>    == true  );
+    }
+}
+
+TEST_CASE( "propogate exception", "[std] [modern] [concurrency]" ) {
+    SECTION( "propogate exception" ) 
+    {
+        auto lambda = [] () {
+            throw runtime_error("Passing exception to main thread");
+        };
+        packaged_task<void(void)> task(lambda);
+        auto fut = task.get_future();
+
+        thread t(move(task));
+
+        bool exception_happened = false;
+        try
+        {
+            fut.get();
+        }
+        catch(const runtime_error& e)
+        {
+            exception_happened = true;
+            REQUIRE( e.what() ==  "Passing exception to main thread"s );
+        }
+        
+        t.join();
+        REQUIRE( exception_happened );
     }
 }
 
