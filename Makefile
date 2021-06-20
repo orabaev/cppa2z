@@ -89,6 +89,10 @@ features_17.t.o: ./modern_17/features_17.t.cpp
 thread.t.o: ./concurrency/thread.t.cpp
 	$(COMPILE) ./concurrency/thread.t.cpp
 
+mutex.t.o: ./concurrency/mutex.t.cpp
+	$(COMPILE) ./concurrency/mutex.t.cpp
+
+
 #
 # algorithms
 #

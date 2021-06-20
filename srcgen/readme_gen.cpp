@@ -81,7 +81,8 @@ void readme_gen::modern_17() {
 void readme_gen::concurrency()
 {
     m_writer.heading2("concurrency");
-    section("thread"         , "./concurrency/thread.t.cpp");
+    section("thread" , "./concurrency/thread.t.cpp");
+    section("mutex"  , "./concurrency/mutex.t.cpp");
     m_writer.newline();
 }
 
