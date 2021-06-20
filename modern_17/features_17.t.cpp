@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <type_traits>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -109,4 +110,11 @@ TEST_CASE( "class template argument deduction", "[std] [modern] [temlates] [C++1
         pair<int, int> p2;
         static_assert(is_same_v<decltype(p1), decltype(p2)>);
     }
+}
+
+template<class T> constexpr bool is_vector_f()
+{
+    using TYPE = typename decay<T>::type;
+    using VECTOR = vector<typename TYPE::value_type, typename TYPE::allocator_type>;
+    return is_same_v<TYPE, VECTOR>;
 }

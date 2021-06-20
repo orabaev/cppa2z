@@ -4,7 +4,7 @@ INCLUDE = -I. -I./srcgen
 COMPILE = $(CXX) $(CXXFLAGS) $(INCLUDE) -c
 LINK = $(CXX) $(CXXFLAGS) -o
 
-CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern_11_14/*.cpp) $(wildcard modern_17/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp)
+CPP_FILES := main.cpp $(wildcard srcgen/*.cpp) $(wildcard modern_11_14/*.cpp) $(wildcard modern_17/*.cpp) $(wildcard algorithms/*.cpp) $(wildcard iterators/*.cpp) $(wildcard streams/*.cpp) $(wildcard concurrency/*.cpp)
 OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o))
 
 default: cppa2z
@@ -82,6 +82,12 @@ structured_bindings.t.o: ./modern_17/structured_bindings.t.cpp
 
 features_17.t.o: ./modern_17/features_17.t.cpp
 	$(COMPILE) ./modern_17/features_17.t.cpp
+
+#
+# concurrency
+#
+thread.t.o: ./concurrency/thread.t.cpp
+	$(COMPILE) ./concurrency/thread.t.cpp
 
 #
 # algorithms

@@ -26,6 +26,7 @@ private:
     void modern_11_14();
     void modern_17();
     void algorithms();
+    void concurrency();
     void iterators();
     void streams();
 

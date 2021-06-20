@@ -77,6 +77,13 @@ void readme_gen::modern_17() {
     m_writer.newline();
 }
 
+void readme_gen::concurrency()
+{
+    m_writer.heading2("concurrency");
+    section("thread"         , "./concurrency/thread.t.cpp");
+    m_writer.newline();
+}
+
 void readme_gen::algorithms() {
     m_writer.heading2("algorithms");
 
